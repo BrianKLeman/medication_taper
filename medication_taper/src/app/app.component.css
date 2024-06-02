@@ -1,0 +1,27 @@
+table, p {
+    border-radius: 64px;
+    border-color: greenyellow;
+    border-width: 6px;
+    color: grey;
+    padding: 16px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+th {
+    font-weight: bold;
+}
+
+td{
+    padding: 8px;
+}
+.number{
+    text-align: right;
+}
+
+.date{
+    text-align: left;
+}
+
+.text{
+    text-align: center;
+}

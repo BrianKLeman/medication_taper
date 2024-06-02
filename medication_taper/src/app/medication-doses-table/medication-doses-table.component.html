@@ -1,0 +1,26 @@
+<p>Medication Log</p>
+
+<table>
+    <th>ID</th>
+    <th>Consumed Date</th>
+    <th>Medication Name</th>
+    <th>Dose Taken (mg)</th>
+    <th>Percent</th>
+    <th>Prescribed Dose (mg)</th>
+    <th>Commands</th>
+    <tr *ngFor="let d of model; index as i;">
+        <td class="text">{{d.MedicationID}}</td>
+        <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
+        <td class="text">{{ d.Name }}</td>
+        <td class="number">{{d.DoseTakenMG | number: '1.2'}}</td>
+        <td class="number" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.calcPercent(d) | number: '1.2'}}</td>
+        <td class="number">{{d.DoseMG | number: '1.2'}}</td>
+        <td>
+            <span>
+            <button (click)="delete(d.MedicationID)">Delete</button>
+            <button (click)="repeat(d);">Repeat For Today</button>
+            </span>
+        </td>
+    </tr>
+
+</table>
