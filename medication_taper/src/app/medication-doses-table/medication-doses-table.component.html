@@ -13,7 +13,7 @@
             <th>Consumed Date</th>
             <th>Consumed Time</th>
             <th>Prescribed Dose (mg)</th>
-            <th class="calculatedText">Taken / Prescribed</th>
+            <th class="calculatedText">Portion of Prescribed</th>
             <th class="calculatedText">Estimated  mg(Accumulated Not Allowing for BioAvailability)</th>
             <th class="calculatedText">Estimated Remaining Based on Today of Dose(mg)</th>
             <th>Commands</th>
@@ -26,7 +26,7 @@
                 <!-- use number class to right align it.-->
                 <td class="number">{{d.DateTimeConsumed | date: 'shortTime'}}</td>
                 
-                <td class="number calculatedText">{{d.DoseMG | number: '1.2-2'}}</td>
+                <td class="number calculatedText">{{d.DoseMG | number: '1.1-1'}}</td>
                 <td class="number calculatedText" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.portionTaken(d) | percent}}</td>
                 <td class="number calculatedText">{{d.AccumulatedMg | number: '1.0-0'}}</td>
                 <td class="number calculatedText">{{d.RemainingMg | number: '1.0-0'}}</td>
