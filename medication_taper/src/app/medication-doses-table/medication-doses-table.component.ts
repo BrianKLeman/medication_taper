@@ -29,8 +29,8 @@ export class MedicationDosesTableComponent implements OnInit {
       this.model = m;
   }
 
-  public calcPercent( percent : IReport){
-    return (percent.DoseTakenMG/percent.DoseMG)*100;
+  public portionTaken( percent : IReport){
+    return (percent.DoseTakenMG/percent.DoseMG);
   }
 
   public trafficLights(percent : IReport){
