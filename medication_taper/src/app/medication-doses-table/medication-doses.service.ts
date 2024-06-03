@@ -18,7 +18,7 @@ export class MedicationDosesService {
       for(let d of doses){
         d.ShowNotes = false;
       }
-      this.CalculateAccumulatedAmounts(doses, 20, 33);
+      this.CalculateAccumulatedAmounts(doses, 20);
     }
     
     return doses;
@@ -39,13 +39,13 @@ export class MedicationDosesService {
     let p = this.getPassword();    
   }
 
-  public CalculateAccumulatedAmounts(reports : IReport[], historyLength : number, halfLifeHrs : number){
+  public CalculateAccumulatedAmounts(reports : IReport[], historyLength : number){
     for(let x of reports){
-      this.CalculateAccumulatedAmount(reports, historyLength, 33, x);
+      this.CalculateAccumulatedAmount(reports, historyLength, x);
     }
   }
 
-  public CalculateAccumulatedAmount(reports : IReport[], historyLength : number, halfLifeHrs : number, report : IReport){
+  public CalculateAccumulatedAmount(reports : IReport[], historyLength : number, report : IReport){
     let orderedByDate = reports.filter( (r) => {
       return r.Name == report.Name;
     }).sort( 
@@ -75,6 +75,10 @@ export class MedicationDosesService {
       // using half life calculate the amount remaining
       let mgRemaining = Math.pow(0.5, hours/r2.HalfLifeHrs)*r2.DoseTakenMG;
       amount += mgRemaining;
+
+      // estimated remaining as of today
+      var hours2 = Math.abs(this.UTC(d1)-Date.now()) / 36e5;
+      r2.RemainingMg = Math.pow(0.5, hours2/r2.HalfLifeHrs)*r2.DoseTakenMG;
     }
 
     report.AccumulatedMg = amount;
@@ -106,4 +110,5 @@ export interface IReport {
   ShowNotes: boolean;
   AccumulatedMg : number;
   HalfLifeHrs : number;
+  RemainingMg : number;
 }

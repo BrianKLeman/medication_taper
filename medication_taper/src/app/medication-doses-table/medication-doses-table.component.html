@@ -5,29 +5,36 @@
     The half life used is 33 hours which average for Olanzapine.
 </p>
 
+<h3> Olanzapine (mg): {{ sumRemaining("Olanzapine") | number: '1.2'}}</h3>
+<h3> Sertraline (mg): {{ sumRemaining("Sertraline") | number: '1.2'}}</h3>
 <table>
     <thead>
             <th>Show Notes</th>
             <th>ID</th>
             <th>Consumed Date</th>
+            <th>Consumed Time</th>
             <th>Medication Name</th>
             <th>Dose Taken (mg)</th>
-            <th>Percent</th>
             <th>Prescribed Dose (mg)</th>
-            <th>Estimated  mg(Accumulated Not Allowing for BioAvailability)</th>
+            <th class="calculatedText">Percent</th>
+            <th class="calculatedText">Estimated  mg(Accumulated Not Allowing for BioAvailability)</th>
+            <th class="calculatedText">Estimated Remaining Based on Today of Dose(mg)</th>
             <th>Commands</th>
     </thead>
     <tbody>
         <tr *ngFor="let d of model; index as i;">
-            <ng-container *ngIf="i !==3">
+            <ng-container>
                 <td class="number"><button (click)="showNotes(d);">Show Notes</button></td>
                 <td class="text">{{d.MedicationID}}</td>
                 <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
+                <td class="date">{{d.DateTimeConsumed | date: 'mediumTime'}}</td>
                 <td class="text">{{ d.Name }}</td>
                 <td class="number">{{d.DoseTakenMG | number: '1.2'}}</td>
-                <td class="number" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.calcPercent(d) | number: '1.2'}}</td>
-                <td class="number">{{d.DoseMG | number: '1.2'}}</td>
-                <td class="number">{{d.AccumulatedMg | number: '1.2'}}</td>
+                <td class="number calculatedText">{{d.DoseMG | number: '1.2'}}</td>
+                <td class="number calculatedText" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.calcPercent(d) | number: '1.2'}}</td>
+                
+                <td class="number calculatedText">{{d.AccumulatedMg | number: '1.2'}}</td>
+                <td class="number calculatedText">{{d.RemainingMg | number: '1.2'}}</td>
                 <td>
                     <span>
                     <button (click)="delete(d.MedicationID)">Delete</button>

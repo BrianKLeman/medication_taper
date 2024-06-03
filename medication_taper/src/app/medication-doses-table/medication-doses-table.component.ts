@@ -74,6 +74,15 @@ export class MedicationDosesTableComponent implements OnInit {
   public async showNotes(report : IReport){
     report.ShowNotes = !report.ShowNotes;
   }
+
+  public sumRemaining(name : string){
+    let sum = 0.0;
+    for(let r of this.model){
+      if(r.Name == name)
+        sum += r.RemainingMg;
+    } 
+    return sum;
+  }
 }
 
 export class ColourStop
