@@ -1,26 +1,56 @@
-<p>Medication Log</p>
+<h4>Medication Log</h4>
+<p>
+    AccumulatedMg uses the formula: doseMg multiplied by (0.5 to the power of hours since time divided by half life (hrs))
+    It then adds this amount for each previous record upto 20 records with same Medication Name previous.)
+    The half life used is 33 hours which average for Olanzapine.
+</p>
 
 <table>
-    <th>ID</th>
-    <th>Consumed Date</th>
-    <th>Medication Name</th>
-    <th>Dose Taken (mg)</th>
-    <th>Percent</th>
-    <th>Prescribed Dose (mg)</th>
-    <th>Commands</th>
-    <tr *ngFor="let d of model; index as i;">
-        <td class="text">{{d.MedicationID}}</td>
-        <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
-        <td class="text">{{ d.Name }}</td>
-        <td class="number">{{d.DoseTakenMG | number: '1.2'}}</td>
-        <td class="number" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.calcPercent(d) | number: '1.2'}}</td>
-        <td class="number">{{d.DoseMG | number: '1.2'}}</td>
-        <td>
-            <span>
-            <button (click)="delete(d.MedicationID)">Delete</button>
-            <button (click)="repeat(d);">Repeat For Today</button>
-            </span>
-        </td>
-    </tr>
+    <thead>
+            <th>Show Notes</th>
+            <th>ID</th>
+            <th>Consumed Date</th>
+            <th>Medication Name</th>
+            <th>Dose Taken (mg)</th>
+            <th>Percent</th>
+            <th>Prescribed Dose (mg)</th>
+            <th>Estimated  mg(Accumulated Not Allowing for BioAvailability)</th>
+            <th>Commands</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let d of model; index as i;">
+            <ng-container *ngIf="i !==3">
+                <td class="number"><button (click)="showNotes(d);">Show Notes</button></td>
+                <td class="text">{{d.MedicationID}}</td>
+                <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
+                <td class="text">{{ d.Name }}</td>
+                <td class="number">{{d.DoseTakenMG | number: '1.2'}}</td>
+                <td class="number" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.calcPercent(d) | number: '1.2'}}</td>
+                <td class="number">{{d.DoseMG | number: '1.2'}}</td>
+                <td class="number">{{d.AccumulatedMg | number: '1.2'}}</td>
+                <td>
+                    <span>
+                    <button (click)="delete(d.MedicationID)">Delete</button>
+                    <button (click)="repeat(d);">Repeat For Today</button>
+                    </span>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="d.ShowNotes">
+                    <table>
+                        <thead>
+                        <th>NoteID</th>
+                        <th>Note</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="number">1</td>
+                            <td class="text">I had a goodday today</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </ng-container>
 
+            
+        </tr>
+    </tbody>
 </table>

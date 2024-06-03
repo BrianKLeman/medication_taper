@@ -70,6 +70,10 @@ export class MedicationDosesTableComponent implements OnInit {
     await this.service.repeatToday(report);
     await this.reload();
   }
+
+  public async showNotes(report : IReport){
+    report.ShowNotes = !report.ShowNotes;
+  }
 }
 
 export class ColourStop

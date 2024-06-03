@@ -13,7 +13,15 @@ export class MedicationDosesService {
     return prompt("Please enter password!");
   }
   public async getDoses() {
-    return this.httpClient.get<IReport[]>("http://api.codefusionstudios.co.uk/MedicationDoses/History").toPromise();    
+    let doses = await this.httpClient.get<IReport[]>("http://api.codefusionstudios.co.uk/MedicationDoses/History").toPromise();    
+    if(doses){
+      for(let d of doses){
+        d.ShowNotes = false;
+      }
+      this.CalculateAccumulatedAmounts(doses, 20, 33);
+    }
+    
+    return doses;
   }
 
   public async deleteDose(id : number){
@@ -25,6 +33,55 @@ export class MedicationDosesService {
   public async repeatToday( report : IReport){
     let p = this.getPassword();
       let x = await this.httpClient.post("http://api.codefusionstudios.co.uk/MedicationDoses/"+report.Name, { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), password: p}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("repeated")});
+  }
+
+  public async GetNotesForDay(report : IReport){
+    let p = this.getPassword();    
+  }
+
+  public CalculateAccumulatedAmounts(reports : IReport[], historyLength : number, halfLifeHrs : number){
+    for(let x of reports){
+      this.CalculateAccumulatedAmount(reports, historyLength, 33, x);
+    }
+  }
+
+  public CalculateAccumulatedAmount(reports : IReport[], historyLength : number, halfLifeHrs : number, report : IReport){
+    let orderedByDate = reports.filter( (r) => {
+      return r.Name == report.Name;
+    }).sort( 
+      (a, b) => { 
+        let d1 = this.UTC(a.DateTimeConsumed);
+        let d2 = this.UTC(b.DateTimeConsumed);
+        return d2 - d1;
+      }
+    );
+
+    let amount = 0;
+    let index = orderedByDate.findIndex( (r) => { return r.MedicationID == report.MedicationID;});
+    if(index == -1)
+      return;
+    for(let i = 0; i < historyLength; ++i){
+      
+      // avoid going out of bounds
+      if(orderedByDate.length <= i + index)
+        break;
+
+      // hours
+      let r2 = orderedByDate[i+index];
+      let d1 = r2.DateTimeConsumed;
+      let d2 = report.DateTimeConsumed;
+      var hours = Math.abs(this.UTC(d1) - this.UTC(d2)) / 36e5;
+      
+      // using half life calculate the amount remaining
+      let mgRemaining = Math.pow(0.5, hours/r2.HalfLifeHrs)*r2.DoseTakenMG;
+      amount += mgRemaining;
+    }
+
+    report.AccumulatedMg = amount;
+  }
+  public UTC(d : Date) : number{
+    let d1 = new Date(d);
+    return Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate(), d1.getHours(), d1.getMinutes(), d1.getSeconds())
   }
 }
 
@@ -42,8 +99,11 @@ export interface IMedication {
 
 export interface IReport {
   MedicationID: number;
-  DateTimeConsumed: string;
+  DateTimeConsumed: Date;
   Name: string;
   DoseTakenMG: number;
   DoseMG: number;
+  ShowNotes: boolean;
+  AccumulatedMg : number;
+  HalfLifeHrs : number;
 }

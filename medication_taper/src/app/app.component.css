@@ -1,4 +1,4 @@
-table, p {
+table, p, h1, h2, h3, h4, h5, h6 {
     border-radius: 64px;
     border-color: greenyellow;
     border-width: 6px;
@@ -9,6 +9,7 @@ table, p {
 
 th {
     font-weight: bold;
+    max-width: 15ch;
 }
 
 td{
