@@ -1,19 +1,25 @@
 import { Injectable  } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
+import { NotesService } from '../notes/notes.service';
+import { UrlsService } from 'src/urls.service';
+import { UserCredentialsService } from '../user-credentials.service';
 @Injectable({
   providedIn: 'root'
 })
 export class MedicationDosesService {
 
-  constructor(private httpClient : HttpClient) { 
+  constructor(private httpClient : HttpClient, 
+    private notesService : NotesService,
+    private apiUrls : UrlsService,
+    private user : UserCredentialsService) { 
 
   }
 
-  private getPassword() : string | null{
-    return prompt("Please enter password!");
+  private getPassword(){
+    return this.user.getPassword();
   }
   public async getDoses() {
-    let doses = await this.httpClient.get<IReport[]>("http://api.codefusionstudios.co.uk/MedicationDoses/History").toPromise();    
+    let doses = await this.httpClient.get<IReport[]>(this.apiUrls.GetApiURL()+"MedicationDoses/History").toPromise();    
     if(doses){
       for(let d of doses){
         d.ShowNotes = false;
@@ -27,16 +33,22 @@ export class MedicationDosesService {
   public async deleteDose(id : number){
     let p = this.getPassword();
     /* Api was changed to use POST because my web service hosting would not allow DELETE Verb and and empty body has needed to be set. */
-    let x = await this.httpClient.post("http://api.codefusionstudios.co.uk/MedicationDoses/Delete/"+id+"/"+p, "").toPromise().then( x => { console.log("deleted")});
+    let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses/Delete/"+id+"/"+p, "").toPromise().then( x => { console.log("deleted")});
   }
 
   public async repeatToday( report : IReport){
     let p = this.getPassword();
-      let x = await this.httpClient.post("http://api.codefusionstudios.co.uk/MedicationDoses/"+report.Name, { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), password: p}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("repeated")});
+      let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses/"+report.Name, { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), Password: p}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("repeated")});
   }
 
   public async GetNotesForDay(report : IReport){
-    let p = this.getPassword();    
+    let p = this.getPassword(); 
+    let notes = await this.notesService.getAllNotesForPerson(1);
+    //t result = notes.filter( (note) => {
+    //  return note.recordedDate = report.DateTimeConsumed
+    //}))
+    return notes;
+    
   }
 
   public CalculateAccumulatedAmounts(reports : IReport[], historyLength : number){

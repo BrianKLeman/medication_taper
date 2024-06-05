@@ -1,0 +1,22 @@
+<table class="tableBody">
+    <thead class="tableHeader">
+            <th>Time of Day</th>
+            <th>Note</th>
+            <th>Commands</th>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let d of notes; index as i;">
+            <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
+                <ng-container>
+                    <td class="date">{{d.RecordedDate | date: 'shortTime'}}</td>
+                    <td class="text">{{ d.Text }}</td>
+                    <td>
+                        <span>
+                        <button>Delete</button>
+                        </span>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>

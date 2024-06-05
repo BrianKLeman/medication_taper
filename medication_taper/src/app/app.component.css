@@ -1,15 +1,16 @@
 table, p, h1, h2, h3, h4, h5, h6 {
-    border-radius: 64px;
+    border-radius: 16px;
     border-color: greenyellow;
-    border-width: 6px;
-    color: grey;
+    color: black;
     padding: 16px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: auto;
 }
 
 th {
     font-weight: bold;
     max-width: 15ch;
+    border-radius: 5px;
 }
 
 td{
@@ -30,3 +31,23 @@ td{
 .calculatedText{
     color : rgb(27, 63, 51);
 }
+
+.altTableRow{
+    background-color: lightgray;
+}
+
+.tableHeader{
+    background-color: rgb(196, 219, 219);
+}
+
+.tableBody{
+    background-color: rgb(234, 233, 233);
+}
+
+/*
+.trafficLightsBackground, #percent {
+    background-image: linear-gradient(to right,var(--tl1), var(--tl2), var(--tl3));
+    background-clip: padding-box;
+    mask-clip: 50%;
+}
+*/

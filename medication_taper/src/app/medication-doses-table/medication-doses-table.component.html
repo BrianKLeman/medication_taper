@@ -7,9 +7,12 @@
 
 <h3> Olanzapine (mg): {{ sumRemaining("Olanzapine") | number: '1.0-0'}}</h3>
 <h3> Sertraline (mg): {{ sumRemaining("Sertraline") | number: '1.0-0'}}</h3>
-<table>
-    <thead>
-            <th>Medication Name</th>
+<table class="tableBody">
+    <thead class="tableHeader">
+            <th>Show Notes</th>
+            <th>Medication Name 
+                
+            </th>
             <th>Consumed Date</th>
             <th>Consumed Time</th>
             <th>Prescribed Dose (mg)</th>
@@ -19,27 +22,62 @@
             <th>Commands</th>
     </thead>
     <tbody>
-        <tr *ngFor="let d of model; index as i;">
-            <ng-container>
-                <td class="text">{{ d.Name }}</td>
-                <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
-                <!-- use number class to right align it.-->
-                <td class="number">{{d.DateTimeConsumed | date: 'shortTime'}}</td>
-                
-                <td class="number calculatedText">{{d.DoseMG | number: '1.1-1'}}</td>
-                <td class="number calculatedText" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.portionTaken(d) | percent}}</td>
-                <td class="number calculatedText">{{d.AccumulatedMg | number: '1.0-0'}}</td>
-                <td class="number calculatedText">{{d.RemainingMg | number: '1.0-0'}}</td>
-                <td>
-                    <span>
-                    <button (click)="delete(d.MedicationID)">Delete</button>
-                    <button (click)="repeat(d);">Repeat For Today</button>
-                    </span>
-                </td>
-            </ng-container>
-            
-
-            
+        <tr>
+            <td>Filters</td>
+            <td>
+                <select id="prescriptionName" (change)="doFilter($event)">
+                    <option value="Olanzapine">Olanzapine</option>
+                    <option value="Sertraline">Sertraline</option>
+                    <option value="None" selected></option>
+                </select>
+            </td>
+            <td>
+                <!-- <input type="date"/> --> 
+            </td>
+            <td>
+                <!-- <input type="time"/> -->                
+            </td>
+            <td>
+                <select id="prescribedDose" (change)="doFilter($event)">
+                    <option value="7.500">7.5mg</option>
+                    <option value="10.000">10mg</option>
+                    <option value="150.000">150mg</option>
+                    <option value="5.000">5mg</option>
+                    <option value="None" selected></option>
+                </select>
+            </td>
+            <td class="calculatedText"></td>
+            <td class="calculatedText"></td>
+            <td class="calculatedText"></td>
+            <td></td>
         </tr>
+        <ng-container *ngFor="let d of filteredModel; index as i;">
+            
+            <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
+                <ng-container>
+                    <td ><button (click)="this.showNotes(d)">Show Notes</button></td>
+                    <td class="text">{{ d.Name }}</td>
+                    <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
+                    <!-- use number class to right align it.-->
+                    <td class="number">{{d.DateTimeConsumed | date: 'shortTime'}}</td>
+                    
+                    <td class="number">{{d.DoseMG | number: '1.1-1'}}</td><!---->
+                    <td id="percent" class="number calculatedText trafficLightsBackground" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.portionTaken(d) | percent}}</td>
+                    <td class="number calculatedText">{{d.AccumulatedMg | number: '1.0-0'}}</td>
+                    <td class="number calculatedText">{{d.RemainingMg | number: '1.0-0'}}</td>
+                    <td>
+                        <span>
+                        <button (click)="delete(d.MedicationID)">Delete</button>
+                        <button (click)="repeat(d);">Repeat For Today</button>
+                        </span>
+                    </td>
+                </ng-container>
+            </tr>
+            <tr *ngIf="d.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
+                <td colspan="8">
+                    <app-notes-table [datetime]="d.DateTimeConsumed" [showNotes]="d.ShowNotes"></app-notes-table>
+                </td>
+            </tr>
+        </ng-container>
     </tbody>
 </table>

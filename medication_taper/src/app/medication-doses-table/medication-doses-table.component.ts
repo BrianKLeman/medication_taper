@@ -11,10 +11,35 @@ export class MedicationDosesTableComponent implements OnInit {
 
   }
 
+  public filteredModel : IReport[] = [];
   async ngOnInit() {
    await this.reload();
   }
 
+  public doFilter(arg : any ){
+    
+    let m = this.filterPrescriptionName(this.model);
+    m = this.filterPrescriptionDose(m);
+    this.filteredModel = m;
+  }
+
+  public filterPrescriptionName(m : IReport[]){
+    const pName = document.getElementById('prescriptionName') as any;
+    const v = pName.value;
+    if(v.trim() != "None")
+      return m.filter( (r : IReport) => { return r.Name == v; })
+    else
+      return m;
+  }
+
+  public filterPrescriptionDose(m : IReport[]){
+    const dName = document.getElementById('prescribedDose') as any;
+    const v = dName.value;
+    if(v.trim() != "None")
+      return m.filter( (r : IReport) => { return r.DoseMG == v; })
+    else
+      return m;
+  }
   @Input()
   model : IReport[] = [];
 
@@ -25,8 +50,10 @@ export class MedicationDosesTableComponent implements OnInit {
 
   private async reload(){
      let m = await this.service.getDoses();
-    if(m)
+    if(m){
       this.model = m;
+      this.filteredModel = m;
+    }
   }
 
   public portionTaken( percent : IReport){
