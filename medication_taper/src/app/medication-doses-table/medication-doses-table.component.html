@@ -7,12 +7,12 @@
 
 <h3> Olanzapine (mg): {{ sumRemaining("Olanzapine") | number: '1.0-0'}}</h3>
 <h3> Sertraline (mg): {{ sumRemaining("Sertraline") | number: '1.0-0'}}</h3>
+
+<button (click)="showAuthorise()" class="warn">Authorise</button>
 <table class="tableBody">
     <thead class="tableHeader">
             <th>Show Notes</th>
-            <th>Medication Name 
-                
-            </th>
+            <th>Medication Name</th>
             <th>Consumed Date</th>
             <th>Consumed Time</th>
             <th>Prescribed Dose (mg)</th>
@@ -23,33 +23,75 @@
     </thead>
     <tbody>
         <tr>
-            <td>Filters</td>
-            <td>
-                <select id="prescriptionName" (change)="doFilter($event)">
-                    <option value="Olanzapine">Olanzapine</option>
-                    <option value="Sertraline">Sertraline</option>
-                    <option value="None" selected></option>
-                </select>
+            <td class="filterCell filterRowCell">Filters</td>
+            <td class="filterCell filterRowCell">
+                <table  class="filterTable">
+                    <tr>
+                        <td>
+                            <label for="prescriptionName">Compound Name: </label>
+                        </td>
+                        <td>
+                            <select id="prescriptionName" name="prescriptionName" (change)="doFilter($event)">
+                                <option value="Olanzapine">Olanzapine</option>
+                                <option value="Sertraline">Sertraline</option>
+                                <option value="None" selected></option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>  
+                
             </td>
-            <td>
+            <td class="filterCell filterRowCell">
                 <!-- <input type="date"/> --> 
+                <form>
+                    <table  class="filterTable">
+                        <tr>
+                            <td>
+                                <label for="FromDate">From Date: </label>
+                            </td>
+                            <td>
+                                <input id="FromDate" name="FromDate" type="date"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="ToDate">To Date: </label>
+                            </td>
+                            <td>
+                                <input id="ToDate" name="ToDate" type="date"/>
+                            </td>
+                        </tr>
+                    </table>  
+                </form>
             </td>
-            <td>
+            <td class="filterCell filterRowCell">
                 <!-- <input type="time"/> -->                
             </td>
-            <td>
-                <select id="prescribedDose" (change)="doFilter($event)">
-                    <option value="7.500">7.5mg</option>
-                    <option value="10.000">10mg</option>
-                    <option value="150.000">150mg</option>
-                    <option value="5.000">5mg</option>
-                    <option value="None" selected></option>
-                </select>
+            <td class="filterCell filterRowCell">
+                <form>
+                    <table class="filterTable">
+                        <tr>
+                            <td>
+                                <label for="prescribedDose">Prescribed Dose: </label>
+                            </td>
+                            <td>
+                                <select id="prescribedDose" name="prescribedDose" (change)="doFilter($event)">
+                                    <option value="7.500">7.5mg</option>
+                                    <option value="10.000">10mg</option>
+                                    <option value="150.000">150mg</option>
+                                    <option value="5.000">5mg</option>
+                                    <option value="None" selected></option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>  
+                </form>
+                
             </td>
-            <td class="calculatedText"></td>
-            <td class="calculatedText"></td>
-            <td class="calculatedText"></td>
-            <td></td>
+            <td class="calculatedText filterRowCell"></td>
+            <td class="calculatedText filterRowCell"></td>
+            <td class="calculatedText filterRowCell"></td>
+            <td class="filterRowCell"></td>
         </tr>
         <ng-container *ngFor="let d of filteredModel; index as i;">
             
@@ -67,8 +109,9 @@
                     <td class="number calculatedText">{{d.RemainingMg | number: '1.0-0'}}</td>
                     <td>
                         <span>
-                        <button (click)="delete(d.MedicationID)">Delete</button>
-                        <button (click)="repeat(d);">Repeat For Today</button>
+                            <button (click)="delete(d.MedicationID)">Delete</button>
+                            <button (click)="repeat(d);">Repeat For Today</button>
+                            <button (click)="addNote(d);">Add Note</button>
                         </span>
                     </td>
                 </ng-container>

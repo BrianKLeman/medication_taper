@@ -44,6 +44,13 @@ td{
     background-color: rgb(234, 233, 233);
 }
 
+.filterTable, .filterCell{
+    padding: 0px;
+}
+
+.filterRowCell{
+    background-color: rgb(151, 180, 180);
+}
 /*
 .trafficLightsBackground, #percent {
     background-image: linear-gradient(to right,var(--tl1), var(--tl2), var(--tl3));

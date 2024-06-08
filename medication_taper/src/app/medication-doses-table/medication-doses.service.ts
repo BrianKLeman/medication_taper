@@ -31,9 +31,8 @@ export class MedicationDosesService {
   }
 
   public async deleteDose(id : number){
-    let p = this.getPassword();
     /* Api was changed to use POST because my web service hosting would not allow DELETE Verb and and empty body has needed to be set. */
-    let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses/Delete/"+id+"/"+p, "").toPromise().then( x => { console.log("deleted")});
+    let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses/Delete/"+id, "").toPromise().then( x => { console.log("deleted")});
   }
 
   public async repeatToday( report : IReport){
@@ -42,13 +41,8 @@ export class MedicationDosesService {
   }
 
   public async GetNotesForDay(report : IReport){
-    let p = this.getPassword(); 
-    let notes = await this.notesService.getAllNotesForPerson(1);
-    //t result = notes.filter( (note) => {
-    //  return note.recordedDate = report.DateTimeConsumed
-    //}))
-    return notes;
-    
+    let notes = await this.notesService.getAllNotesForPerson();
+    return notes;    
   }
 
   public CalculateAccumulatedAmounts(reports : IReport[], historyLength : number){

@@ -9,7 +9,6 @@ import { INotes, NotesService } from '../notes/notes.service';
 export class NotesTableComponent {
 
   constructor(private notesService : NotesService){
-
   }
 
   @Input()
@@ -35,4 +34,8 @@ export class NotesTableComponent {
   private show = false;
 
   public notes : INotes[] = [];
+
+  public deleteNote(noteID : number){
+    this.notesService.DeleteNote(noteID);
+  }
 }

@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IReport, MedicationDosesService } from './medication-doses.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { NotesComponent } from '../notes/notes.component';
+import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 
 @Component({
   selector: 'medication-doses-table',
@@ -7,7 +10,8 @@ import { IReport, MedicationDosesService } from './medication-doses.service';
   styleUrls: ['./../app.component.css']
 })
 export class MedicationDosesTableComponent implements OnInit {
-  constructor(private service : MedicationDosesService){
+  constructor(private service : MedicationDosesService,
+    private dialog : MatDialog){
 
   }
 
@@ -109,6 +113,14 @@ export class MedicationDosesTableComponent implements OnInit {
         sum += r.RemainingMg;
     } 
     return sum;
+  }
+
+  public addNote(report : IReport){
+    this.dialog.open(NotesComponent, { data : {datetime : report.DateTimeConsumed}});
+  }
+
+  public showAuthorise(){
+    this.dialog.open(AuthDialogComponent);
   }
 }
 

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserCredentialsService } from '../user-credentials.service';
 import { UrlsService } from 'src/urls.service';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +13,7 @@ export class NotesService {
 
   }
 
-  public async getAllNotesForPerson(personID : number){
+  public async getAllNotesForPerson(){
     let x = await this.httpClient.get<INotes[]>( this.apiUrls.GetApiURL()+"Api/Notes").toPromise();
     return x;
   }
@@ -23,13 +22,30 @@ export class NotesService {
     let x = await this.httpClient.post<INotes[]>( 
       this.apiUrls.GetApiURL()+"Api/Notes/",
       <NotesSearchRequest>{ 
-        PersonID : this.user.getPersonID(), 
         FromDate : new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate()),
         ToDate : new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate(),23,59,59 ),
-        Password : await this.user.getPassword()}
-          ).toPromise();
+        }
+    ).toPromise();
     return x;
   }
+
+  public AddNote(datetime : Date, text : string){
+    this.httpClient.post<number>( 
+      this.apiUrls.GetApiURL()+"Api/Notes/Add",
+      <INote>{ 
+        dateTime : new Date(datetime),
+        NoteText : text
+        }
+    ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
+  }
+
+  public DeleteNote(id : number){
+    this.httpClient.post<number>( 
+      this.apiUrls.GetApiURL()+"Api/Notes/Delete/"+id, {})
+      .toPromise()
+      .then ( (n) => { console.log(`deleted note with id ${n}`)});
+    }
+
 }
 
 export interface INotes {
@@ -44,8 +60,11 @@ export interface INotes {
 }
 
 export interface NotesSearchRequest {
-  PersonID: number;
   FromDate: Date;
   ToDate: Date;
-  Password: string;
+}
+
+export interface INote {
+  dateTime: Date;
+  NoteText: string;
 }

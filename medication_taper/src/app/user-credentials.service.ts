@@ -9,19 +9,36 @@ export class UserCredentialsService {
   private prompted = false;
 
   public getPassword() : string {
-    if(this.password == "" && !this.prompted){
-      let p = prompt("Please enter password!");
-      if(p)
-        this.password = p;
-      this.prompted = true;
-    }
+    
       
     return this.password;
   }
 
+  public setPassword(arg : string){
+    this.password = arg;
+  }
   private password : string = "";
 
-  public getPersonID(){
-    return 1;
+  public getUserID(){
+    return this.userID;
   }
+
+  public setUserID(arg : string){
+    this.userID = arg;
+  }
+
+  public getAuthHeaders(){
+    return { 
+      "UserID" : this.getUserID(),
+      "Password" : this.getPassword()
+    }
+  }
+
+  public set(userID : string, password : string){
+    this.userID = userID;
+    this.password = password;
+  }
+
+  private userID : string = "READONLY";
+  
 }

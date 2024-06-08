@@ -12,7 +12,7 @@
                     <td class="text">{{ d.Text }}</td>
                     <td>
                         <span>
-                        <button>Delete</button>
+                            <button (click)="deleteNote(d.NoteID)">Delete</button>
                         </span>
                     </td>
                 </ng-container>
