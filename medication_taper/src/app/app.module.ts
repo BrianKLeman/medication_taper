@@ -35,7 +35,7 @@ import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
     FormsModule
   ],
   providers: [
-    { provide: HttpClient}, { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService }/*,
+    { provide: HttpClient}, { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }/*,
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService }
   */],
   bootstrap: [AppComponent]
