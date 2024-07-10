@@ -1,14 +1,8 @@
 <h4>Medication Log</h4>
-<p>
-    AccumulatedMg uses the formula: doseMg multiplied by (0.5 to the power of hours since time divided by half life (hrs))
-    It then adds this amount for each previous record upto 20 records with same Medication Name previous.)
-    The half life used is 33 hours which average for Olanzapine.
-</p>
 
-<h3> Olanzapine (mg): {{ sumRemaining("Olanzapine") | number: '1.0-0'}}</h3>
-<h3> Sertraline (mg): {{ sumRemaining("Sertraline") | number: '1.0-0'}}</h3>
 
-<button (click)="showAuthorise()" class="warn">Authorise</button>
+
+
 <table class="tableBody">
     <thead class="tableHeader">
             <th>Show Notes</th>

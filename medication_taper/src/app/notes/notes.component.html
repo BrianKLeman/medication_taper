@@ -7,7 +7,7 @@
                             <p>
                                 <label for="note-content">Notes Text</label>
                             </p>
-                                <textarea id="note-content" name="note-content" rows="10" cols="50" [(ngModel)]="Text"></textarea>
+                                <textarea id="note-content" name="note-content" rows="10" cols="50" [(ngModel)]="text"></textarea>
                                 
                         </tr>
                         <tr>
@@ -16,8 +16,8 @@
                             </p>
                             
                             
-                                <input id="date_time" name="date_time" type="date" [(ngModel)]="dateTime"/>
-                            
+                                <input id="date_time" name="date_time" type="date" [ngModel]="dt | date:'yyyy-MM-dd'"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                
                         </tr>
                     </table>
                 </form>

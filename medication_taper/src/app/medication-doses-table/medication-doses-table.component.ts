@@ -119,9 +119,7 @@ export class MedicationDosesTableComponent implements OnInit {
     this.dialog.open(NotesComponent, { data : {datetime : report.DateTimeConsumed}});
   }
 
-  public showAuthorise(){
-    this.dialog.open(AuthDialogComponent);
-  }
+  
 }
 
 export class ColourStop

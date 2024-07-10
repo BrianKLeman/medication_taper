@@ -40,5 +40,12 @@ export class UserCredentialsService {
   }
 
   private userID : string = "READONLY";
-  
+
+  public set Token(arg : string){
+    this.token = arg;
+  }
+  public get Token(){
+    return this.token;
+  }
+  private token : string = "";
 }

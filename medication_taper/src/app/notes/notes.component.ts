@@ -15,27 +15,14 @@ export class NotesComponent {
           datetime: Date
         },
     private service : NotesService){
-      this.dt = new Date(data.datetime);
+      this.dt = data.datetime;
   }
 
   public AddNote(){
-    this.service.AddNote(this.dt, this.text);
+    this.service.AddNote(new Date(this.dt), this.text);
   }  
-  public get Text(){
-    return this.text;
-  }
-  public set Text(arg : string){
-    this.text = arg;
-  }
-  private text = "";
-  public get dateTime(){
-    return this.dt;
-  }
-
-  public set dateTime(arg : Date){
-    this.dt = arg;
-  }
-  private dt = new Date();
+  text = "my text";
+  dt = new Date(Date.now());
 
   
 }

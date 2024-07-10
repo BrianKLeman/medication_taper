@@ -2,6 +2,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -31,6 +33,8 @@ import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
     AppRoutingModule,
     HttpClientModule,
     MatDialogModule,
+    MatToolbarModule,
+    MatIconModule,    
     BrowserAnimationsModule,
     FormsModule
   ],
