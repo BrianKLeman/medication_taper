@@ -5,19 +5,19 @@
 
 <table class="tableBody">
     <thead class="tableHeader">
-            <th>Show Notes</th>
+            <th *ngIf="isLoggedIn()">Show Notes</th>
             <th>Medication Name</th>
-            <th>Consumed Date</th>
-            <th>Consumed Time</th>
+            <th>Date</th>
+            <th>Time</th>
             <th>Prescribed Dose (mg)</th>
             <th class="calculatedText">Portion of Prescribed</th>
-            <th class="calculatedText">Estimated  mg(Accumulated Not Allowing for BioAvailability)</th>
-            <th class="calculatedText">Estimated Remaining Based on Today of Dose(mg)</th>
-            <th>Commands</th>
+            <th class="calculatedText">Estimated  mg</th>
+            <th class="calculatedText">Estimated Remaining (mg)</th>
+            <th *ngIf="isLoggedIn()">Commands</th>
     </thead>
     <tbody>
         <tr>
-            <td class="filterCell filterRowCell">Filters</td>
+            <td *ngIf="isLoggedIn()" class="filterCell filterRowCell">Filters</td>
             <td class="filterCell filterRowCell">
                 <table  class="filterTable">
                     <tr>
@@ -85,13 +85,13 @@
             <td class="calculatedText filterRowCell"></td>
             <td class="calculatedText filterRowCell"></td>
             <td class="calculatedText filterRowCell"></td>
-            <td class="filterRowCell"></td>
+            <td *ngIf="isLoggedIn()" class="filterRowCell"></td>
         </tr>
         <ng-container *ngFor="let d of filteredModel; index as i;">
             
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
-                    <td ><button (click)="this.showNotes(d)">Show Notes</button></td>
+                    <td *ngIf="isLoggedIn()"><button (click)="this.showNotes(d)" class="action"><i class="bi bi-journal-text"></i></button></td>
                     <td class="text">{{ d.Name }}</td>
                     <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
                     <!-- use number class to right align it.-->
@@ -101,11 +101,11 @@
                     <td id="percent" class="number calculatedText trafficLightsBackground" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.portionTaken(d) | percent}}</td>
                     <td class="number calculatedText">{{d.AccumulatedMg | number: '1.0-0'}}</td>
                     <td class="number calculatedText">{{d.RemainingMg | number: '1.0-0'}}</td>
-                    <td>
+                    <td *ngIf="isLoggedIn()">
                         <span>
-                            <button (click)="delete(d.MedicationID)">Delete</button>
-                            <button (click)="repeat(d);">Repeat For Today</button>
-                            <button (click)="addNote(d);">Add Note</button>
+                            <button (click)="delete(d.MedicationID)" class="dangerButton action"><i class="bi bi-trash3"></i></button>
+                            <button (click)="repeat(d);" class="action"><i class="bi bi-repeat-1"></i></button>
+                            <button (click)="addNote(d);" class="action"><i class="bi bi-journal-plus"></i></button>
                         </span>
                     </td>
                 </ng-container>

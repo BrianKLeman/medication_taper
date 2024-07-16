@@ -3,6 +3,7 @@ import { IReport, MedicationDosesService } from './medication-doses.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NotesComponent } from '../notes/notes.component';
 import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
+import { TokenService } from '../token.service';
 
 @Component({
   selector: 'medication-doses-table',
@@ -11,10 +12,15 @@ import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 })
 export class MedicationDosesTableComponent implements OnInit {
   constructor(private service : MedicationDosesService,
-    private dialog : MatDialog){
+    private dialog : MatDialog,
+    private tokenService : TokenService){
 
   }
+  public isLoggedIn(){
+    let token = this.tokenService.Token?.Token?.trim();
 
+    return token != null && token != ""; 
+  }
   public filteredModel : IReport[] = [];
   async ngOnInit() {
    await this.reload();

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { NotesService } from '../notes/notes.service';
 import { UrlsService } from 'src/urls.service';
 import { UserCredentialsService } from '../user-credentials.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +16,7 @@ export class MedicationDosesService {
 
   }
 
+  
   private getPassword(){
     return this.user.getPassword();
   }
