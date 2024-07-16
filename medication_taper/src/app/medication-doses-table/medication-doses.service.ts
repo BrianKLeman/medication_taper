@@ -40,7 +40,7 @@ export class MedicationDosesService {
 
   public async repeatToday( report : IReport){
     let p = this.getPassword();
-      let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses/"+report.Name, { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), Password: p}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("repeated")});
+      let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses/Add", { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), Password: p, PrescriptionID : report.PrescriptionID}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("repeated")});
   }
 
   public async GetNotesForDay(report : IReport){
@@ -142,4 +142,5 @@ export interface IReport {
   AccumulatedMg : number;
   HalfLifeHrs : number;
   RemainingMg : number;
+  PrescriptionID : number;
 }
