@@ -8,7 +8,7 @@
         <ng-container *ngFor="let d of notes; index as i;">
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
-                    <td class="date">{{d.RecordedDate | date: 'shortTime'}}</td>
+                    <td class="date">{{ adjustForTimezone(d.RecordedDate) | date: 'shortTime'}}</td>
                     <td class="text">{{ d.Text }}</td>
                     <td>
                         <span>

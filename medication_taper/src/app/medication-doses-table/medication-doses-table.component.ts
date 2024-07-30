@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NotesComponent } from '../notes/notes.component';
 import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 import { TokenService } from '../token.service';
+import { TimezonesService } from '../timezones.service';
 
 @Component({
   selector: 'medication-doses-table',
@@ -13,7 +14,8 @@ import { TokenService } from '../token.service';
 export class MedicationDosesTableComponent implements OnInit {
   constructor(private service : MedicationDosesService,
     private dialog : MatDialog,
-    private tokenService : TokenService){
+    private tokenService : TokenService,
+    private adjustTime : TimezonesService){
 
   }
   public isLoggedIn(){
@@ -125,7 +127,9 @@ export class MedicationDosesTableComponent implements OnInit {
     this.dialog.open(NotesComponent, { data : {datetime : report.DateTimeConsumed}});
   }
 
-  
+  public adjustForTimeZone(date : Date) : Date{
+    return this.adjustTime.adjustForTimezone(new Date(date));
+  }
 }
 
 export class ColourStop

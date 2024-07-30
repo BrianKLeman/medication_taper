@@ -9,7 +9,8 @@
             <th>Medication Name</th>
             <th>Date</th>
             <th>Time</th>
-            <th>Prescribed Dose (mg)</th>
+            <th>Prescribed Dose (mg)</th>            
+            <th>Amount (mg)</th>
             <th class="calculatedText">Portion of Prescribed</th>
             <th class="calculatedText">Estimated  mg</th>
             <th class="calculatedText">Estimated Remaining (mg)</th>
@@ -85,6 +86,7 @@
             <td class="calculatedText filterRowCell"></td>
             <td class="calculatedText filterRowCell"></td>
             <td class="calculatedText filterRowCell"></td>
+            <td class="calculatedText filterRowCell"></td>
             <td *ngIf="isLoggedIn()" class="filterRowCell"></td>
         </tr>
         <ng-container *ngFor="let d of filteredModel; index as i;">
@@ -95,9 +97,10 @@
                     <td class="text">{{ d.Name }}</td>
                     <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
                     <!-- use number class to right align it.-->
-                    <td class="number">{{d.DateTimeConsumed | date: 'shortTime'}}</td>
+                    <td class="number">{{this.adjustForTimeZone(d.DateTimeConsumed) | date: 'shortTime'}}</td>
                     
                     <td class="number">{{d.DoseMG | number: '1.1-1'}}</td><!---->
+                    <td id="percent" class="number">{{ d.DoseTakenMG | number: '1.1-1'}}</td>
                     <td id="percent" class="number calculatedText trafficLightsBackground" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.portionTaken(d) | percent}}</td>
                     <td class="number calculatedText">{{d.AccumulatedMg | number: '1.0-0'}}</td>
                     <td class="number calculatedText">{{d.RemainingMg | number: '1.0-0'}}</td>

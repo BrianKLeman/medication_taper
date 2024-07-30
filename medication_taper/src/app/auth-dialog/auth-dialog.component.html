@@ -8,7 +8,7 @@
                             <p>
                                 <label for="user-id">UserID: </label>
                             </p>
-                                <input id="user-id" name="user-id" type="text" [(ngModel)]="this.UserID">
+                                <input id="user-id" name="user-id" type="text" [(ngModel)]="this.UserID" autocomplete="username">
                                 
                         </tr>
                         <tr>
@@ -17,7 +17,7 @@
                             </p>
                             
                             
-                            <input id="password" name="password" type="password" [(ngModel)]="this.Password"/>
+                            <input id="password" name="password" type="password" [(ngModel)]="this.Password" autocomplete="current-password"/>
                             
                         </tr>
                     </table>

@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { NotesService } from './notes.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TimezonesService } from '../timezones.service';
 
 @Component({
   selector: 'app-notes',
@@ -14,7 +15,8 @@ export class NotesComponent {
         {
           datetime: Date
         },
-    private service : NotesService){
+    private service : NotesService,
+    private timeService : TimezonesService){
       this.dt = data.datetime;
   }
 
@@ -24,5 +26,5 @@ export class NotesComponent {
   text = "my text";
   dt = new Date(Date.now());
 
-  
+ 
 }

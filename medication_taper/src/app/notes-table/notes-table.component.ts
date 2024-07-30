@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { INotes, NotesService } from '../notes/notes.service';
+import { TimezonesService } from '../timezones.service';
 
 @Component({
   selector: 'app-notes-table',
@@ -8,7 +9,9 @@ import { INotes, NotesService } from '../notes/notes.service';
 })
 export class NotesTableComponent {
 
-  constructor(private notesService : NotesService){
+  constructor(private notesService : NotesService,
+            private timeService : TimezonesService
+  ){
   }
 
   @Input()
@@ -38,4 +41,9 @@ export class NotesTableComponent {
   public deleteNote(noteID : number){
     this.notesService.DeleteNote(noteID);
   }
+
+  public adjustForTimezone(date : string){
+    return this.timeService.adjustForTimezoneStr(date);
+  }
+
 }
