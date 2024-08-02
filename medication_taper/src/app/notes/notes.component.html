@@ -11,12 +11,19 @@
                                 
                         </tr>
                         <tr>
+                            <span><input id="behavior-change" name="behavior-change" [(ngModel)]="behaviorChange" type="checkbox"/>
+                            
+                                <label for="behavior-change">  Behaviour Change Required</label>
+                            </span>
+                                
+                        </tr>
+                        <tr>
                             <p>
                                 <label for="date_time">DateTime</label>
                             </p>
                             
                             
-                                <input id="date_time" name="date_time" type="date-local" [ngModel]="dt | date:'yyyy-MM-dd hh:mm:ss'" (ngModelChange)="dt = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="date_time" name="date_time" type="date-local" [ngModel]="dt | date:'dd/MM/YYYY hh:mm'" (ngModelChange)="dt = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
                                 
                         </tr>
                     </table>

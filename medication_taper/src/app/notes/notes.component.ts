@@ -21,10 +21,10 @@ export class NotesComponent {
   }
 
   public AddNote(){
-    this.service.AddNote(new Date(this.dt), this.text);
+    this.service.AddNote(new Date(this.dt), this.text, this.behaviorChange);
   }  
   text = "my text";
   dt = new Date(Date.now());
 
- 
+ behaviorChange : boolean = false;
 }

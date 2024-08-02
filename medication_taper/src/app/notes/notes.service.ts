@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserCredentialsService } from '../user-credentials.service';
 import { UrlsService } from 'src/urls.service';
@@ -19,22 +19,31 @@ export class NotesService {
   }
 
   public async getAllNotesForPersonOnDay( datetime : Date){
-    let x = await this.httpClient.post<INotes[]>( 
-      this.apiUrls.GetApiURL()+"Api/Notes/",
-      <NotesSearchRequest>{ 
-        FromDate : new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate()),
-        ToDate : new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate(),23,59,59 ),
+    let x = await this.httpClient.get<INotes[]>( 
+      this.apiUrls.GetApiURL()+"Api/Notes/Notes",
+        
+        { 
+          params: 
+          {
+            
+              "fromDate" : new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate()).toISOString(),
+              "toDate" : new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate(),23,59,59 ).toISOString()
+            
+          }
         }
+        
+        
     ).toPromise();
     return x;
   }
 
-  public AddNote(datetime : Date, text : string){
+  public AddNote(datetime : Date, text : string, behaviorChange : boolean){
     this.httpClient.post<number>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Add",
       <INote>{ 
         dateTime : new Date(datetime),
-        NoteText : text
+        NoteText : text,
+        BehaviorChange : behaviorChange
         }
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
   }
@@ -57,6 +66,7 @@ export interface INotes {
   UpdatedUser: string;
   UpdatedDate: string;
   RecordedDate: string;
+  BehaviorChange : boolean;
 }
 
 export interface NotesSearchRequest {
@@ -67,4 +77,5 @@ export interface NotesSearchRequest {
 export interface INote {
   dateTime: Date;
   NoteText: string;
+  BehaviorChange : boolean;
 }
