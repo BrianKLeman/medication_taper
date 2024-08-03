@@ -18,6 +18,8 @@ export class NotesComponent {
     private service : NotesService,
     private timeService : TimezonesService){
       this.dt = data.datetime;
+      let now = new Date(Date.now());
+      this.dt.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
   }
 
   public AddNote(){
