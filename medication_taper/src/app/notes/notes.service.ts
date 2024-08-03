@@ -26,8 +26,8 @@ export class NotesService {
           params: 
           {
             
-              "fromDate" : new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate()).toISOString(),
-              "toDate" : new Date(datetime.getFullYear(), datetime.getMonth(), datetime.getDate(),23,59,59 ).toISOString()
+              "fromDate" : `${datetime.getFullYear()}-${(datetime.getMonth()+1).toString().padStart(2,"0")}-${(datetime.getDate()).toString().padStart(2, "0")}T00:00:00`,
+              "toDate" : `${datetime.getFullYear()}-${(datetime.getMonth()+1).toString().padStart(2,"0")}-${(datetime.getDate()).toString().padStart(2, "0")}T23:59:59`
             
           }
         }
