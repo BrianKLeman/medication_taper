@@ -13,7 +13,6 @@ import { TimezonesService } from '../timezones.service';
 })
 export class MedicationDosesTableComponent implements OnInit {
   constructor(private service : MedicationDosesService,
-    private dialog : MatDialog,
     private tokenService : TokenService,
     private adjustTime : TimezonesService){
 
@@ -123,9 +122,7 @@ export class MedicationDosesTableComponent implements OnInit {
     return sum;
   }
 
-  public addNote(report : IReport){
-    this.dialog.open(NotesComponent, { data : {datetime : report.DateTimeConsumed}});
-  }
+  
 
   public adjustForTimeZone(date : Date) : Date{
     return this.adjustTime.adjustForTimezone(new Date(date));

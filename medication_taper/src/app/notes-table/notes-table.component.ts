@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { INotes, NotesService } from '../notes/notes.service';
 import { TimezonesService } from '../timezones.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NotesComponent } from '../notes/notes.component';
 
 @Component({
   selector: 'app-notes-table',
@@ -10,7 +12,8 @@ import { TimezonesService } from '../timezones.service';
 export class NotesTableComponent {
 
   constructor(private notesService : NotesService,
-            private timeService : TimezonesService
+            private timeService : TimezonesService,
+            private dialog : MatDialog
   ){
   }
 
@@ -25,25 +28,32 @@ export class NotesTableComponent {
   public set showNotes(arg : boolean){
     this.show = arg;
     if(this.show){
-      if(this.datetime){
-        this.notesService.getAllNotesForPersonOnDay(new Date(this.datetime)).then( 
-          (v : INotes[] | undefined) => {
-            this.notes = v ?? [];
-          }
-        );
-      }
+      this.refreshNotes();
     }
   }
   private show = false;
 
   public notes : INotes[] = [];
 
-  public deleteNote(noteID : number){
-    this.notesService.DeleteNote(noteID);
+  public async deleteNote(noteID : number){
+    let x = await this.notesService.DeleteNote(noteID);
+    await this.refreshNotes();
   }
 
   public adjustForTimezone(date : string){
     return this.timeService.adjustForTimezoneStr(date);
   }
 
+  public async refreshNotes(){
+    if(this.datetime){
+      let x = await this.notesService.getAllNotesForPersonOnDay(new Date(this.datetime));
+      this.notes = x ?? [];
+      console.log("Refreshed Notes "+ x?.length);
+    }
+  }
+
+  public async addNote(){
+    let x = await this.dialog.open(NotesComponent, { data : {datetime : this.datetime}}).afterClosed().toPromise();
+    await this.refreshNotes();
+  }
 }

@@ -48,11 +48,10 @@ export class NotesService {
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
   }
 
-  public DeleteNote(id : number){
-    this.httpClient.post<number>( 
+  public async DeleteNote(id : number){
+    let x = await this.httpClient.post<number>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Delete/"+id, {})
-      .toPromise()
-      .then ( (n) => { console.log(`deleted note with id ${n}`)});
+      .toPromise();
     }
 
 }
