@@ -18,7 +18,7 @@ export class NotesTableComponent {
   }
 
   @Input()
-  public datetime : Date | null = null; 
+  public datetime : Date | null | string = null; 
 
   @Input()
   public get showNotes(){
@@ -53,7 +53,8 @@ export class NotesTableComponent {
   }
 
   public async addNote(){
-    let x = await this.dialog.open(NotesComponent, { data : {datetime : this.datetime}}).afterClosed().toPromise();
+    let d = this.datetime === typeof(Date) ? this.datetime : new Date(this.datetime as string);
+    let x = await this.dialog.open(NotesComponent, { data : {datetime : d}}).afterClosed().toPromise();
     await this.refreshNotes();
   }
 }
