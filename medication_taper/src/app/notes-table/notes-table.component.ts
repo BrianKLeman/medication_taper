@@ -37,7 +37,7 @@ export class NotesTableComponent {
 
   public async deleteNote(noteID : number){
     let x = await this.notesService.DeleteNote(noteID);
-    await this.refreshNotes();
+    setTimeout(async () => { await this.refreshNotes(); }, 500);
   }
 
   public adjustForTimezone(date : string){
@@ -49,12 +49,19 @@ export class NotesTableComponent {
       let x = await this.notesService.getAllNotesForPersonOnDay(new Date(this.datetime));
       this.notes = x ?? [];
       console.log("Refreshed Notes "+ x?.length);
+      return x?.length ?? 0;
     }
+    return 0;
   }
 
   public async addNote(){
     let d = this.datetime === typeof(Date) ? this.datetime : new Date(this.datetime as string);
     let x = await this.dialog.open(NotesComponent, { data : {datetime : d}}).afterClosed().toPromise();
-    await this.refreshNotes();
-  }
+    
+    setTimeout(async () => 
+      { 
+        await this.refreshNotes(); 
+        console.log('returned' + count); }, 500);
+        let count = await this.refreshNotes();
+      }
 }
