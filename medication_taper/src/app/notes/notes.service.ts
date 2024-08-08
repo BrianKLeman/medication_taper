@@ -48,11 +48,25 @@ export class NotesService {
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
   }
 
+  public UpdateNote(note : INotes){
+    this.httpClient.post<number>( 
+      this.apiUrls.GetApiURL()+"Api/Notes/Update",
+      <INote>{ 
+        dateTime : new Date(note.RecordedDate),
+        NoteText : note.Text,
+        BehaviorChange : note.BehaviorChange,
+        NoteID : note.NoteID
+        }
+    ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
+  }
+
   public async DeleteNote(id : number){
     let x = await this.httpClient.post<number>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Delete/"+id, {})
       .toPromise();
     }
+
+  
 
 }
 
@@ -77,4 +91,5 @@ export interface INote {
   dateTime: Date;
   NoteText: string;
   BehaviorChange : boolean;
+  NoteID : number;
 }

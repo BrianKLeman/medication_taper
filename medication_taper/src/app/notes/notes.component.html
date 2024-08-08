@@ -7,11 +7,11 @@
                             <p>
                                 <label for="note-content">Notes Text</label>
                             </p>
-                                <textarea id="note-content" name="note-content" rows="10" cols="50" [(ngModel)]="text"></textarea>
+                                <textarea id="note-content" name="note-content" rows="10" cols="50" [(ngModel)]="currentNote.Text"></textarea>
                                 
                         </tr>
                         <tr>
-                            <span><input id="behavior-change" name="behavior-change" [(ngModel)]="behaviorChange" type="checkbox"/>
+                            <span><input id="behavior-change" name="behavior-change" [(ngModel)]="currentNote.BehaviorChange" type="checkbox"/>
                             
                                 <label for="behavior-change">  Behaviour Change Required</label>
                             </span>
@@ -23,7 +23,7 @@
                             </p>
                             
                             
-                                <input id="date_time" name="date_time" type="date-local" [ngModel]="dt | date:'dd/MM/YYYY hh:mm'" (ngModelChange)="dt = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="date_time" name="date_time" type="date-local" [ngModel]="currentNote.RecordedDate | date:'dd/MM/YYYY hh:mm'" (ngModelChange)="currentNote.RecordedDate = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
                                 
                         </tr>
                     </table>
@@ -31,5 +31,5 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button [mat-dialog-close]="true" (click)="AddNote()" cdkFocusInitial>Save</button>
+        <button mat-button [mat-dialog-close]="true" (click)="SaveNote()" cdkFocusInitial>Save</button>
     </mat-dialog-actions>

@@ -61,7 +61,22 @@ export class NotesTableComponent {
     setTimeout(async () => 
       { 
         await this.refreshNotes(); 
+        console.log('returned' + count); 
+      }, 
+      500);
+    let count = await this.refreshNotes();
+  }  
+
+  public async editNote(note : INotes){
+  let d = this.datetime === typeof(Date) ? this.datetime : new Date(this.datetime as string);
+    let x = await this.dialog.open(NotesComponent, { data : {datetime : d, note : note}}).afterClosed().toPromise();
+    
+    setTimeout(async () => 
+      { 
+        await this.refreshNotes(); 
         console.log('returned' + count); }, 500);
         let count = await this.refreshNotes();
       }
 }
+  
+
