@@ -1,0 +1,30 @@
+import { Injectable } from '@angular/core';
+import { UserCredentialsService } from '../user-credentials.service';
+import { HttpClient } from '@angular/common/http';
+import { UrlsService } from 'src/urls.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LearningAimsService {
+
+  constructor(private httpClient : HttpClient, 
+    private user : UserCredentialsService,
+    private apiUrls : UrlsService) { 
+
+  }
+
+  public async getAllAimsForPerson(){
+    let x = await this.httpClient.get<ILearningAim[]>( this.apiUrls.GetApiURL()+"Api/LearningAims").toPromise();
+    return x;
+  }
+}
+
+export interface ILearningAim{
+  LearningAimID : number,
+  CreatedDate: Date | string,
+  Name: string,
+  Description: string,
+  PersonID: 1,
+  AchievedDate: Date | string | null
+}

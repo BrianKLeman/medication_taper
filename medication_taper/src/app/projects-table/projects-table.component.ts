@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { IPrescription, PrescriptionsService } from './prescriptions.service';
 import { TimezonesService } from '../timezones.service';
+import { IProject, ProjectsService } from './projects.service';
 
 @Component({
-  selector: 'prescriptions-table',
-  templateUrl: './prescriptions-table.component.html',
+  selector: 'projects-table',
+  templateUrl: './projects-table.component.html',
   styleUrls: ['./../app.component.css']
 })
-export class PrescriptionsTableComponent {
-  constructor(private prescriptionsService : PrescriptionsService,
+export class ProjectsTableComponent {
+  constructor(private projectsService : ProjectsService,
     private timeService : TimezonesService,
   ){
   }
@@ -27,11 +27,11 @@ export class PrescriptionsTableComponent {
   }
 
   public async refresh(){
-      let x = await this.prescriptionsService.getAllPrescriptionsForPerson();
-      this.prescriptions = x ?? [];
-      console.log("Refreshed Prescriptions "+ x?.length);
+      let x = await this.projectsService.getAllProjectsForPerson();
+      this.projects = x ?? [];
+      console.log("Refreshed Projects "+ x?.length);
       return x?.length ?? 0;
   }
 
-  prescriptions : IPrescription[] | null = null;
+  projects : IProject[] | null = null;
 }

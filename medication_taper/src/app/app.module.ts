@@ -17,6 +17,9 @@ import { NotesTableComponent } from './notes-table/notes-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthHttpInterceptorService } from './auth-http-interceptor.service';
 import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
+import { ProjectsTableComponent } from './projects-table/projects-table.component';
+import { LearningAimsTableComponent } from './learning-aims-table/learning-aims-table.component';
+import { SleepsTableComponent } from './sleeps-table/sleeps-table.component';
 
 /* Register Module */
 @NgModule({
@@ -26,7 +29,10 @@ import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
     MedicationDosesTableComponent,
     NotesComponent,
     NotesTableComponent,
-    AuthDialogComponent
+    AuthDialogComponent,
+    ProjectsTableComponent,
+    LearningAimsTableComponent,
+    SleepsTableComponent
   ],
   imports: [
     BrowserModule,

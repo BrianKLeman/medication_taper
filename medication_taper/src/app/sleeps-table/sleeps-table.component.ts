@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { IPrescription, PrescriptionsService } from './prescriptions.service';
 import { TimezonesService } from '../timezones.service';
+import { ISleeps, SleepsService } from './sleeps.service';
 
 @Component({
-  selector: 'prescriptions-table',
-  templateUrl: './prescriptions-table.component.html',
+  selector: 'sleeps-table',
+  templateUrl: './sleeps-table.component.html',
   styleUrls: ['./../app.component.css']
 })
-export class PrescriptionsTableComponent {
-  constructor(private prescriptionsService : PrescriptionsService,
+export class SleepsTableComponent {
+
+  constructor(private sleepsService : SleepsService,
     private timeService : TimezonesService,
   ){
   }
@@ -27,11 +28,11 @@ export class PrescriptionsTableComponent {
   }
 
   public async refresh(){
-      let x = await this.prescriptionsService.getAllPrescriptionsForPerson();
-      this.prescriptions = x ?? [];
-      console.log("Refreshed Prescriptions "+ x?.length);
+      let x = await this.sleepsService.getAllForPerson();
+      this.sleeps = x ?? [];
+      console.log("Refreshed Sleeps "+ x?.length);
       return x?.length ?? 0;
   }
 
-  prescriptions : IPrescription[] | null = null;
+  sleeps : ISleeps[] | null = null;
 }

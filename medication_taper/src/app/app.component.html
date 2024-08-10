@@ -12,4 +12,8 @@
 
 
 <router-outlet></router-outlet>
+<sleeps-table *ngIf="this.token?.UserID "></sleeps-table>
+<projects-table *ngIf="this.token?.UserID "></projects-table>
+<learning-aims-table *ngIf="this.token?.UserID "></learning-aims-table>
+<prescriptions-table *ngIf="this.token?.UserID "></prescriptions-table>
 <medication-doses-table></medication-doses-table>

@@ -1,0 +1,21 @@
+<h4>Sleeps</h4>
+<table class="tableBody">
+    <thead class="tableHeader">
+            <th>Created</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Hours</th>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let s of sleeps; index as i;">
+            <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
+                <ng-container>
+                    <td class="date">{{ adjustForTimezone(s.CreatedDate) | date: 'fullDate'}}</td>
+                    <td class="date">{{ adjustForTimezone(s.FromDate) | date: 'fullDate' }}</td>
+                    <td class="date">{{ adjustForTimezone(s.ToDate) | date: 'fullDate' }}</td>
+                    <td class="number">{{ s.Hours | number: '2.2'}}</td>
+                </ng-container>
+            </tr>
+        </ng-container>       
+    </tbody>
+</table>

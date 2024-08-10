@@ -1,0 +1,17 @@
+<h4>Projects Log</h4>
+
+<table class="tableBody">
+    <thead class="tableHeader">
+    <th>Name</th>
+    <th>Start</th>
+    <th>End</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let p of projects; index as i;">
+            <td class="text">{{p.Name}}</td>
+            <td class="date">{{p.StartDate | date : "fullDate"}}</td>
+            <td class="date">{{p.EndDate | date : "fullDate"}}</td>
+        </tr>
+    </tbody>
+
+</table>
