@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +21,7 @@ import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
 import { ProjectsTableComponent } from './projects-table/projects-table.component';
 import { LearningAimsTableComponent } from './learning-aims-table/learning-aims-table.component';
 import { SleepsTableComponent } from './sleeps-table/sleeps-table.component';
+import { PhenomenaTableComponent } from './phenomena-table/phenomena-table.component';
 
 /* Register Module */
 @NgModule({
@@ -32,7 +34,8 @@ import { SleepsTableComponent } from './sleeps-table/sleeps-table.component';
     AuthDialogComponent,
     ProjectsTableComponent,
     LearningAimsTableComponent,
-    SleepsTableComponent
+    SleepsTableComponent,
+    PhenomenaTableComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { SleepsTableComponent } from './sleeps-table/sleeps-table.component';
     MatToolbarModule,
     MatIconModule,    
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    MatTabsModule
   ],
   providers: [
     { provide: HttpClient}, { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }/*,

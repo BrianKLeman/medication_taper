@@ -12,8 +12,16 @@
 
 
 <router-outlet></router-outlet>
-<sleeps-table *ngIf="this.token?.UserID "></sleeps-table>
-<projects-table *ngIf="this.token?.UserID "></projects-table>
-<learning-aims-table *ngIf="this.token?.UserID "></learning-aims-table>
-<prescriptions-table *ngIf="this.token?.UserID "></prescriptions-table>
-<medication-doses-table></medication-doses-table>
+<mat-tab-group>
+    <mat-tab label="Medication Doses"> <medication-doses-table></medication-doses-table> </mat-tab>
+    <mat-tab label="Projects"> <projects-table *ngIf="this.token?.UserID "></projects-table> </mat-tab>
+    <mat-tab label="Learning Aims"> <learning-aims-table *ngIf="this.token?.UserID "></learning-aims-table> </mat-tab>
+    <mat-tab label="Prescriptions"><prescriptions-table *ngIf="this.token?.UserID "></prescriptions-table></mat-tab>
+    <mat-tab label="Sleeps"> <sleeps-table *ngIf="this.token?.UserID "></sleeps-table></mat-tab>
+    <mat-tab label="Phenomena"> <phenomena-table *ngIf="this.token?.UserID "></phenomena-table></mat-tab>
+  </mat-tab-group>
+
+
+
+
+

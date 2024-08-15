@@ -29,7 +29,9 @@ export class SleepsTableComponent {
 
   public async refresh(){
       let x = await this.sleepsService.getAllForPerson();
+
       this.sleeps = x ?? [];
+      this.sleeps = this.sleeps.sort( (a, b) => { return new Date(a.FromDate as string).getTime() - new Date(b.FromDate as string).getTime();})
       console.log("Refreshed Sleeps "+ x?.length);
       return x?.length ?? 0;
   }

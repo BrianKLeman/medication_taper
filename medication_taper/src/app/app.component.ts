@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTab } from '@angular/material/tabs';
 import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
 import { IToken, TokenService } from './token.service';
 import { UserCredentialsService } from './user-credentials.service';
