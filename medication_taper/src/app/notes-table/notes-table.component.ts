@@ -28,7 +28,7 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
 
   
   @Input()
-  public entity : any = "";
+  public entity : number = 0;
 
   @Input()
   public tableName = "";
@@ -68,7 +68,7 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
       console.log("Refreshed Notes "+ x?.length);
       return x?.length ?? 0;
     } else {
-      let x = await this.notesService.getAllNotesEntity(this.tableName, this.entity.ProjectID);
+      let x = await this.notesService.getAllNotesEntity(this.tableName, this.entity);
       this.notes = x ?? [];
       console.log("Refreshed Notes "+ x?.length);
       return x?.length ?? 0;

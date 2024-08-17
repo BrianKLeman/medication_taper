@@ -1,6 +1,7 @@
 
 <table class="tableBody">
     <thead class="tableHeader">
+            <th>Notes</th>
             <th>Created</th>
             <th>Name</th>
             <th>Description</th>
@@ -10,11 +11,17 @@
         <ng-container *ngFor="let d of aims; index as i;">
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
+                    <td class="commands"><button (click)="showNotes(d);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
                     <td class="date">{{ adjustForTimezone(d.CreatedDate) | date: 'fullDate'}}</td>
                     <td class="text">{{ d.Name }}</td>
                     <td class="text">{{ d.Description }}</td>
                     <td class="date">{{ adjustForTimezone(d.AchievedDate) | date: 'fullDate'}}</td>
                 </ng-container>
+            </tr>
+            <tr *ngIf="d.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
+                <td colspan="3">
+                    <app-notes-table [entity]="d.LearningAimID" [showNotes]="d.ShowNotes" tableName="LEARNING_AIMS" ></app-notes-table>
+                </td>
             </tr>
         </ng-container>       
     </tbody>

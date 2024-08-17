@@ -16,6 +16,10 @@ export class LearningAimsService {
 
   public async getAllAimsForPerson(){
     let x = await this.httpClient.get<ILearningAim[]>( this.apiUrls.GetApiURL()+"Api/LearningAims").toPromise();
+    if(x)
+      for(let a of x){
+        a.ShowNotes = false;
+      }
     return x;
   }
 }
@@ -26,6 +30,6 @@ export interface ILearningAim{
   Name: string,
   Description: string,
   PersonID: 1,
-  AchievedDate: Date | string | null
-  
+  AchievedDate: Date | string | null,
+  ShowNotes: boolean
 }

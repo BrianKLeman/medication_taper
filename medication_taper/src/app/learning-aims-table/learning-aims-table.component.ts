@@ -17,6 +17,10 @@ export class LearningAimsTableComponent implements OnInit {
     await this.refreshAims();
   }
 
+
+  async showNotes(aim : ILearningAim){
+    aim.ShowNotes = !aim.ShowNotes;    
+  }
   public adjustForTimezone(date : string | Date | null){
     if(date)
       if(typeof(date) === typeof(" "))
