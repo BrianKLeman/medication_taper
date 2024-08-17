@@ -1,21 +1,38 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { INotes, NotesService } from '../notes/notes.service';
 import { TimezonesService } from '../timezones.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NotesComponent } from '../notes/notes.component';
+import { LinkNoteToComponent } from '../link-note-to/link-note-to.component';
 
 @Component({
   selector: 'app-notes-table',
   templateUrl: './notes-table.component.html',
-  styleUrls: ['./notes-table.component.css']
+  styleUrls: ['./../app.component.css']
 })
-export class NotesTableComponent {
+export class NotesTableComponent implements OnInit, AfterViewInit{
 
   constructor(private notesService : NotesService,
             private timeService : TimezonesService,
             private dialog : MatDialog
   ){
   }
+
+  async ngOnInit() {
+    await this.refreshNotes();
+  }
+
+  async ngAfterViewInit() {
+    await this.refreshNotes();
+  }
+
+  
+  @Input()
+  public entity : any = "";
+
+  @Input()
+  public tableName = "";
+
 
   @Input()
   public datetime : Date | null | string = null; 
@@ -50,6 +67,11 @@ export class NotesTableComponent {
       this.notes = x ?? [];
       console.log("Refreshed Notes "+ x?.length);
       return x?.length ?? 0;
+    } else {
+      let x = await this.notesService.getAllNotesEntity(this.tableName, this.entity.ProjectID);
+      this.notes = x ?? [];
+      console.log("Refreshed Notes "+ x?.length);
+      return x?.length ?? 0;
     }
     return 0;
   }
@@ -66,17 +88,36 @@ export class NotesTableComponent {
       500);
     let count = await this.refreshNotes();
   }  
-
   public async editNote(note : INotes){
-  let d = this.datetime === typeof(Date) ? this.datetime : new Date(this.datetime as string);
+    let d = this.datetime === typeof(Date) ? this.datetime : new Date(this.datetime as string);
     let x = await this.dialog.open(NotesComponent, { data : {datetime : d, note : note}}).afterClosed().toPromise();
     
     setTimeout(async () => 
-      { 
-        await this.refreshNotes(); 
-        console.log('returned' + count); }, 500);
-        let count = await this.refreshNotes();
-      }
+    { 
+      await this.refreshNotes(); 
+      console.log('returned' + count); 
+    }, 500);
+    let count = await this.refreshNotes();
+  }
+
+  public async LinkNotes(){
+    let ids = this.notes.flatMap( ( val) => {
+      if(val.Link)
+        return val.NoteID;
+      else 
+        return -1;
+    }).filter( (v) => {
+      return v > 0;
+    })
+    let x = await this.dialog.open(LinkNoteToComponent, { data : { noteIDs : ids}}).afterClosed().toPromise();
+    
+    setTimeout(async () => 
+    { 
+      await this.refreshNotes(); 
+      console.log('returned' + count); 
+    }, 500);
+    let count = await this.refreshNotes();
+  }
 }
   
 

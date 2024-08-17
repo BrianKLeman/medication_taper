@@ -53,9 +53,7 @@ export class NotesComponent {
       this.service.UpdateNote(this.currentNote);
   }  
   
-  public SaveLink(noteID : number, tableName : string, entity_id : number){
-
-  }
+  
   currentNote : INotes;
 
   option = ""; // used for note type links.

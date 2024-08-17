@@ -9,6 +9,6 @@ export class UrlsService {
 
   // Get api url with the / appended.
   public GetApiURL(){
-    return "https://api.codefusionstudios.co.uk/"
+    return "http://localhost:56265/"
   }
 }

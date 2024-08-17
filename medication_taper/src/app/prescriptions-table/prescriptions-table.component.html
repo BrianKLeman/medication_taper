@@ -4,12 +4,14 @@
     <th>Medication Name</th>
     <th>Prescribed Dose (mg)</th>
     <th>Average Half Life Hrs</th>
+    <th>End Date</th>
     </thead>
     <tbody>
-        <tr *ngFor="let p of prescriptions; index as i;">
+        <tr *ngFor="let p of prescriptions; index as i;" [ngClass]="{'altTableRow' : i%2 == 0}">
             <td class="text">{{p.Name}}</td>
             <td class="number">{{p.DoseMG | number: '1.2'}}</td>
             <td class="number">{{p.AverageHalfLifeHours | number: '1.2'}}</td>
+            <td class="date">{{p.EndDate | date: 'fullDate'}}</td>
         </tr>
     </tbody>
 

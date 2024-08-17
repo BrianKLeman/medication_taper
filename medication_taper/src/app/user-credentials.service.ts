@@ -6,11 +6,9 @@ import { Injectable } from '@angular/core';
 export class UserCredentialsService {
 
   constructor() { }
-  private prompted = false;
+  private prompted = false;  
 
-  public getPassword() : string {
-    
-      
+  public getPassword() : string { 
     return this.password;
   }
 
@@ -27,13 +25,6 @@ export class UserCredentialsService {
     this.userID = arg;
   }
 
-  public getAuthHeaders(){
-    return { 
-      "UserID" : this.getUserID(),
-      "Password" : this.getPassword()
-    }
-  }
-
   public set(userID : string, password : string){
     this.userID = userID;
     this.password = password;
@@ -41,11 +32,4 @@ export class UserCredentialsService {
 
   private userID : string = "READONLY";
 
-  public set Token(arg : string){
-    this.token = arg;
-  }
-  public get Token(){
-    return this.token;
-  }
-  private token : string = "";
 }

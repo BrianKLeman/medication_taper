@@ -1,16 +1,26 @@
 
 <table class="tableBody">
     <thead class="tableHeader">
+    <th>Notes</th>
     <th>Name</th>
     <th>Start</th>
     <th>End</th>
     </thead>
     <tbody>
-        <tr *ngFor="let p of projects; index as i;">
-            <td class="text">{{p.Name}}</td>
-            <td class="date">{{p.StartDate | date : "fullDate"}}</td>
-            <td class="date">{{p.EndDate | date : "fullDate"}}</td>
-        </tr>
+        <ng-container *ngFor="let p of projects; index as i;">
+            <tr [ngClass]="{'altTableRow' : i%2 == 0}">
+                <td class="commands"><button (click)="showNotes(p);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
+                <td class="text">{{p.Name}}</td>
+                <td class="date">{{p.StartDate | date : "fullDate"}}</td>
+                <td class="date">{{p.EndDate | date : "fullDate"}}</td>
+            </tr>
+            <tr *ngIf="p.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
+                <td colspan="3">
+                    <pre>{{ p | json}}</pre>
+                    <app-notes-table [showNotes]="p.ShowNotes" tableName="PROJECTS" [entity]="{ProjectID : 1}"></app-notes-table>
+                </td>
+            </tr>
+        </ng-container>
     </tbody>
 
 </table>

@@ -14,6 +14,10 @@ export class ProjectsService {
 
   public async getAllProjectsForPerson(){
     let x = await this.httpClient.get<IProject[]>( this.apiUrls.GetApiURL()+"Api/Projects").toPromise();
+    if(x)
+    for(let p of x){
+      p.ShowNotes = false;
+    }
     return x;
   }
 }
@@ -27,5 +31,6 @@ export interface IProject{
   Priority : number,
   Status : number,
   StartDate : Date | null,
-  EndDate : Date | null
+  EndDate : Date | null,
+  ShowNotes : boolean
 }

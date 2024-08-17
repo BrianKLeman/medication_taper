@@ -1,5 +1,6 @@
 <table class="tableBody">
     <thead class="tableHeader">
+        <th>Select</th>
             <th>Time of Day</th>
             <th>Note</th>
             <th>Change Needed</th>
@@ -9,8 +10,9 @@
         <ng-container *ngFor="let d of notes; index as i;">
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
+                    <td class="text"><input type="checkbox" [(ngModel)]="d.Link"/></td>
                     <td class="date">{{ adjustForTimezone(d.RecordedDate) | date: 'shortTime'}}</td>
-                    <td class="text">{{ d.Text }}</td>
+                    <td class="text"><pre>{{ d.Text }}</pre></td>
                     <td class="text">{{ (d.BehaviorChange ? "Y" : "") }}</td>
                     <td>
                         <span>
@@ -22,8 +24,11 @@
             </tr>
         </ng-container>
         <tr>
+            <span>
+                <button (click)="addNote();" class="action"><i class="bi bi-sticky-fill"></i></button>
+                <button (click)="LinkNotes();" class="action"><i class="bi bi-link"></i></button>
+            </span>
             
-            <button (click)="addNote();" class="action"><i class="bi bi-journal-plus"></i></button>
         </tr>
     </tbody>
 </table>

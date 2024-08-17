@@ -17,7 +17,7 @@ export class AppComponent {
     private tokenService : TokenService,
     private userCredentials : UserCredentialsService
   ){
-
+    this.token = this.tokenService.Token;
   }
 
   public showAuthorise(){

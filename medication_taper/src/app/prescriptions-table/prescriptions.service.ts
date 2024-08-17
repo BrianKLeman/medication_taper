@@ -27,5 +27,6 @@ export interface IPrescription{
   MinHalfLifeHours : number,
   MaxHalfLifeHours : number,
   AverageHalfLifeHours : number,
-  PersonID: 1
+  PersonID: 1,
+  EndDate: Date
 }

@@ -16,6 +16,9 @@ export class ProjectsTableComponent {
     await this.refresh();
   }
 
+  async showNotes(project : IProject){
+    project.ShowNotes = !project.ShowNotes;    
+  }
   public adjustForTimezone(date : string | Date | null){
     if(date)
       if(typeof(date) === typeof(" "))

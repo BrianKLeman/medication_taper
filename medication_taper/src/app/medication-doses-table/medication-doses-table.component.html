@@ -89,7 +89,7 @@
             
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
-                    <td *ngIf="isLoggedIn()"><button (click)="this.showNotes(d)" class="action"><i class="bi bi-journal-text"></i></button></td>
+                    <td *ngIf="isLoggedIn()"><button (click)="this.showNotes(d)" class="action"><i class="bi bi-sticky-fill"></i></button></td>
                     <td class="text">{{ d.Name }}</td>
                     <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
                     <!-- use number class to right align it.-->

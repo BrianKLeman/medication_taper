@@ -27,4 +27,5 @@ export interface ILearningAim{
   Description: string,
   PersonID: 1,
   AchievedDate: Date | string | null
+  
 }

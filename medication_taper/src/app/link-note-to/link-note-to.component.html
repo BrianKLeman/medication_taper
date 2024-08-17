@@ -1,0 +1,38 @@
+<h4 mat-dialog-title>Link Note<h4>
+    <mat-dialog-content class="mat-typography">        
+                <form>
+                    <table>
+                        <tr>
+                            <p>
+                                <label for="note_table_link">Table</label>
+                            </p>                            
+                            
+                            <select id="note_table_link" name="note_table_link" [(ngModel)]="RecordType">
+                                <option value="PHENOMENA">Phenomena</option>
+                                <option value="LEARNING_AIMS">Learning Aims</option>
+                                <option value="SLEEPS">Sleeps</option>
+                                <option value="PROJECTS">Projects</option>
+                                <!--<option>TASKS</option>
+                                <option>MEDICATION</option>
+                                <option>PRESCRIPTIONS</option>-->
+                            </select>
+                                
+                        </tr>
+
+                        <tr>
+                            <p>
+                                <label for="note_table_link">Record</label>
+                            </p>                            
+                            
+                            <select id="note_table_link" name="note_table_link" [(ngModel)]="id">
+                                <option *ngFor="let n of records;" [value]="n.id">{{n.desc}}</option>
+                            </select>
+                                
+                        </tr>
+                    </table>
+                </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [mat-dialog-close]="true" (click)="SaveLink()" cdkFocusInitial>Save</button>
+    </mat-dialog-actions>

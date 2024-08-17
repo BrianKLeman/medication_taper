@@ -4,7 +4,7 @@
     <th>Phenomena</th>
     </thead>
     <tbody>
-        <tr *ngFor="let p of phenomena; index as i;">
+        <tr *ngFor="let p of phenomena; index as i;" [ngClass]="{'altTableRow' : i%2 == 0}">
             <td class="text">{{p.PhenomenaDetails}}</td>
         </tr>
     </tbody>

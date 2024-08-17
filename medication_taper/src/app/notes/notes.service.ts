@@ -37,6 +37,24 @@ export class NotesService {
     return x;
   }
 
+  public async getAllNotesEntity( tableName : string, entityID : number){
+    let x = await this.httpClient.get<INotes[]>( 
+      this.apiUrls.GetApiURL()+"Api/Notes/Notes",
+        
+        { 
+          params: 
+          {
+            
+              "tableName" : tableName,
+              "entityID" : entityID            
+          }
+        }
+        
+        
+    ).toPromise();
+    return x;
+  }
+
   public AddNote(datetime : Date, text : string, behaviorChange : boolean){
     this.httpClient.post<number>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Add",
@@ -80,6 +98,7 @@ export interface INotes {
   UpdatedDate: string;
   RecordedDate: string;
   BehaviorChange : boolean;
+  Link : boolean;
 }
 
 export interface NotesSearchRequest {
