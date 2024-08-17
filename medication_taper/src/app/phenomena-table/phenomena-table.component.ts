@@ -14,7 +14,9 @@ export class PhenomenaTableComponent {
     await this.refresh();
   }
 
-  
+  async showNotes(phenomena : IPhenomena){
+    phenomena.ShowNotes = !phenomena.ShowNotes;    
+  }
 
   public async refresh(){
       let x = await this.phenomenaService.getAllPhenomenaForPerson();

@@ -13,6 +13,10 @@ export class PhenomenaService {
 
   public async getAllPhenomenaForPerson(){
     let x = await this.httpClient.get<IPhenomena[]>( this.apiUrls.GetApiURL()+"Api/Phenomena").toPromise();
+    if(x)
+      for(let p of x){
+        p.ShowNotes = false;
+      }
     return x;
   }
 }
@@ -25,5 +29,6 @@ export interface IPhenomena{
   MinHalfLifeHours : number,
   MaxHalfLifeHours : number,
   AverageHalfLifeHours : number,
-  PersonID : number
+  PersonID : number,
+  ShowNotes : boolean
 }

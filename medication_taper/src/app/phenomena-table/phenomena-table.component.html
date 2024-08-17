@@ -1,12 +1,21 @@
 
 <table class="tableBody">
     <thead class="tableHeader">
+        <th>Notes</th>
     <th>Phenomena</th>
     </thead>
     <tbody>
-        <tr *ngFor="let p of phenomena; index as i;" [ngClass]="{'altTableRow' : i%2 == 0}">
-            <td class="text">{{p.PhenomenaDetails}}</td>
-        </tr>
+        <ng-container *ngFor="let p of phenomena; index as i;">
+            <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
+                <td class="commands"><button (click)="showNotes(p);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
+                <td class="text">{{p.PhenomenaDetails}}</td>
+            </tr>
+            <tr *ngIf="p.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
+                <td colspan="2">
+                    <app-notes-table [entity]="p.PhenomenaID" [showNotes]="p.ShowNotes" tableName="PHENOMENA" ></app-notes-table>
+                </td>
+            </tr>
+        </ng-container>
     </tbody>
 
 </table>
