@@ -26,7 +26,7 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
     await this.refreshNotes();
   }
 
-  
+  @Input() public last7Days = false;
   @Input()
   public entity : number = 0;
 
@@ -48,7 +48,9 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
       this.refreshNotes();
     }
   }
-  private show = false;
+
+  @Input()
+  public show = false;
 
   public notes : INotes[] = [];
 
@@ -62,7 +64,13 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
   }
 
   public async refreshNotes(){
-    if(this.datetime){
+    if(this.last7Days){
+      let x = await this.notesService.getAllNotesForLast7Days();
+      this.notes = x ?? [];
+      console.log("Refreshed Notes "+ x?.length);
+      return x?.length ?? 0;
+    }
+    else if(this.datetime){
       let x = await this.notesService.getAllNotesForPersonOnDay(new Date(this.datetime));
       this.notes = x ?? [];
       console.log("Refreshed Notes "+ x?.length);

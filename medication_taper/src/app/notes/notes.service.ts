@@ -18,6 +18,28 @@ export class NotesService {
     return x;
   }
 
+  public async getAllNotesForLast7Days(){
+    let datetime = new Date(Date.now());
+    let toDate = `${datetime.getFullYear()}-${(datetime.getMonth()+1).toString().padStart(2,"0")}-${(datetime.getDate()).toString().padStart(2, "0")}T23:59:59`;
+    let fromDate = `${datetime.getFullYear()}-${(datetime.getMonth()+1).toString().padStart(2,"0")}-${(datetime.getDate()-7).toString().padStart(2, "0")}T00:00:00`
+    let x = await this.httpClient.get<INotes[]>( 
+      this.apiUrls.GetApiURL()+"Api/Notes/Notes",
+        
+        { 
+          params: 
+          {
+            
+              "fromDate" : fromDate,
+              "toDate" : toDate
+            
+          }
+        }
+        
+        
+    ).toPromise();
+    return x;
+  }
+
   public async getAllNotesForPersonOnDay( datetime : Date){
     let x = await this.httpClient.get<INotes[]>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Notes",

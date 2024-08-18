@@ -15,6 +15,7 @@
 <mat-tab-group>
     <mat-tab label="Appointments"> 
         <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>
+    <mat-tab label="Notes"> <ng-template matTabContent><app-notes-table [show]="true" [last7Days]="true" ></app-notes-table></ng-template> </mat-tab>
     <mat-tab label="Medication Doses"> <ng-template matTabContent><medication-doses-table *ngIf="this.token?.UserID "></medication-doses-table></ng-template> </mat-tab>
     <mat-tab label="Projects"> <ng-template matTabContent><projects-table *ngIf="this.token?.UserID "></projects-table></ng-template> </mat-tab>
     <mat-tab label="Learning Aims"> <ng-template matTabContent><learning-aims-table *ngIf="this.token?.UserID "></learning-aims-table></ng-template> </mat-tab>
