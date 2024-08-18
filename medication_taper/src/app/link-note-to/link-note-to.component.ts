@@ -5,6 +5,7 @@ import { IProject } from '../projects-table/projects.service';
 import { IPhenomena } from '../phenomena-table/phenomena.service';
 import { NoteLinksService } from './note-links.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IAppointment } from '../appointments-table/appointments.service';
 @Component({
   selector: 'app-link-note-to',
   templateUrl: './link-note-to.component.html',
@@ -67,6 +68,11 @@ export class LinkNoteToComponent {
     let s = record as IPhenomena;
     if(s.PhenomenaID != undefined){
       return { id : s.PhenomenaID, desc : `${ s.PhenomenaDetails}`};
+    }
+
+    let app = record as IAppointment;
+    if(app.AppointmentID != undefined){
+      return { id : app.AppointmentID, desc : `${ app.AppointmentName}`};
     }
 
     return { id : -1, desc : `Unspecified`};

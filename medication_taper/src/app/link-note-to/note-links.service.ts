@@ -5,6 +5,7 @@ import { SleepsService } from '../sleeps-table/sleeps.service';
 import { PhenomenaService } from '../phenomena-table/phenomena.service';
 import { HttpClient } from '@angular/common/http';
 import { UrlsService } from 'src/urls.service';
+import { AppointmentsService } from '../appointments-table/appointments.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class NoteLinksService {
                private learningAimsService : LearningAimsService,
                private sleepsService : SleepsService,
                private phenomenaService : PhenomenaService,
+               private appointmentsService : AppointmentsService,
                private httpClient : HttpClient,
               private urlsService : UrlsService  ) { }
 
@@ -34,6 +36,10 @@ export class NoteLinksService {
 
     if(recordType == "PHENOMENA"){
       return await this.phenomenaService.getAllPhenomenaForPerson();
+    }
+
+    if(recordType == "APPOINTMENTS"){
+      return await this.appointmentsService.getAllAppointmentsForPerson();
     }
 
     return [];

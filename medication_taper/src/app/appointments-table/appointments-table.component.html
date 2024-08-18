@@ -1,0 +1,23 @@
+<table class="tableBody">
+    <thead class="tableHeader">
+    <th>Notes</th>
+    <th>Name</th>
+    <th>Start</th>
+    <th>End</th>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let a of appointments; index as i;">
+            <tr [ngClass]="{'altTableRow' : i%2 == 0}">
+                <td class="commands"><button (click)="showNotes(a);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
+                <td class="text">{{a.AppointmentName}}</td>
+                <td class="date">{{a.AppointmentDate | date : "fullDate"}}</td>
+            </tr>
+            <tr *ngIf="a.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
+                <td colspan="3">
+                    <app-notes-table [entity]="a.AppointmentID" [showNotes]="a.ShowNotes" tableName="APPOINTMENTS" ></app-notes-table>
+                </td>
+            </tr>
+        </ng-container>
+    </tbody>
+
+</table>

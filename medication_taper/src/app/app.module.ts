@@ -23,6 +23,7 @@ import { LearningAimsTableComponent } from './learning-aims-table/learning-aims-
 import { SleepsTableComponent } from './sleeps-table/sleeps-table.component';
 import { PhenomenaTableComponent } from './phenomena-table/phenomena-table.component';
 import { LinkNoteToComponent } from './link-note-to/link-note-to.component';
+import { AppointmentsComponent } from './appointments-table/appointments-table.component';
 
 /* Register Module */
 @NgModule({
@@ -37,7 +38,8 @@ import { LinkNoteToComponent } from './link-note-to/link-note-to.component';
     LearningAimsTableComponent,
     SleepsTableComponent,
     PhenomenaTableComponent,
-    LinkNoteToComponent
+    LinkNoteToComponent,
+    AppointmentsComponent
   ],
   imports: [
     BrowserModule,
