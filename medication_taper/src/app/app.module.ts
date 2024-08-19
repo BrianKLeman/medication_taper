@@ -24,6 +24,7 @@ import { SleepsTableComponent } from './sleeps-table/sleeps-table.component';
 import { PhenomenaTableComponent } from './phenomena-table/phenomena-table.component';
 import { LinkNoteToComponent } from './link-note-to/link-note-to.component';
 import { AppointmentsComponent } from './appointments-table/appointments-table.component';
+import { JobsAtHomeComponent } from './jobs-at-home/jobs-at-home.component';
 
 /* Register Module */
 @NgModule({
@@ -39,7 +40,8 @@ import { AppointmentsComponent } from './appointments-table/appointments-table.c
     SleepsTableComponent,
     PhenomenaTableComponent,
     LinkNoteToComponent,
-    AppointmentsComponent
+    AppointmentsComponent,
+    JobsAtHomeComponent
   ],
   imports: [
     BrowserModule,
