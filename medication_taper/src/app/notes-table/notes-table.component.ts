@@ -126,6 +126,29 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
     }, 500);
     let count = await this.refreshNotes();
   }
+
+  public dateDiffIndex(i : number){
+    let a = this.notes[i].RecordedDate;
+    let b0 = this.notes[i+1];
+    if(!b0)
+      return 0;
+
+    
+    let b = b0.RecordedDate;
+    return this.dateDiff(a, b);
+  }
+
+  public dateDiff(a : string, b : string){
+    let c = this.adjustForTimezone(a).getDate();
+    let d = this.adjustForTimezone(b).getDate();
+    return c - d;
+  }
+
+  public dayOfWeek(a: string, addDays : number){
+    const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    
+    return weekday[this.adjustForTimezone(a).getDay()+7+addDays];
+  }
 }
   
 

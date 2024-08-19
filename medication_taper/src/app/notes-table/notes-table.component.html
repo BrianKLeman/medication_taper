@@ -15,6 +15,11 @@
             
         </tr>
         <ng-container *ngFor="let d of notes; index as i;">
+            <tr *ngIf="i == 0"  [ngClass]="{'tableDivider' : true}">
+                <td colspan="5">
+                    <p>{{this.adjustForTimezone(d.RecordedDate) | date: "fullDate"}}</p>
+                </td>
+            </tr>
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
                     <td class="text"><input type="checkbox" [(ngModel)]="d.Link"/></td>
@@ -29,6 +34,12 @@
                     </td>
                 </ng-container>
             </tr>
+            <tr *ngIf=" dateDiffIndex(i) != 0"  [ngClass]="{'tableDivider' : true}" >
+                <td colspan="5">
+                    <p>{{this.adjustForTimezone(notes[i+1].RecordedDate) | date: "fullDate"}}</p>
+                </td>
+            </tr>
+            
         </ng-container>
         <tr>
             <span>
