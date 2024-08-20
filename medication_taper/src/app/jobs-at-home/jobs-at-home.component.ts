@@ -35,6 +35,8 @@ export class JobsAtHomeComponent {
     if(thisMorning > dateDiff)
       return "Today";
     let rounded = Math.round(dateDiff);
+    if(rounded < 1)
+      return `Yesterday`;
     if(rounded < 100)
       return `${rounded} Day(s) a go`;
 

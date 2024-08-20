@@ -23,12 +23,6 @@ export class PhenomenaService {
 
 export interface IPhenomena{
   PhenomenaID : number,
-  PhenomenaDetails: string,
-  CreatedDate: number,
-  Reason : string,
-  MinHalfLifeHours : number,
-  MaxHalfLifeHours : number,
-  AverageHalfLifeHours : number,
-  PersonID : number,
+  PhenomenaDetails: string
   ShowNotes : boolean
 }
