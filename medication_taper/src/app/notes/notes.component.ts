@@ -24,6 +24,11 @@ export class NotesComponent {
         this.currentNote = this.CreateNewNote(now);
       } else {
         this.currentNote = data.note;
+        let d = new Date(this.currentNote.RecordedDate);
+        this.date = d.toDateString();
+        this.time = `${d.getUTCHours}${d.getUTCMinutes().toString(10)}`;
+        // I need to correct the date time because the server is adjusting it.
+        this.currentNote.RecordedDate = this.timeService.adjustForTimezoneStr(this.currentNote.RecordedDate).toISOString();
       }
       
   }
@@ -31,6 +36,8 @@ export class NotesComponent {
   private CreateNewNote(now : Date) : INotes{
     let ct = now;
     ct.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+    this.date = ct.toDateString();
+    this.time = `${ct.getUTCHours}${ct.getUTCMinutes().toString(10)}`;
     let currentNote = <INotes> 
     { 
       RecordedDate : ct.toISOString(), 
@@ -41,19 +48,21 @@ export class NotesComponent {
       CreatedUser : "",
       CreatedDate : ct.toISOString(),
       UpdatedUser : "",
-      UpdatedDate : ""
+      UpdatedDate : "",
+      DisplayAsHTML : false
     };
     return currentNote;
   }
   public SaveNote(){
 
     if(this.currentNote?.NoteID == 0)
-      this.service.AddNote(new Date(this.currentNote.RecordedDate), this.currentNote.Text, this.currentNote.BehaviorChange);
+      this.service.AddNote(new Date(this.currentNote.RecordedDate), this.currentNote.Text, this.currentNote.BehaviorChange, this.currentNote.DisplayAsHTML);
     else
       this.service.UpdateNote(this.currentNote);
   }  
   
-  
+  date : string = "";
+  time : string = "";
   currentNote : INotes;
 
   option = ""; // used for note type links.

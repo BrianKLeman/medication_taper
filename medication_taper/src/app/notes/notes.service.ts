@@ -77,13 +77,14 @@ export class NotesService {
     return x;
   }
 
-  public AddNote(datetime : Date, text : string, behaviorChange : boolean){
+  public AddNote(datetime : Date, text : string, behaviorChange : boolean, displayAsHTML : boolean){
     this.httpClient.post<number>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Add",
       <INote>{ 
         dateTime : new Date(datetime),
         NoteText : text,
-        BehaviorChange : behaviorChange
+        BehaviorChange : behaviorChange,
+        DisplayAsHTML : displayAsHTML
         }
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
   }
@@ -95,7 +96,8 @@ export class NotesService {
         dateTime : new Date(note.RecordedDate),
         NoteText : note.Text,
         BehaviorChange : note.BehaviorChange,
-        NoteID : note.NoteID
+        NoteID : note.NoteID,
+        DisplayAsHTML : note.DisplayAsHTML
         }
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
   }
@@ -120,6 +122,7 @@ export interface INotes {
   UpdatedDate: string;
   RecordedDate: string;
   BehaviorChange : boolean;
+  DisplayAsHTML : boolean;
   Link : boolean;
 }
 
@@ -133,4 +136,5 @@ export interface INote {
   NoteText: string;
   BehaviorChange : boolean;
   NoteID : number;
+  DisplayAsHTML : boolean;
 }

@@ -11,6 +11,13 @@
                                 
                         </tr>
                         <tr>
+                            <span><input id="as-html" name="as-html" [(ngModel)]="currentNote.DisplayAsHTML" type="checkbox"/>
+                            
+                                <label for="as-html">  Display in table as HTML</label>
+                            </span>
+                                
+                        </tr>
+                        <tr>
                             <span><input id="behavior-change" name="behavior-change" [(ngModel)]="currentNote.BehaviorChange" type="checkbox"/>
                             
                                 <label for="behavior-change">  Behaviour Change Required</label>
@@ -23,8 +30,8 @@
                             </p>
                             
                             
-                                <input id="date_time" name="date_time" type="date-local" [ngModel]="currentNote.RecordedDate | date:'dd/MM/YYYY hh:mm'" (ngModelChange)="currentNote.RecordedDate = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
-                                
+                                <input id="date_time" name="date" type="date" [ngModel]="date" (ngModelChange)="date = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="date_time" name="time" type="time" [ngModel]="time" (ngModelChange)="time = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
                         </tr>                        
 
                     </table>

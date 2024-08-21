@@ -1,29 +1,30 @@
 
-<mat-toolbar>
-    <p>Personal Organiser</p>
-    <button mat-icon-button (click)="showAuthorise()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-        <span>
-            <mat-icon>login</mat-icon>
-            Authorise
-        </span>       
-      </button>
-      <h1>{{ UserID }}</h1>
-</mat-toolbar>
+<div class="container">
+    <mat-toolbar>
+        <p>Personal Organiser</p>
+        <button mat-icon-button (click)="showAuthorise()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+            <span>
+                <mat-icon>login</mat-icon>
+                Authorise
+            </span>       
+        </button>
+        <h1>{{ UserID }}</h1>
+    </mat-toolbar>
 
 
-<router-outlet></router-outlet>
-<mat-tab-group>
-    <mat-tab label="Appointments"> <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>
-    <mat-tab label="Jobs At Home"> <ng-template matTabContent><app-jobs-at-home></app-jobs-at-home></ng-template> </mat-tab>
-    <mat-tab label="Learning Aims"> <ng-template matTabContent><learning-aims-table ></learning-aims-table></ng-template> </mat-tab>
-    <mat-tab label="Medication Doses"> <ng-template matTabContent><medication-doses-table ></medication-doses-table></ng-template> </mat-tab>
-    <mat-tab label="Notes"> <ng-template matTabContent><app-notes-table [show]="true" [last7Days]="true" ></app-notes-table></ng-template> </mat-tab>
-    <mat-tab label="Phenomena"> <ng-template matTabContent><phenomena-table ></phenomena-table></ng-template></mat-tab>
-    <mat-tab label="Prescriptions"><ng-template matTabContent><prescriptions-table ></prescriptions-table></ng-template></mat-tab>
-    <mat-tab label="Projects"> <ng-template matTabContent><projects-table ></projects-table></ng-template> </mat-tab>
-    <mat-tab label="Sleeps"> <ng-template matTabContent><sleeps-table ></sleeps-table></ng-template></mat-tab>
-  </mat-tab-group>
-
+    <router-outlet></router-outlet>
+    <mat-tab-group>
+        <mat-tab label="Appointments"> <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>
+        <mat-tab label="Jobs At Home"> <ng-template matTabContent><app-jobs-at-home></app-jobs-at-home></ng-template> </mat-tab>
+        <mat-tab label="Learning Aims"> <ng-template matTabContent><learning-aims-table ></learning-aims-table></ng-template> </mat-tab>
+        <mat-tab label="Medication Doses"> <ng-template matTabContent><medication-doses-table ></medication-doses-table></ng-template> </mat-tab>
+        <mat-tab label="Notes"> <ng-template matTabContent><app-notes-table [show]="true" [last7Days]="true" ></app-notes-table></ng-template> </mat-tab>
+        <mat-tab label="Phenomena"> <ng-template matTabContent><phenomena-table ></phenomena-table></ng-template></mat-tab>
+        <mat-tab label="Prescriptions"><ng-template matTabContent><prescriptions-table ></prescriptions-table></ng-template></mat-tab>
+        <mat-tab label="Projects"> <ng-template matTabContent><projects-table ></projects-table></ng-template> </mat-tab>
+        <mat-tab label="Sleeps"> <ng-template matTabContent><sleeps-table ></sleeps-table></ng-template></mat-tab>
+    </mat-tab-group>
+</div>
 
 
 

@@ -8,7 +8,7 @@ import { LinkNoteToComponent } from '../link-note-to/link-note-to.component';
 @Component({
   selector: 'app-notes-table',
   templateUrl: './notes-table.component.html',
-  styleUrls: ['./../app.component.css']
+  styleUrls: ['./../app.component.css', './notes-table.component.css']
 })
 export class NotesTableComponent implements OnInit, AfterViewInit{
 
@@ -148,6 +148,14 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     
     return weekday[this.adjustForTimezone(a).getDay()+7+addDays];
+  }
+
+  public format(text : string, displayAsHTML : boolean)
+  {
+    if(displayAsHTML == false)
+      return text.replace('\n', "<p>").replace('\n', "<p>");
+    else 
+      return text;
   }
 }
   
