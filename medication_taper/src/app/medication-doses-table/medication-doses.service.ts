@@ -27,7 +27,6 @@ export class MedicationDosesService {
         d.ShowNotes = false;
       }
       this.CalculateAccumulatedAmounts(doses, 20);
-      this.AddReportForTodayIfNoneAdded(doses);
     }
     
     return doses;
@@ -48,27 +47,7 @@ export class MedicationDosesService {
     return notes;    
   }
 
-  public AddReportForTodayIfNoneAdded(reports : IReport[]){
-    const f = reports.sort((a : IReport, b : IReport) => {
-      let d1 = this.UTC(a.DateTimeConsumed);
-        let d2 = this.UTC(b.DateTimeConsumed);
-        return d2 - d1;
-    });
-
-    let first = f[0] ?? null;
-    if(first && first.DateTimeConsumed.getDate != new Date().getDate){
-      reports.push(<IReport>{ 
-        DateTimeConsumed : new Date(),
-        DoseTakenMG : 0,
-        DoseMG : first.DoseMG,
-        Name : "Olanzapine",
-        ShowNotes : false,
-        MedicationID : -1
-      });
-
-      this.AddReportForTodayIfNoneAdded(reports);
-    }
-  }
+  
   
   public CalculateAccumulatedAmounts(reports : IReport[], historyLength : number){
     for(let x of reports){
