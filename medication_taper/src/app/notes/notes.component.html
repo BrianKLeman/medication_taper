@@ -30,8 +30,8 @@
                             </p>
                             
                             
-                                <input id="date_time" name="date" type="date" [ngModel]="date" (ngModelChange)="date = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
-                                <input id="date_time" name="time" type="time" [ngModel]="time" (ngModelChange)="time = $event"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="date_time" name="date" type="date" [ngModel]="date" (ngModelChange)="changeDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="date_time" name="time" type="time" [(ngModel)]="time" /> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
                         </tr>                        
 
                     </table>

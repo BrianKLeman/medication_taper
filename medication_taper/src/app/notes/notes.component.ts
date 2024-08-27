@@ -21,14 +21,15 @@ export class NotesComponent {
 
       if(!data.note){
         let now = new Date(Date.now());
+        now = this.timeService.adjustForTimezone(now);
         this.currentNote = this.CreateNewNote(now);
       } else {
         this.currentNote = data.note;
-        let d = new Date(this.currentNote.RecordedDate);
-        this.date = d.toDateString();
-        this.time = `${d.getUTCHours}${d.getUTCMinutes().toString(10)}`;
+        
         // I need to correct the date time because the server is adjusting it.
-        this.currentNote.RecordedDate = this.timeService.adjustForTimezoneStr(this.currentNote.RecordedDate).toISOString();
+        let rd = this.timeService.adjustForTimezone(new Date(this.currentNote.RecordedDate));
+        this.currentNote.RecordedDate = rd.toISOString();
+        this.setDateAndTime(rd);
       }
       
   }
@@ -36,8 +37,8 @@ export class NotesComponent {
   private CreateNewNote(now : Date) : INotes{
     let ct = now;
     ct.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
-    this.date = ct.toDateString();
-    this.time = `${ct.getUTCHours}${ct.getUTCMinutes().toString(10)}`;
+    this.setDateAndTime(ct);
+    console.log(ct.toISOString());
     let currentNote = <INotes> 
     { 
       RecordedDate : ct.toISOString(), 
@@ -54,7 +55,7 @@ export class NotesComponent {
     return currentNote;
   }
   public SaveNote(){
-
+    this.updateNote(this.currentNote);
     if(this.currentNote?.NoteID == 0)
       this.service.AddNote(new Date(this.currentNote.RecordedDate), this.currentNote.Text, this.currentNote.BehaviorChange, this.currentNote.DisplayAsHTML);
     else
@@ -65,5 +66,18 @@ export class NotesComponent {
   time : string = "";
   currentNote : INotes;
 
+  public changeDate(d : Date){
+    this.date = d.toISOString().split('T')[0];
+  }
   option = ""; // used for note type links.
+
+  private setDateAndTime(d : Date){
+        this.date = d.toISOString().split("T")[0];
+        this.time = d.toISOString().split("T")[1].substring(0,5);
+  }
+
+  private updateNote(n : INotes){
+    
+    n.RecordedDate = `${this.date}T${this.time}:00`;
+  }
 }

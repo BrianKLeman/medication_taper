@@ -24,6 +24,6 @@ export interface ISleeps{
   Hours : null | number,
   PersonID: 1,
   CreatedDate: Date | string,
-  FromDate : Date | string | null,
-  ToDate: Date | string | null
+  FromDate : Date | string,
+  ToDate: Date | string
 }

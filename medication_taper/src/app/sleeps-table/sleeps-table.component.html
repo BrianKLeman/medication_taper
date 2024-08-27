@@ -1,7 +1,8 @@
 
 <table class="tableBody">
     <thead class="tableHeader">
-            <th>Created</th>
+        
+            <th>Start Date</th>
             <th>From</th>
             <th>To</th>
             <th>Hours</th>
@@ -10,12 +11,14 @@
         <ng-container *ngFor="let s of sleeps; index as i;">
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
-                    <td class="date">{{ adjustForTimezone(s.CreatedDate) | date: 'fullDate'}}</td>
-                    <td class="date">{{ adjustForTimezone(s.FromDate) | date: 'medium' }}</td>
-                    <td class="date">{{ adjustForTimezone(s.ToDate) | date: 'fullDate' }}</td>
-                    <td class="number">{{ s.Hours | number: '2.2'}}</td>
+                    <td class="date">{{ adjustForTimezone(s.FromDate) | date: 'MMMM d' }}</td>
+                    <td class="date">{{ adjustForTimezone(s.FromDate) | date: 'EEEE,  h:mm:ss a' }}</td>
+                    <td class="date">{{ adjustForTimezone(s.ToDate) | date: 'EEEE, h:mm:ss a' }}</td>
+                    <td class="number">{{ s.Hours | number: '1.1-1'}}</td>
                 </ng-container>
             </tr>
         </ng-container>       
     </tbody>
 </table>
+
+<div id="sleepTable" #container></div>
