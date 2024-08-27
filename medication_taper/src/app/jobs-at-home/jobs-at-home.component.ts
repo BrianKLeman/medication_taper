@@ -27,18 +27,29 @@ export class JobsAtHomeComponent {
   }
 
   public formatDate(date : string) : string{
-    const today = new Date(Date.now());
-    let dateDiff = this.timeService.dateDifferenceInDays( new Date(date), today);
-    today.setHours(0,0,0,0);
-    const thisMorning = this.timeService.dateDifferenceInDays(today, new Date(date));
+    
 
-    if(thisMorning > dateDiff)
+    // beginning of day
+    const bod = new Date(Date.now());
+    bod.setHours(0,0,0,0);    
+    const thisMorning = this.timeService.dateDifferenceInDays(bod, new Date(Date.now()));
+    const dateDiff = this.timeService.dateDifferenceInDays(bod, new Date(date));
+    const d = new Date(date);
+    const yesterdayBod = this.timeService.subtractDaysFromDateTime(1, bod);
+    
+    if(d.valueOf() > bod.valueOf())
       return "Today";
-    let rounded = Math.round(dateDiff);
-    if(rounded < 1)
+
+    if(yesterdayBod.valueOf() < d.valueOf() && bod.valueOf() > d.valueOf())
       return `Yesterday`;
-    if(rounded < 100)
-      return `${rounded} Day(s) a go`;
+    
+    if(date[0] == "0")
+      return "";
+    let rounded = Math.round(dateDiff);
+    if(dateDiff < -1)
+      return `${-rounded} Day(s) a go`;
+    
+    
 
     return "";
   }

@@ -24,12 +24,26 @@ export class TimezonesService {
   }
   
   public dateDifferenceInDays(dateInitial : Date, dateFinal : Date) : number{
-    return ((dateFinal.valueOf()) - (dateInitial.valueOf())) / 86_400_000;
+    return ((dateFinal.valueOf()) - (dateInitial.valueOf())) / (24*60*60*1000);
   }
 
   public dateDiff(a : string, b : string){
     let c = this.adjustForTimezoneStr(a).getDate();
     let d = this.adjustForTimezoneStr(b).getDate();
     return c - d;
+  }
+
+  public subtractDays(i : number ){
+    let n = new Date(Date.now());
+    n.setHours(0,1,0,0);
+    let ms = n.valueOf()
+    const msInDay = 24 * 60 * 60 * 1000;
+    return new Date(ms - msInDay*i);
+  }
+
+  public subtractDaysFromDateTime(i : number, d : Date){
+    let ms = d.valueOf();
+    const msInDay = 24 * 60 * 60 * 1000;
+    return new Date(ms - msInDay*i);
   }
 }

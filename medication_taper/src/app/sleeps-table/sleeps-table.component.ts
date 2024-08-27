@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TimezonesService } from '../timezones.service';
-import { ISleeps, SleepsService } from './sleeps.service';
+import { ISleepDay, ISleeps, SleepsService } from './sleeps.service';
 import * as d3 from 'd3';
 
 @Component({
@@ -38,29 +38,37 @@ export class SleepsTableComponent {
       return x?.length ?? 0;
   }
 
-  sleeps : ISleeps[] | null = null;
+  sleeps !: ISleeps[];
 
   @ViewChild('container')
   public chartContainer !: ElementRef;
 
-  public createSleepChart(data : ISleeps[] | null){
-     
+  public createSleepChart(sleeps : ISleeps[]){
+     let data = this.sleepsService.hoursInLast7Days(sleeps).sort( 
+      (a : ISleepDay, b : ISleepDay) =>
+      {
+        return a.ToDate.valueOf() - b.ToDate.valueOf()
+      }
+    
+    );
     if(!data)
       return;
       // Declare the chart dimensions and margins.
-      const width = 928;
+      const width = 1200;
       const height = 500;
       const marginTop = 30;
-      const marginRight = 0;
-      const marginBottom = 30;
+      const marginRight = 40;
+      const marginBottom = 40;
       const marginLeft = 40;
     
       // Declare the x (horizontal position) scale.
       const x = d3.scaleBand()
-          .range([marginLeft, width - marginRight])
-          .padding(0.1);
+          .range([0, width ])
+          .domain(data.map( (x : ISleepDay) => this.FormatDate(x.ToDate.toISOString())))
+          .padding(.1);
+          
       
-          let max = d3.max( data, (d : ISleeps) => { if(d.Hours) return d.Hours; return 0; }) as number;
+          let max = d3.max( data, (d : ISleepDay) => { if(d.SumHours) return d.SumHours; return 0; }) as number;
           
       // Declare the y (vertical position) scale.
       const y = d3.scaleLinear()
@@ -76,13 +84,13 @@ export class SleepsTableComponent {
     
       // Add a rect for each bar.
       svg.append("g")
-          .attr("fill", "steelblue")
+          .attr("fill", "rgb(125, 125, 125)")
         .selectAll()
         .data(data)
         .join("rect")
-          .attr("x", '2024')
-          .attr("y", (d) => y(d.Hours ?? 0))
-          .attr("height", (d) => y(0) - y(d.Hours ?? 0))
+          .attr("x", (d : ISleepDay) : number => { let v = x(this.FormatDate(d.ToDate.toISOString())); if(v) return v; else return 0;})
+          .attr("y", (d) => y(d.SumHours ?? 0))
+          .attr("height", (d) => y(0) - y(d.SumHours ?? 0))
           .attr("width", x.bandwidth());
     
       // Add the x-axis and label.
@@ -100,10 +108,14 @@ export class SleepsTableComponent {
               .attr("y", 10)
               .attr("fill", "currentColor")
               .attr("text-anchor", "start")
-              .text("↑ Frequency (%)"));
+              .text(" Hours "));
     
       // Return the SVG element.
       this.chartContainer.nativeElement.appendChild(svg.node() as Node);
     
+  }
+
+  private FormatDate(d : string){
+    return d.split("T")[0].substring(8);
   }
 }
