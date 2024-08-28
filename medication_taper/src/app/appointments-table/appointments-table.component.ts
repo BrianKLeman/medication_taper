@@ -37,4 +37,6 @@ export class AppointmentsComponent {
     }
 
     appointments : IAppointment[] | null = null;
+
+    
 }
