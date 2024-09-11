@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserCredentialsService } from '../user-credentials.service';
 import { UrlsService } from 'src/urls.service';
+import { TimezonesService } from '../timezones.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +10,8 @@ export class NotesService {
 
   constructor(private httpClient : HttpClient, 
     private user : UserCredentialsService,
-    private apiUrls : UrlsService) { 
+    private apiUrls : UrlsService,
+    private timeService : TimezonesService) { 
 
   }
 
@@ -20,8 +22,9 @@ export class NotesService {
 
   public async getAllNotesForLast7Days(){
     let datetime = new Date(Date.now());
-    let toDate = `${datetime.getFullYear()}-${(datetime.getMonth()+1).toString().padStart(2,"0")}-${(datetime.getDate()).toString().padStart(2, "0")}T23:59:59`;
-    let fromDate = `${datetime.getFullYear()}-${(datetime.getMonth()+1).toString().padStart(2,"0")}-${(datetime.getDate()-7).toString().padStart(2, "0")}T00:00:00`
+    let fromDate = this.timeService.subtractDaysFromDateTime(7, datetime).toISOString();
+    datetime.setHours(23,59,59,999);
+    let toDate = datetime.toISOString();
     let x = await this.httpClient.get<INotes[]>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Notes",
         
@@ -41,6 +44,10 @@ export class NotesService {
   }
 
   public async getAllNotesForPersonOnDay( datetime : Date){
+    datetime.setHours(0,0,0,0);
+    let fromDate = datetime.toISOString();
+    datetime.setHours(23,59,59,999);
+    let toDate = datetime.toISOString();
     let x = await this.httpClient.get<INotes[]>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Notes",
         
@@ -48,8 +55,8 @@ export class NotesService {
           params: 
           {
             
-              "fromDate" : `${datetime.getFullYear()}-${(datetime.getMonth()+1).toString().padStart(2,"0")}-${(datetime.getDate()).toString().padStart(2, "0")}T00:00:00`,
-              "toDate" : `${datetime.getFullYear()}-${(datetime.getMonth()+1).toString().padStart(2,"0")}-${(datetime.getDate()).toString().padStart(2, "0")}T23:59:59`
+              "fromDate" : fromDate,
+              "toDate" : toDate
             
           }
         }
@@ -77,14 +84,16 @@ export class NotesService {
     return x;
   }
 
-  public AddNote(datetime : Date, text : string, behaviorChange : boolean, displayAsHTML : boolean){
+  public AddNote(datetime : Date, text : string, behaviorChange : boolean, displayAsHTML : boolean, tableName : string, entityID : number){
     this.httpClient.post<number>( 
       this.apiUrls.GetApiURL()+"Api/Notes/Add",
       <INote>{ 
         dateTime : new Date(datetime),
         NoteText : text,
         BehaviorChange : behaviorChange,
-        DisplayAsHTML : displayAsHTML
+        DisplayAsHTML : displayAsHTML,
+        entityID : entityID,
+        tableName : tableName
         }
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
   }
@@ -137,4 +146,13 @@ export interface INote {
   BehaviorChange : boolean;
   NoteID : number;
   DisplayAsHTML : boolean;
+  tableName : string;
+  entityID : number;
+}
+
+export interface INotesDetails{  
+    datetime: Date,
+    note : INotes | null,
+    entity : string,
+    entity_id : number  
 }

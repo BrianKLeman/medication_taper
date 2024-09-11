@@ -14,7 +14,9 @@ export class NotesComponent {
         public data: 
         {
           datetime: Date,
-          note : INotes | null
+          note : INotes | null,
+          entity : string,
+          entity_id : number
         },
     private service : NotesService,
     private timeService : TimezonesService){
@@ -22,6 +24,8 @@ export class NotesComponent {
       if(!data.note){
         let now = new Date(Date.now());
         now = this.timeService.adjustForTimezone(now);
+        this.entityID = data.entity_id;
+        this.tableName = data.entity;
         this.currentNote = this.CreateNewNote(now);
       } else {
         this.currentNote = data.note;
@@ -57,7 +61,8 @@ export class NotesComponent {
   public SaveNote(){
     this.updateNote(this.currentNote);
     if(this.currentNote?.NoteID == 0)
-      this.service.AddNote(new Date(this.currentNote.RecordedDate), this.currentNote.Text, this.currentNote.BehaviorChange, this.currentNote.DisplayAsHTML);
+      this.service.AddNote(new Date(this.currentNote.RecordedDate), this.currentNote.Text, this.currentNote.BehaviorChange, this.currentNote.DisplayAsHTML, this.tableName, this.entityID);
+      
     else
       this.service.UpdateNote(this.currentNote);
   }  
@@ -80,4 +85,7 @@ export class NotesComponent {
     
     n.RecordedDate = `${this.date}T${this.time}:00`;
   }
+
+  private entityID = -1;
+  private tableName = "";
 }

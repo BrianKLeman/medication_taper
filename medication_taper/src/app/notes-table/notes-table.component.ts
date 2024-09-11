@@ -86,7 +86,11 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
 
   public async addNote(){
     let d = this.datetime === typeof(Date) ? this.datetime : new Date(this.datetime as string);
-    let x = await this.dialog.open(NotesComponent, { data : {datetime : d}}).afterClosed().toPromise();
+    let x = await this.dialog.open(NotesComponent, { data : 
+      {datetime : d, 
+        entity : this.tableName, 
+        entity_id : this.entity
+      }}).afterClosed().toPromise();
     
     setTimeout(async () => 
       { 
