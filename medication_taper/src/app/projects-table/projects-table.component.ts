@@ -37,4 +37,8 @@ export class ProjectsTableComponent {
   }
 
   projects : IProject[] | null = null;
+
+  async showTasks(project : IProject){
+    project.ShowTasks = !project.ShowTasks;    
+  }
 }

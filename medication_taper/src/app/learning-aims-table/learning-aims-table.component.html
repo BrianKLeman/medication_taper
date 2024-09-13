@@ -11,7 +11,10 @@
         <ng-container *ngFor="let d of aims; index as i;">
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
-                    <td class="commands"><button (click)="showNotes(d);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
+                    <td class="commands">
+                        <button (click)="showNotes(d);" class="action"><i class="bi bi-sticky-fill"></i></button>                        
+                        <button (click)="showTasks(d);" class="action"><i class="bi bi-list-task"></i></button>
+                    </td>
                     <td class="date">{{ adjustForTimezone(d.CreatedDate) | date: 'fullDate'}}</td>
                     <td class="text">{{ d.Name }}</td>
                     <td class="text">{{ d.Description }}</td>
@@ -21,6 +24,11 @@
             <tr *ngIf="d.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
                 <td colspan="3">
                     <app-notes-table [entity]="d.LearningAimID" [showNotes]="d.ShowNotes" tableName="LEARNING_AIMS" ></app-notes-table>
+                </td>
+            </tr>
+            <tr *ngIf="d.ShowTasks" [ngClass]="{'altTableRow' : i%2 == 0}" >
+                <td colspan="4">
+                    <app-kanban-board [recordID]="d.LearningAimID" table="LEARNING_AIMS" ></app-kanban-board>
                 </td>
             </tr>
         </ng-container>       

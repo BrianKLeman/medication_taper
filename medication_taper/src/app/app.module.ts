@@ -8,7 +8,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
+import {MatCardModule} from '@angular/material/card';
 /* Homemade imports*/
 import { AppComponent } from './app.component';
 import { PrescriptionsTableComponent } from './prescriptions-table/prescriptions-table.component';
@@ -25,6 +25,7 @@ import { PhenomenaTableComponent } from './phenomena-table/phenomena-table.compo
 import { LinkNoteToComponent } from './link-note-to/link-note-to.component';
 import { AppointmentsComponent } from './appointments-table/appointments-table.component';
 import { JobsAtHomeComponent } from './jobs-at-home/jobs-at-home.component';
+import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
 
 /* Register Module */
 @NgModule({
@@ -41,7 +42,8 @@ import { JobsAtHomeComponent } from './jobs-at-home/jobs-at-home.component';
     PhenomenaTableComponent,
     LinkNoteToComponent,
     AppointmentsComponent,
-    JobsAtHomeComponent
+    JobsAtHomeComponent,
+    KanbanBoardComponent
   ],
   imports: [
     BrowserModule,
@@ -52,12 +54,11 @@ import { JobsAtHomeComponent } from './jobs-at-home/jobs-at-home.component';
     MatIconModule,    
     BrowserAnimationsModule,
     FormsModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCardModule
   ],
   providers: [
-    { provide: HttpClient}, { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }/*,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService }
-  */],
+    { provide: HttpClient}, { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

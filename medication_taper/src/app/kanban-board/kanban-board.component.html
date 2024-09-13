@@ -1,0 +1,23 @@
+
+<div #kanBanParent class="kanbanRoot">
+    
+    <div #plannedColumn class="columnRoot">
+        <mat-card class="notStarted columnHeader"> Not Started </mat-card>
+        <mat-card class="columnItem" *ngFor="let t of NotStarted">{{t.TaskName}}</mat-card>
+    </div>
+
+    <div #inprogressColumn class="columnRoot">                
+        <mat-card class="inProgress columnHeader"> In Progress </mat-card>
+        <mat-card class="columnItem" *ngFor="let t of InProgress">{{t.TaskName}}</mat-card>
+    </div>
+
+    <div #completeColumn class="columnRoot">                
+        <mat-card class="inReview columnHeader"> Review </mat-card>
+        <mat-card class="columnItem" *ngFor="let t of InReview">{{t.TaskName}}</mat-card>
+    </div>
+
+    <div #completeColumn class="columnRoot">                
+        <mat-card class="completed columnHeader"> Completed </mat-card>
+        <mat-card class="columnItem" *ngFor="let t of Completed">{{t.TaskName}}</mat-card>
+    </div>
+</div>

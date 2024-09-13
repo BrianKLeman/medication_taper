@@ -19,6 +19,7 @@ export class LearningAimsService {
     if(x)
       for(let a of x){
         a.ShowNotes = false;
+        a.ShowTasks = false;
       }
     return x;
   }
@@ -31,5 +32,6 @@ export interface ILearningAim{
   Description: string,
   PersonID: 1,
   AchievedDate: Date | string | null,
-  ShowNotes: boolean
+  ShowNotes: boolean,
+  ShowTasks: boolean
 }

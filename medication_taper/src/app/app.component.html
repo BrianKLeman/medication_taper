@@ -13,6 +13,8 @@
 
 
     <router-outlet></router-outlet>
+
+    
     <mat-tab-group>
         <mat-tab label="Appointments"> <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>
         <mat-tab label="Jobs At Home"> <ng-template matTabContent><app-jobs-at-home></app-jobs-at-home></ng-template> </mat-tab>
@@ -23,7 +25,13 @@
         <mat-tab label="Prescriptions"><ng-template matTabContent><prescriptions-table ></prescriptions-table></ng-template></mat-tab>
         <mat-tab label="Projects"> <ng-template matTabContent><projects-table ></projects-table></ng-template> </mat-tab>
         <mat-tab label="Sleeps"> <ng-template matTabContent><sleeps-table ></sleeps-table></ng-template></mat-tab>
+        <mat-tab label="Tasks">
+            <ng-template matTabContent>
+                <app-kanban-board></app-kanban-board>
+            </ng-template>
+        </mat-tab>
     </mat-tab-group>
+
 </div>
 
 

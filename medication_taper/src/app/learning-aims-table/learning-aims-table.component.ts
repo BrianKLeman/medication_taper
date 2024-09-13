@@ -39,4 +39,8 @@ export class LearningAimsTableComponent implements OnInit {
   }
 
   aims : ILearningAim[] | null = null;
+
+  async showTasks(aim : ILearningAim){
+    aim.ShowTasks = !aim.ShowTasks;    
+  }
 }

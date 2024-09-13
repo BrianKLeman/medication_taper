@@ -17,6 +17,7 @@ export class ProjectsService {
     if(x)
     for(let p of x){
       p.ShowNotes = false;
+      p.ShowTasks = false;
     }
     return x;
   }
@@ -32,5 +33,6 @@ export interface IProject{
   Status : number,
   StartDate : Date | null,
   EndDate : Date | null,
-  ShowNotes : boolean
+  ShowNotes : boolean,
+  ShowTasks : boolean
 }
