@@ -25,6 +25,11 @@ export class TasksService {
     }).toPromise();
     return x;
   }
+
+  public async UpdateTask(task : ITasks){
+    let x = await this.httpClient.post<ITasks[]>( this.urlsService.GetApiURL()+"Api/Tasks/update",  task).toPromise();
+    return x;
+  }
 }
 
 
@@ -49,3 +54,8 @@ export interface ITasks {
 
     Status: string;
 }
+
+export const COMPLETED = "COMPLETED";
+export const IN_REVIEW = "IN_REVIEW";
+export const NOT_STARTED = "NOT_STARTED";
+export const IN_PROGRESS = "IN_PROGRESS"; 

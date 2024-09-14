@@ -36,9 +36,7 @@ export class NotesService {
               "toDate" : toDate
             
           }
-        }
-        
-        
+        }        
     ).toPromise();
     return x;
   }
