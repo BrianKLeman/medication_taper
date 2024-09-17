@@ -51,23 +51,23 @@ export class LinkNoteToComponent {
 
     let la = record as ILearningAim;
 
-    if(la.LearningAimID != undefined){
-      return { id : la.LearningAimID, desc : `${la.Name}`};
+    if(la.Id != undefined){
+      return { id : la.Id, desc : `${la.Name}`};
     }
 
     let sleep = record as ISleeps;
-    if(sleep.SleepID != undefined){
-      return { id : sleep.SleepID, desc : `${ sleep.FromDate }`};
+    if(sleep.Id != undefined){
+      return { id : sleep.Id, desc : `${ sleep.FromDate }`};
     }
 
     let p = record as IProject;
-    if(p.ProjectID != undefined){
-      return { id : p.ProjectID, desc : `${ p.Name}`};
+    if(p.Id != undefined){
+      return { id : p.Id, desc : `${ p.Name}`};
     }
 
     let s = record as IPhenomena;
-    if(s.PhenomenaID != undefined){
-      return { id : s.PhenomenaID, desc : `${ s.PhenomenaDetails}`};
+    if(s.Id != undefined){
+      return { id : s.Id, desc : `${ s.PhenomenaDetails}`};
     }
 
     let app = record as IAppointment;

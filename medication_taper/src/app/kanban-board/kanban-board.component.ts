@@ -110,7 +110,7 @@ export class KanbanBoardComponent implements OnInit {
   private rem(items : ITasks[]) : ITasks | undefined{
     
     let i = - 1;
-    let t = items.find( (v : ITasks, index : number) => { if( v.TaskID == this.draggedTaskID) {i = index; return true; } else return false;});    
+    let t = items.find( (v : ITasks, index : number) => { if( v.Id == this.draggedTaskID) {i = index; return true; } else return false;});    
     if(t)
       items.splice(i,1);
 

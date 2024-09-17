@@ -22,7 +22,7 @@ export class PhenomenaService {
 }
 
 export interface IPhenomena{
-  PhenomenaID : number,
+  Id : number,
   PhenomenaDetails: string
   ShowNotes : boolean
 }

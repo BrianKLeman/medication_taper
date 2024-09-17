@@ -27,7 +27,7 @@ export class JobsAtHomeService {
 
 export interface IJobDetails
 {  
-    JobID: number,
+    Id: number,
     Job: string,
     PersonID: number,
     DateCompleted: string

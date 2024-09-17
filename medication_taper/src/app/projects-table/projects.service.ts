@@ -24,7 +24,7 @@ export class ProjectsService {
 }
 
 export interface IProject{
-  ProjectID : number,
+  Id : number,
   PersonID : number,
    Name : string,
   CreatedDate : Date,

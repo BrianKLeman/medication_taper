@@ -12,7 +12,7 @@
             </tr>
             <tr *ngIf="p.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
                 <td colspan="2">
-                    <app-notes-table [entity]="p.PhenomenaID" [showNotes]="p.ShowNotes" tableName="PHENOMENA" ></app-notes-table>
+                    <app-notes-table [entity]="p.Id" [showNotes]="p.ShowNotes" tableName="PHENOMENA" ></app-notes-table>
                 </td>
             </tr>
         </ng-container>

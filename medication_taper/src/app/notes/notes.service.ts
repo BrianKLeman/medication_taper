@@ -103,7 +103,7 @@ export class NotesService {
         dateTime : new Date(note.RecordedDate),
         NoteText : note.Text,
         BehaviorChange : note.BehaviorChange,
-        NoteID : note.NoteID,
+        NoteID : note.Id,
         DisplayAsHTML : note.DisplayAsHTML
         }
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
@@ -120,7 +120,7 @@ export class NotesService {
 }
 
 export interface INotes {
-  NoteID: number;
+  Id: number;
   PersonID: number;
   Text: string;
   CreatedDate: string;

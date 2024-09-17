@@ -26,7 +26,7 @@ import { LinkNoteToComponent } from './link-note-to/link-note-to.component';
 import { AppointmentsComponent } from './appointments-table/appointments-table.component';
 import { JobsAtHomeComponent } from './jobs-at-home/jobs-at-home.component';
 import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
-
+import { ShoppingBoardComponent } from './shopping-board/shopping-board.component'
 /* Register Module */
 @NgModule({
   declarations: [
@@ -43,7 +43,8 @@ import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
     LinkNoteToComponent,
     AppointmentsComponent,
     JobsAtHomeComponent,
-    KanbanBoardComponent
+    KanbanBoardComponent,
+    ShoppingBoardComponent
   ],
   imports: [
     BrowserModule,

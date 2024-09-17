@@ -46,7 +46,7 @@ export class NotesComponent {
     let currentNote = <INotes> 
     { 
       RecordedDate : ct.toISOString(), 
-      NoteID : 0, 
+      Id : 0, 
       PersonID : 0, 
       Text : "",
       BehaviorChange : false,
@@ -60,7 +60,7 @@ export class NotesComponent {
   }
   public SaveNote(){
     this.updateNote(this.currentNote);
-    if(this.currentNote?.NoteID == 0)
+    if(this.currentNote?.Id == 0)
       this.service.AddNote(new Date(this.currentNote.RecordedDate), this.currentNote.Text, this.currentNote.BehaviorChange, this.currentNote.DisplayAsHTML, this.tableName, this.entityID);
       
     else

@@ -19,12 +19,12 @@
             </tr>
             <tr *ngIf="p.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
                 <td colspan="4">
-                    <app-notes-table [entity]="p.ProjectID" [showNotes]="p.ShowNotes" tableName="PROJECTS" ></app-notes-table>
+                    <app-notes-table [entity]="p.Id" [showNotes]="p.ShowNotes" tableName="PROJECTS" ></app-notes-table>
                 </td>
             </tr>
             <tr *ngIf="p.ShowTasks" [ngClass]="{'altTableRow' : i%2 == 0}" >
                 <td colspan="4">
-                    <app-kanban-board [recordID]="p.ProjectID" table="PROJECTS" ></app-kanban-board>
+                    <app-kanban-board [recordID]="p.Id" table="PROJECTS" ></app-kanban-board>
                 </td>
             </tr>
         </ng-container>

@@ -34,7 +34,7 @@ export class TasksService {
 
 
 export interface ITasks {
-    TaskID: number;
+    Id: number;
 
     TaskName?: string;
 

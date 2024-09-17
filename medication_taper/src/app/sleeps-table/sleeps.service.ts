@@ -57,7 +57,7 @@ export class SleepsService {
 }
 
 export interface ISleeps{
-  SleepID : number,
+  Id : number,
   Hours : number,
   PersonID: 1,
   CreatedDate: Date | string,

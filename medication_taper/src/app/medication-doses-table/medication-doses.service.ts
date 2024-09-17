@@ -67,7 +67,7 @@ export class MedicationDosesService {
     );
 
     let amount = 0;
-    let index = orderedByDate.findIndex( (r) => { return r.MedicationID == report.MedicationID;});
+    let index = orderedByDate.findIndex( (r) => { return r.Id == report.Id;});
     if(index == -1)
       return;
     for(let i = 0; i < historyLength; ++i){
@@ -100,7 +100,7 @@ export class MedicationDosesService {
 }
 
 export interface IMedication {
-  MedicationID: number;
+  Id: number;
   CreatedDate: string | null;
   CreatedUser: string;
   UpdatedDate: string;
@@ -112,7 +112,7 @@ export interface IMedication {
 }
 
 export interface IReport {
-  MedicationID: number;
+  Id: number;
   DateTimeConsumed: Date;
   Name: string;
   DoseTakenMG: number;

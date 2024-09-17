@@ -1,0 +1,23 @@
+
+<div #kanBanParent class="kanbanRoot">
+    
+    <div #plannedColumn class="columnRoot" (drop)="onDropEnough($event)" (dragover)="allowDrop($event)">
+        <mat-card class="enough columnHeader"> Enough </mat-card>
+        <mat-card class="columnItem" *ngFor="let t of Enough" draggable="true" (dragstart)="dragStart(t.Id)">{{t.Name}}</mat-card>
+    </div>
+
+    <div #inprogressColumn class="columnRoot" (drop)="onDropNotEnough($event)" (dragover)="allowDrop($event)">                
+        <mat-card class="notEnough columnHeader"> Not Enough </mat-card>
+        <mat-card class="columnItem" *ngFor="let t of NotEnough" draggable="true" (dragstart)="dragStart(t.Id)">{{t.Name}}</mat-card>
+    </div>
+
+    <div #completeColumn class="columnRoot" (drop)="onDropBuying($event)" (dragover)="allowDrop($event)">                
+        <mat-card class="buying columnHeader"> Buying </mat-card>
+        <mat-card class="columnItem" *ngFor="let t of Buying" draggable="true" (dragstart)="dragStart(t.Id)">{{t.Name}}</mat-card>
+    </div>
+
+    <div #completeColumn class="columnRoot" (drop)="onDropInTrolley($event)" (dragover)="allowDrop($event)">                
+        <mat-card class="inTrolley columnHeader"> In Trolley </mat-card>
+        <mat-card class="columnItem" *ngFor="let t of InTrolley" draggable="true" (dragstart)="dragStart(t.Id)">{{t.Name}}</mat-card>
+    </div>
+</div>

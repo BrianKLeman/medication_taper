@@ -26,7 +26,7 @@ export class LearningAimsService {
 }
 
 export interface ILearningAim{
-  LearningAimID : number,
+  Id : number,
   CreatedDate: Date | string,
   Name: string,
   Description: string,

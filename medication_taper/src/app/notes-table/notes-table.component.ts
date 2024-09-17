@@ -115,7 +115,7 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
   public async LinkNotes(){
     let ids = this.notes.flatMap( ( val) => {
       if(val.Link)
-        return val.NoteID;
+        return val.Id;
       else 
         return -1;
     }).filter( (v) => {

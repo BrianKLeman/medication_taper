@@ -9,7 +9,7 @@
             <tr [ngClass]="{'altTableRow' : i%2 == 0}">
                 <td class="text">{{j.Job}}</td>
                 <td class="date">{{ formatDate(j.DateCompleted)}}</td>
-                <td class="text"><button (click)="logActivity(j.JobID)">Today</button></td>
+                <td class="text"><button (click)="logActivity(j.Id)">Today</button></td>
             </tr>           
         </ng-container>
     </tbody>

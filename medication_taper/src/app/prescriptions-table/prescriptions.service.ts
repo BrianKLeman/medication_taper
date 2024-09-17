@@ -20,7 +20,7 @@ export class PrescriptionsService {
 }
 
 export interface IPrescription{
-  PrescriptionID : number,
+  Id : number,
   Name: string,
   DoseMG: number,
   Reason : string,
