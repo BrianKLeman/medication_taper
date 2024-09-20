@@ -23,7 +23,7 @@ export class AppointmentsService {
 }
 
 export interface IAppointment{
-  AppointmentID : number,
+  Id : number,
   PersonID : number,
   AppointmentName : string,
   CreatedDate : Date,

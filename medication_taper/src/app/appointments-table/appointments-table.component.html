@@ -15,7 +15,7 @@
             <tr *ngIf="a.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
                 <td colspan="3">
                     <app-notes-table 
-                    [entity]="a.AppointmentID" 
+                    [entity]="a.Id" 
                     [showNotes]="a.ShowNotes" 
                     tableName="APPOINTMENTS" ></app-notes-table>
                 </td>

@@ -37,4 +37,8 @@ export class AppComponent {
     let token = this.token?.Token;
     return (token != "" && token != null) ? this.token?.UserID : "Not Logged In";
   }
+
+  public get HasUserID(){
+    return this.token?.Token != "" &&  this.token?.Token != null;
+  }
 }

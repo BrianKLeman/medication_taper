@@ -1,13 +1,13 @@
 <table class="tableBody">
     <thead class="tableHeader">
-        <th>Select</th>
+        <th  *ngIf="HasUserID">Select</th>
             <th>Time</th>
             <th>Note</th>
             <th>Change</th>
             <th>Commands</th>
     </thead>
     <tbody>
-        <tr>
+        <tr *ngIf="HasUserID">
             <span>
                 <button (click)="addNote();" class="action"><i class="bi bi-sticky-fill"></i></button>
                 <button (click)="LinkNotes();" class="action"><i class="bi bi-link"></i></button>
@@ -22,12 +22,12 @@
             </tr>
             <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
                 <ng-container>
-                    <td class="text"><input type="checkbox" [(ngModel)]="d.Link"/></td>
+                    <td class="text"  *ngIf="HasUserID"><input type="checkbox" [(ngModel)]="d.Link"/></td>
                     <td class="date">{{ adjustForTimezone(d.RecordedDate) | date: 'medium'}}</td>
                     <td class="text"><div [innerHtml]="format(d.Text, d.DisplayAsHTML)"></div></td>
                     <td class="text">{{ (d.BehaviorChange ? "Y" : "") }}</td>
                     <td>
-                        <span>
+                        <span *ngIf="HasUserID">
                             <button (click)="editNote(d)" class="amberButton action"><i class="bi bi-pencil-square"></i></button>                        
                             <button (click)="deleteNote(d.Id)" class="dangerButton action"><i class="bi bi-trash3"></i></button>
                         </span>
@@ -41,7 +41,7 @@
             </tr>
             
         </ng-container>
-        <tr>
+        <tr *ngIf="HasUserID">
             <span>
                 <button (click)="addNote();" class="action"><i class="bi bi-sticky-fill"></i></button>
                 <button (click)="LinkNotes();" class="action"><i class="bi bi-link"></i></button>

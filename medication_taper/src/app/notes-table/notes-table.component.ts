@@ -4,6 +4,7 @@ import { TimezonesService } from '../timezones.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NotesComponent } from '../notes/notes.component';
 import { LinkNoteToComponent } from '../link-note-to/link-note-to.component';
+import { TokenService } from '../token.service';
 
 @Component({
   selector: 'app-notes-table',
@@ -14,7 +15,8 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
 
   constructor(private notesService : NotesService,
             private timeService : TimezonesService,
-            private dialog : MatDialog
+            private dialog : MatDialog,            
+            private tokenService : TokenService
   ){
   }
 
@@ -160,6 +162,11 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
       return text.replace('\n', "<p>").replace('\n', "<p>");
     else 
       return text;
+  }
+
+  public get HasUserID()  {
+    let token = this.tokenService.Token;
+    return token?.Token != "" &&  token?.Token != null;
   }
 }
   

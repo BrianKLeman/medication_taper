@@ -21,7 +21,7 @@ export class MedicationDosesService {
     return this.user.getPassword();
   }
   public async getDoses() {
-    let doses = await this.httpClient.get<IReport[]>(this.apiUrls.GetApiURL()+"MedicationDoses/History").toPromise();    
+    let doses = await this.httpClient.get<IReport[]>(this.apiUrls.GetApiURL()+"MedicationDoses").toPromise();    
     if(doses){
       for(let d of doses){
         d.ShowNotes = false;
@@ -33,13 +33,12 @@ export class MedicationDosesService {
   }
 
   public async deleteDose(id : number){
-    /* Api was changed to use POST because my web service hosting would not allow DELETE Verb and and empty body has needed to be set. */
-    let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses/Delete/"+id, "").toPromise().then( x => { console.log("deleted")});
+    let x = await this.httpClient.delete(this.apiUrls.GetApiURL()+"MedicationDoses/"+id).toPromise().then( x => { console.log("deleted")});
   }
 
   public async repeatToday( report : IReport){
     let p = this.getPassword();
-      let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses/Add", { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), Password: p, PrescriptionID : report.PrescriptionID}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("repeated")});
+      let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"MedicationDoses", { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), Password: p, PrescriptionID : report.PrescriptionID}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("repeated")});
   }
 
   public async GetNotesForDay(report : IReport){

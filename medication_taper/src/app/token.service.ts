@@ -29,7 +29,7 @@ export class TokenService {
       this.token = JSON.parse(text);
     return this.token;
   }
-  private token : IToken | null = null;
+  private token : IToken | null = {UserID : "", Token : ""};
 }
 
 export interface IToken{  

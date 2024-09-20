@@ -71,8 +71,8 @@ export class LinkNoteToComponent {
     }
 
     let app = record as IAppointment;
-    if(app.AppointmentID != undefined){
-      return { id : app.AppointmentID, desc : `${ app.AppointmentName}`};
+    if(app.Id != undefined){
+      return { id : app.Id, desc : `${ app.AppointmentName}`};
     }
 
     return { id : -1, desc : `Unspecified`};

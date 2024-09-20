@@ -27,7 +27,7 @@ export class TasksService {
   }
 
   public async UpdateTask(task : ITasks){
-    let x = await this.httpClient.post<ITasks[]>( this.urlsService.GetApiURL()+"Api/Tasks/update",  task).toPromise();
+    let x = await this.httpClient.put<ITasks[]>( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
     return x;
   }
 }

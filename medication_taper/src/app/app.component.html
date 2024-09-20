@@ -16,16 +16,16 @@
 
     
     <mat-tab-group>
-        <mat-tab label="Appointments"> <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>
-        <mat-tab label="Jobs At Home"> <ng-template matTabContent><app-jobs-at-home></app-jobs-at-home></ng-template> </mat-tab>
+        <mat-tab label="Appointments" *ngIf="HasUserID"> <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>
+        <mat-tab label="Jobs At Home" *ngIf="HasUserID"> <ng-template matTabContent><app-jobs-at-home></app-jobs-at-home></ng-template> </mat-tab>
         <mat-tab label="Learning Aims"> <ng-template matTabContent><learning-aims-table ></learning-aims-table></ng-template> </mat-tab>
-        <mat-tab label="Medication Doses"> <ng-template matTabContent><medication-doses-table ></medication-doses-table></ng-template> </mat-tab>
-        <mat-tab label="Notes"> <ng-template matTabContent><app-notes-table [show]="true" [last7Days]="true" ></app-notes-table></ng-template> </mat-tab>
-        <mat-tab label="Phenomena"> <ng-template matTabContent><phenomena-table ></phenomena-table></ng-template></mat-tab>
-        <mat-tab label="Prescriptions"><ng-template matTabContent><prescriptions-table ></prescriptions-table></ng-template></mat-tab>
+        <mat-tab label="Medication Doses" *ngIf="HasUserID"> <ng-template matTabContent><medication-doses-table ></medication-doses-table></ng-template> </mat-tab>
+        <mat-tab label="Notes" *ngIf="HasUserID"> <ng-template matTabContent><app-notes-table [show]="true" [last7Days]="true" ></app-notes-table></ng-template> </mat-tab>
+        <mat-tab label="Phenomena" *ngIf="HasUserID" > <ng-template matTabContent><phenomena-table ></phenomena-table></ng-template></mat-tab>
+        <mat-tab label="Prescriptions" *ngIf="HasUserID"><ng-template matTabContent><prescriptions-table ></prescriptions-table></ng-template></mat-tab>
         <mat-tab label="Projects"> <ng-template matTabContent><projects-table ></projects-table></ng-template> </mat-tab>
         <mat-tab label="Shopping"> <ng-template matTabContent><app-shopping-board ></app-shopping-board></ng-template></mat-tab>
-        <mat-tab label="Sleeps"> <ng-template matTabContent><sleeps-table ></sleeps-table></ng-template></mat-tab>
+        <mat-tab label="Sleeps" *ngIf="HasUserID"> <ng-template matTabContent><sleeps-table ></sleeps-table></ng-template></mat-tab>
         <mat-tab label="Tasks">
             <ng-template matTabContent>
                 <app-kanban-board></app-kanban-board>

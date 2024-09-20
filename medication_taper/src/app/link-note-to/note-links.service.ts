@@ -47,7 +47,7 @@ export class NoteLinksService {
 
   public AddLink(noteIDs : number[], tableName : string, entityID : number){
     this.httpClient.post<number>( 
-      this.urlsService.GetApiURL()+"Api/NoteLinks/AddLinks",
+      this.urlsService.GetApiURL()+"Api/NoteLinks",
       { 
         NoteIDs : noteIDs,
         Table : tableName,

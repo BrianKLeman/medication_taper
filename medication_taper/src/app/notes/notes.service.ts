@@ -26,7 +26,7 @@ export class NotesService {
     datetime.setHours(23,59,59,999);
     let toDate = datetime.toISOString();
     let x = await this.httpClient.get<INotes[]>( 
-      this.apiUrls.GetApiURL()+"Api/Notes/Notes",
+      this.apiUrls.GetApiURL()+"Api/Notes",
         
         { 
           params: 
@@ -47,7 +47,7 @@ export class NotesService {
     datetime.setHours(23,59,59,999);
     let toDate = datetime.toISOString();
     let x = await this.httpClient.get<INotes[]>( 
-      this.apiUrls.GetApiURL()+"Api/Notes/Notes",
+      this.apiUrls.GetApiURL()+"Api/Notes",
         
         { 
           params: 
@@ -66,7 +66,7 @@ export class NotesService {
 
   public async getAllNotesEntity( tableName : string, entityID : number){
     let x = await this.httpClient.get<INotes[]>( 
-      this.apiUrls.GetApiURL()+"Api/Notes/Notes",
+      this.apiUrls.GetApiURL()+"Api/Notes",
         
         { 
           params: 
@@ -84,7 +84,7 @@ export class NotesService {
 
   public AddNote(datetime : Date, text : string, behaviorChange : boolean, displayAsHTML : boolean, tableName : string, entityID : number){
     this.httpClient.post<number>( 
-      this.apiUrls.GetApiURL()+"Api/Notes/Add",
+      this.apiUrls.GetApiURL()+"Api/Notes",
       <INote>{ 
         dateTime : new Date(datetime),
         NoteText : text,
@@ -97,8 +97,8 @@ export class NotesService {
   }
 
   public UpdateNote(note : INotes){
-    this.httpClient.post<number>( 
-      this.apiUrls.GetApiURL()+"Api/Notes/Update",
+    this.httpClient.put<number>( 
+      this.apiUrls.GetApiURL()+"Api/Notes",
       <INote>{ 
         dateTime : new Date(note.RecordedDate),
         NoteText : note.Text,
@@ -110,8 +110,8 @@ export class NotesService {
   }
 
   public async DeleteNote(id : number){
-    let x = await this.httpClient.post<number>( 
-      this.apiUrls.GetApiURL()+"Api/Notes/Delete/"+id, {})
+    let x = await this.httpClient.delete<number>( 
+      this.apiUrls.GetApiURL()+"Api/Notes/"+id, {})
       .toPromise();
     }
 
