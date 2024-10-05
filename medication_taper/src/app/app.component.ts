@@ -41,4 +41,9 @@ export class AppComponent {
   public get HasUserID(){
     return this.token?.Token != "" &&  this.token?.Token != null;
   }
+
+  public Logout(){
+    this.token = null;
+    this.tokenService.Logout();
+  }
 }

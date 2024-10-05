@@ -2,11 +2,17 @@
 <div class="container">
     <mat-toolbar>
         <p>Personal Organiser</p>
-        <button mat-icon-button (click)="showAuthorise()" class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-            <span>
-                <mat-icon>login</mat-icon>
-                Authorise
-            </span>       
+        <button *ngIf="!HasUserID" (click)="showAuthorise()" aria-label="Example icon-button with heart icon">           
+            <span *ngIf="!HasUserID">
+                <i *ngIf="!HasUserID" class="bi bi-box-arrow-in-right"></i>
+                Login
+            </span>
+        </button>
+        <button *ngIf="HasUserID" (click)="Logout()" aria-label="Example icon-button with heart icon">            
+            <span >
+                <i class="bi bi-box-arrow-in-left"></i>
+                Logout
+            </span>
         </button>
         <h1>{{ UserID }}</h1>
     </mat-toolbar>
