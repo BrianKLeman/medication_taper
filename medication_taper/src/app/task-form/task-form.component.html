@@ -1,0 +1,34 @@
+<h4 mat-dialog-title>Add Task<h4>
+    <mat-dialog-content class="mat-typography">        
+                <form>
+                    <table>
+                        <tr>
+                            <p>
+                                <label for="task-content">Text</label>
+                            </p>
+                                <textarea id="task-content" name="task-content" rows="10" cols="50" [(ngModel)]="currentTask.TaskName"></textarea>
+                                
+                        </tr>
+                       
+                        <tr>
+                            <div>
+                                <app-notes-table [entity]="currentTask.Id" [showNotes]="true" tableName="TASKS" ></app-notes-table>
+                            </div>                                
+                        </tr>
+                        <tr>
+                            <p>
+                                <label for="date_time">DateTime</label>
+                            </p>
+                            
+                            
+                                <input id="date_time" name="date" type="date" [ngModel]="date" (ngModelChange)="changeDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="date_time" name="time" type="time" [(ngModel)]="time" /> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                        </tr>                        
+
+                    </table>
+                </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">        
+        <button mat-button [mat-dialog-close]="true" (click)="SaveTask()" cdkFocusInitial>Save</button>
+        <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>

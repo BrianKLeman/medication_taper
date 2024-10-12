@@ -26,7 +26,9 @@ import { LinkNoteToComponent } from './link-note-to/link-note-to.component';
 import { AppointmentsComponent } from './appointments-table/appointments-table.component';
 import { JobsAtHomeComponent } from './jobs-at-home/jobs-at-home.component';
 import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
-import { ShoppingBoardComponent } from './shopping-board/shopping-board.component'
+import { ShoppingBoardComponent } from './shopping-board/shopping-board.component';
+import { TaskFormComponent } from './task-form/task-form.component';
+import { LinkTaskToComponent } from './link-task-to/link-task-to.component'
 /* Register Module */
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { ShoppingBoardComponent } from './shopping-board/shopping-board.componen
     AppointmentsComponent,
     JobsAtHomeComponent,
     KanbanBoardComponent,
-    ShoppingBoardComponent
+    ShoppingBoardComponent,
+    TaskFormComponent,
+    LinkTaskToComponent
   ],
   imports: [
     BrowserModule,

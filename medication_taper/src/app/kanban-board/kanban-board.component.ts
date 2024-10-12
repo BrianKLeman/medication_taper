@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, NOT_STARTED, TasksService } from './tasks.service';
+import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, NOT_STARTED, STARTED, TasksService } from './tasks.service';
+import { TaskFormComponent } from '../task-form/task-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { LinkTaskToComponent } from '../link-task-to/link-task-to.component';
 
 @Component({
   selector: 'app-kanban-board',
@@ -8,7 +11,8 @@ import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, NOT_STARTED, TasksService } 
 })
 export class KanbanBoardComponent implements OnInit {
 
-  constructor(private tasksService : TasksService){   
+  constructor(private tasksService : TasksService,
+              private dialog : MatDialog            ){   
 
   }
 
@@ -19,6 +23,10 @@ export class KanbanBoardComponent implements OnInit {
   public recordID : number = 0;
   
   async ngOnInit() {
+    await this.refresh();
+  }
+
+  private async refresh(){
     if(this.table.trim() == "")
       this.Tasks = await this.tasksService.getAllForPerson() ?? [];
     else      
@@ -27,6 +35,11 @@ export class KanbanBoardComponent implements OnInit {
     {
       return value.Status == IN_PROGRESS;
     });
+
+    this.Started = this.Tasks.filter((value : ITasks) => 
+      {
+        return value.Status == STARTED;
+      });
 
     this.NotStarted = this.Tasks.filter((value : ITasks) => 
     {
@@ -43,9 +56,10 @@ export class KanbanBoardComponent implements OnInit {
       return value.Status == IN_REVIEW;
     });
   }
-
   public Tasks : ITasks[] = [];
 
+  
+  public Started : ITasks[] = [];
   public InProgress : ITasks[] = [];
   public NotStarted : ITasks[] = [];
   public InReview : ITasks[] = [];
@@ -56,6 +70,15 @@ export class KanbanBoardComponent implements OnInit {
     if(t){
       this.NotStarted.push(t);
       t.Status = NOT_STARTED;
+      await this.tasksService.UpdateTask(t);
+    }
+  }
+
+  async onDropInStarted(arg : any){
+    var t = this.getTask();
+    if(t){
+      this.Started.push(t);
+      t.Status = STARTED;
       await this.tasksService.UpdateTask(t);
     }
   }
@@ -99,6 +122,8 @@ export class KanbanBoardComponent implements OnInit {
   private getTask() : ITasks | undefined{
     let t = this.rem(this.NotStarted);
     if(!t)
+      t = this.rem(this.Started);
+    if(!t)
       t = this.rem(this.InProgress);
     if(!t)
       t = this.rem(this.InReview);
@@ -115,5 +140,57 @@ export class KanbanBoardComponent implements OnInit {
       items.splice(i,1);
 
     return t;
+  }
+
+  public async addTaskLink(){
+    
+    let selectedTasksIDs = this.Tasks.filter( x => x.Selected).map( x => x.Id);
+    let x = await this.dialog.open(LinkTaskToComponent, { data : 
+      {
+        taskIDs : selectedTasksIDs, 
+      }}).afterClosed().toPromise();
+    
+    setTimeout(async () => 
+      { 
+        await this.refresh(); 
+        console.log('returned' + count); 
+      }, 
+      500);
+    let count = await this.refresh();
+  }
+
+  public async addTask(){
+    let d = new Date()
+    let x = await this.dialog.open(TaskFormComponent, { data : 
+      {datetime : d, 
+        entity : this.table, 
+        entity_id : this.recordID
+      }}).afterClosed().toPromise();
+    
+    setTimeout(async () => 
+      { 
+        await this.refresh(); 
+        console.log('returned' + count); 
+      }, 
+      500);
+    let count = await this.refresh();
+  }
+
+  public async editTask(t : ITasks){
+    let d = new Date()
+    let x = await this.dialog.open(TaskFormComponent, { data : 
+      {datetime : d, 
+        entity : this.table, 
+        entity_id : this.recordID,
+        task : t
+      }}).afterClosed().toPromise();
+    
+    setTimeout(async () => 
+      { 
+        await this.refresh(); 
+        console.log('returned' + count); 
+      }, 
+      500);
+    let count = await this.refresh();
   }
 }

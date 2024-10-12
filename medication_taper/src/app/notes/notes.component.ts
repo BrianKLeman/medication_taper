@@ -81,8 +81,7 @@ export class NotesComponent {
         this.time = d.toISOString().split("T")[1].substring(0,5);
   }
 
-  private updateNote(n : INotes){
-    
+  private updateNote(n : INotes){    
     n.RecordedDate = `${this.date}T${this.time}:00`;
   }
 

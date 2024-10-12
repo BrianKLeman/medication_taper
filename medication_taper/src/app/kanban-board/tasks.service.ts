@@ -11,6 +11,10 @@ export class TasksService {
 
   public async getAllForPerson(){
     let x = await this.httpClient.get<ITasks[]>( this.urlsService.GetApiURL()+"Api/Tasks").toPromise();
+    if(x)
+      for(let i of x){
+        i.Selected = false;
+      }
     return x;
   }
 
@@ -27,7 +31,12 @@ export class TasksService {
   }
 
   public async UpdateTask(task : ITasks){
-    let x = await this.httpClient.put<ITasks[]>( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
+    let x = await this.httpClient.put( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
+    return x;
+  }
+
+  public async CreateTask(task : ITasks){
+    let x = await this.httpClient.post( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
     return x;
   }
 }
@@ -35,27 +44,20 @@ export class TasksService {
 
 export interface ITasks {
     Id: number;
-
     TaskName?: string;
-
-    CreatedDate: Date;
-
+    CreatedDate: string | null;
     CreatedBy: string;
-
     PersonID: number;
-
-    DueDate: Date;
-
+    DueDate : string | null;
     Description?: string;
-
-    DateCompleted: string;
-
+    DateCompleted: string | null;
     Priority: number;
-
     Status: string;
+    Selected : boolean;
 }
 
 export const COMPLETED = "COMPLETED";
 export const IN_REVIEW = "IN_REVIEW";
 export const NOT_STARTED = "NOT_STARTED";
 export const IN_PROGRESS = "IN_PROGRESS"; 
+export const STARTED = "STARTED"; 

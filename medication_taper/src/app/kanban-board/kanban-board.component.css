@@ -25,6 +25,12 @@
     background-color:red; 
 }
 
+.started
+{
+    
+    background-color: aquamarine; 
+}
+
 .inProgress
 {
     background-color:rgb(255, 217, 0);
