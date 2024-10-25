@@ -2,6 +2,8 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TimezonesService } from '../timezones.service';
 import { ISleepDay, ISleeps, SleepsService } from './sleeps.service';
 import * as d3 from 'd3';
+import { MatDialog } from '@angular/material/dialog';
+import { SleepsFormComponent } from '../sleeps-form/sleeps-form.component';
 
 @Component({
   selector: 'sleeps-table',
@@ -12,6 +14,7 @@ export class SleepsTableComponent {
 
   constructor(private sleepsService : SleepsService,
     private timeService : TimezonesService,
+    private dialog : MatDialog
   ){
   }
   async ngOnInit(): Promise<void> {
@@ -117,5 +120,29 @@ export class SleepsTableComponent {
 
   private FormatDate(d : string){
     return d.split("T")[0].substring(8);
+  }
+
+  public async addSleep(){
+    let d = new Date(Date.now());
+    let x = await this.dialog.open(SleepsFormComponent, { data: 
+        {
+          datetime: Date,
+          sleep : null
+        }
+      }).afterClosed().toPromise();
+  }
+
+  public async editSleep(s : ISleeps){
+    let d = new Date(Date.now());
+    let x = await this.dialog.open(SleepsFormComponent, { data: 
+        {
+          datetime: d,
+          sleep : s
+        }
+      }).afterClosed().toPromise();
+  }
+
+  public async deleteSleep(s : ISleeps){
+    await this.sleepsService.DeleteSleep(s);
   }
 }

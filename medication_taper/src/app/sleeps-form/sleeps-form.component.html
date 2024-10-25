@@ -1,0 +1,32 @@
+
+<h4 mat-dialog-title>Add Sleep<h4>
+    <mat-dialog-content class="mat-typography">        
+                <form>
+                    <table>                 
+                        
+                        
+                        <tr>
+                                <p>
+                                    <label for="date_time">From Date/Time</label>
+                                </p>
+                            
+                            
+                                <input id="fromDate" name="fromDate" type="date" [ngModel]="fromDate" (ngModelChange)="changeFromDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="fromTime" name="fromTime" type="time" [(ngModel)]="fromTime" /> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                        </tr>                        
+                        <tr>
+                                <p>
+                                    <label for="date_time">To Date/Time</label>
+                                </p>
+                            
+                            
+                                <input id="toDate" name="toDate" type="date" [ngModel]="toDate" (ngModelChange)="changeToDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="toTime" name="toTime" type="time" [(ngModel)]="toTime" /> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                        </tr> 
+                    </table>
+                </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button [mat-dialog-close]="true" (click)="SaveSleep()" cdkFocusInitial>Save</button>
+        <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>

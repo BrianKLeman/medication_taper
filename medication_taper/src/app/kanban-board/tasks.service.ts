@@ -39,6 +39,11 @@ export class TasksService {
     let x = await this.httpClient.post( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
     return x;
   }
+
+  public async DeleteTask(task : ITasks){
+    let x = await this.httpClient.delete( this.urlsService.GetApiURL()+"Api/Tasks",  {body : task}).toPromise();
+    return x;
+  }
 }
 
 

@@ -20,6 +20,21 @@ export class SleepsService {
     return x;
   }
 
+  public async DeleteSleep( sleep : ISleeps){
+    let x = await this.httpClient.delete<number>( this.apiUrls.GetApiURL()+"Api/Sleeps", {body : sleep}).toPromise();
+    return x;
+  }
+
+  public async CreateSleep( sleep : ISleeps){
+    let x = await this.httpClient.post<number>( this.apiUrls.GetApiURL()+"Api/Sleeps", sleep).toPromise();
+    return x;
+  }
+
+  public async UpdateSleep( sleep : ISleeps){
+    let x = await this.httpClient.put<number>( this.apiUrls.GetApiURL()+"Api/Sleeps", sleep).toPromise();
+    return x;
+  }
+
   public hoursInLast7Days(data : ISleeps[]) : ISleepDay[]{
     let today = new Date(Date.now());
 
@@ -59,10 +74,10 @@ export class SleepsService {
 export interface ISleeps{
   Id : number,
   Hours : number,
-  PersonID: 1,
-  CreatedDate: Date | string,
+  PersonID: number,
+  CreatedDate: string,
   FromDate :  string,
-  ToDate: Date | string
+  ToDate: string
 }
 
 export interface ISleepDay{

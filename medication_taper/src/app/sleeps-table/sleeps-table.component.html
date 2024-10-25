@@ -1,4 +1,6 @@
-
+<span>
+    <button (click)="addSleep();" class="action"><i class="bi bi-list-task"></i></button>
+</span>
 <table class="tableBody">
     <thead class="tableHeader">
         
@@ -6,6 +8,7 @@
             <th>From</th>
             <th>To</th>
             <th>Hours</th>
+            <th>Commands</th>
     </thead>
     <tbody>
         <ng-container *ngFor="let s of sleeps; index as i;">
@@ -15,6 +18,12 @@
                     <td class="date">{{ adjustForTimezone(s.FromDate) | date: 'EEEE,  h:mm:ss a' }}</td>
                     <td class="date">{{ adjustForTimezone(s.ToDate) | date: 'EEEE, h:mm:ss a' }}</td>
                     <td class="number">{{ s.Hours | number: '1.1-1'}}</td>
+                    <td>
+                        <span>
+                            <button (click)="editSleep(s);" class="action"><i class="bi bi-pencil-square"></i></button>
+                            <button (click)="deleteSleep(s);" class="action"><i class="bi bi-trash3"></i></button>
+                        </span>
+                    </td>
                 </ng-container>
             </tr>
         </ng-container>       

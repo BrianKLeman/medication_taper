@@ -193,4 +193,17 @@ export class KanbanBoardComponent implements OnInit {
       500);
     let count = await this.refresh();
   }
+
+  public async deleteTasks(){    
+    let selectedTasks = this.Tasks.filter( x => x.Selected);
+    for( let t of selectedTasks)
+      await this.tasksService.DeleteTask(t);
+    setTimeout(async () => 
+      { 
+        await this.refresh(); 
+        console.log('returned' + count); 
+      }, 
+      500);
+    let count = await this.refresh();
+  }
 }
