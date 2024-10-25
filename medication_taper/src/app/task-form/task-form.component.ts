@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { ITasks, TasksService } from '../kanban-board/tasks.service';
 import { TimezonesService } from '../timezones.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TaskLinksService } from '../link-task-to/task-links.service';
 
 @Component({
   selector: 'app-task-form',
@@ -18,6 +19,7 @@ export class TaskFormComponent {
       entity_id : number
     },
   private service : TasksService,
+  private linksService : TaskLinksService,
   private timeService : TimezonesService){
 
     if(!data.task){
@@ -56,12 +58,15 @@ export class TaskFormComponent {
     return task;
   }
 
-    public SaveTask(){
+    public async SaveTask(){
       this.updateTask(this.currentTask);
-      if(this.currentTask?.Id == 0)
-        this.service.CreateTask(this.currentTask);
+      if(this.currentTask?.Id == 0){
+        let x = await this.service.CreateTask(this.currentTask);
+        if( x && this.entityID != 0 && this.tableName?.length > 0)
+          this.linksService.AddLink([x], this.tableName, this.entityID);
+      }
       else
-        this.service.UpdateTask(this.currentTask);
+        await this.service.UpdateTask(this.currentTask);
     }  
 
   date : string = "";

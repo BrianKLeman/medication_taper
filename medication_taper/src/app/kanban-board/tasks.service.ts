@@ -36,7 +36,7 @@ export class TasksService {
   }
 
   public async CreateTask(task : ITasks){
-    let x = await this.httpClient.post( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
+    let x = await this.httpClient.post<number>( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
     return x;
   }
 
