@@ -27,4 +27,25 @@ export class TaskLinksService {
       }
     ).toPromise().then( (n) => { console.log(`written task links with id ${n}`); });
   }
+
+  public async GetLinks(taskIDs : number[], tableName : string){
+    return await this.httpClient.request<ITaskLink[]>( "POST",
+      this.urlsService.GetApiURL()+"Api/TaskLinks/GetGroups", { body:
+        {
+          TaskIDs : taskIDs,
+          Table : tableName,
+          EntityID : 0
+        }
+      }
+    ).toPromise();
+  }
+}
+
+export interface ITaskLink{
+  
+     Id: number;
+    TableName: string;
+    EntityID: number;
+    TaskID: number;
+    PersonID: number;
 }

@@ -3,6 +3,8 @@ import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, NOT_STARTED, STARTED, TasksS
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LinkTaskToComponent } from '../link-task-to/link-task-to.component';
+import { IGroups } from '../groups.service';
+import { TaskLinksService } from '../link-task-to/task-links.service';
 
 @Component({
   selector: 'app-kanban-board',
@@ -11,9 +13,10 @@ import { LinkTaskToComponent } from '../link-task-to/link-task-to.component';
 })
 export class KanbanBoardComponent implements OnInit {
 
+  //#region setup
   constructor(private tasksService : TasksService,
-              private dialog : MatDialog            ){   
-
+              private recordsService :  TaskLinksService,
+              private dialog : MatDialog){   
   }
 
   @Input()
@@ -22,39 +25,76 @@ export class KanbanBoardComponent implements OnInit {
   @Input()
   public recordID : number = 0;
   
+  @Input()
+  public groupID : number = 0;
+
+  
   async ngOnInit() {
     await this.refresh();
+    this.refreshGroups();
   }
+//#endregion
 
+//#region Initialise
+
+  public async onValueChanged(arg : any){
+    await this.refresh();
+  }
   private async refresh(){
+    let tasks = [];
     if(this.table.trim() == "")
-      this.Tasks = await this.tasksService.getAllForPerson() ?? [];
+      this.Tasks = tasks = await this.tasksService.getAllForPerson() ?? [];
     else      
-      this.Tasks = await this.tasksService.getAllForPersonTableRecord(this.table, this.recordID) ?? [];
-    this.InProgress = this.Tasks.filter((value : ITasks) => 
+      this.Tasks = tasks = await this.tasksService.getAllForPersonTableRecord(this.table, this.recordID) ?? [];
+
+    if(this.groupID > 0){
+      tasks = await this.tasksService.groupTasks(tasks);
+      console.log(tasks.length + " - group " + this.groupID);
+      let group = this.groupID;
+      let filtered = tasks;
+      console.log
+      tasks = [];
+      for( let f of filtered)
+        if(f.Groups)
+        for(let g of f.Groups)
+          if(g == group){
+            tasks.push(f);
+            console.log("push");
+          }
+      console.log( " TasksLength includes " + tasks.length)
+    }
+
+    this.InProgress.length = 0;
+    this.InProgress.push(...tasks.filter((value : ITasks) => 
     {
       return value.Status == IN_PROGRESS;
-    });
+    }));
 
-    this.Started = this.Tasks.filter((value : ITasks) => 
+    this.Started.length = 0;
+    this.Started.push(...tasks.filter((value : ITasks) => 
       {
         return value.Status == STARTED;
-      });
+      }));
 
-    this.NotStarted = this.Tasks.filter((value : ITasks) => 
+    this.NotStarted.length = 0;
+    
+    this.NotStarted.push(...tasks.filter((value : ITasks) => 
     {
       return value.Status == NOT_STARTED;
-    });
+    }));
+    console.log(this.NotStarted.length);
 
-    this.Completed = this.Tasks.filter((value : ITasks) => 
+    this.Completed.length = 0;
+    this.Completed.push(...tasks.filter((value : ITasks) => 
     {
       return value.Status == COMPLETED;
-    });
+    }));
 
-    this.InReview = this.Tasks.filter((value : ITasks) => 
+    this.InReview.length = 0;
+    this.InReview.push(...tasks.filter((value : ITasks) => 
     {
       return value.Status == IN_REVIEW;
-    });
+    }));
   }
   public Tasks : ITasks[] = [];
 
@@ -64,7 +104,8 @@ export class KanbanBoardComponent implements OnInit {
   public NotStarted : ITasks[] = [];
   public InReview : ITasks[] = [];
   public Completed : ITasks[] = [];
-
+//#endregion
+  //#region Drag&Drop
   async onDropNotStarted(arg : any){
     var t = this.getTask();
     if(t){
@@ -141,7 +182,9 @@ export class KanbanBoardComponent implements OnInit {
 
     return t;
   }
+//#endregion
 
+//#region Task Commands
   public async addTaskLink(){
     
     let selectedTasksIDs = this.Tasks.filter( x => x.Selected).map( x => x.Id);
@@ -206,4 +249,33 @@ export class KanbanBoardComponent implements OnInit {
       500);
     let count = await this.refresh();
   }
+//#endregion
+
+  //#region Record Type
+  private refreshGroups(){
+    this.recordsService.getRecords("GROUPS").then( 
+      (results) => 
+        {
+          let record = [];
+          if(results){
+            for(let x of results){
+              record.push(this.ToRecord(x));
+            }
+          }
+          this.records = record;
+    });
+  }
+  
+  public ToRecord(record : any) : {id : number, desc : string}{
+    let g = record as IGroups;
+    if(g.Id != undefined){
+      return { id : g.Id, desc : `${ g.Name}`};
+    }
+
+    return { id : -1, desc : `Unspecified`};
+  }
+
+  records : {id : number, desc : string}[] = [];
+
+  //#endregion
 }

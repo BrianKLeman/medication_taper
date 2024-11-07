@@ -4,8 +4,7 @@ import { LearningAimsService } from '../learning-aims-table/learning-aims.servic
 import { SleepsService } from '../sleeps-table/sleeps.service';
 import { PhenomenaService } from '../phenomena-table/phenomena.service';
 import { AppointmentsService } from '../appointments-table/appointments.service';
-import { HttpClient } from '@angular/common/http';
-import { UrlsService } from 'src/urls.service';
+import { GroupsService } from '../groups.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +16,7 @@ export class LinksService {
     private sleepsService : SleepsService,
     private phenomenaService : PhenomenaService,
     private appointmentsService : AppointmentsService,
-    private httpClient : HttpClient,
-   private urlsService : UrlsService  ) { }
+    private groupsService : GroupsService ) { }
 
   public async getRecords(recordType : string){
 
@@ -40,6 +38,10 @@ export class LinksService {
 
     if(recordType == "APPOINTMENTS"){
       return await this.appointmentsService.getAllAppointmentsForPerson();
+    }
+
+    if(recordType == "GROUPS"){
+      return await this.groupsService.getAllGroupsForPerson();
     }
 
     return [];

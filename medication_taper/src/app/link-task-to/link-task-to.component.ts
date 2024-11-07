@@ -6,6 +6,7 @@ import { IProject } from '../projects-table/projects.service';
 import { IPhenomena } from '../phenomena-table/phenomena.service';
 import { IAppointment } from '../appointments-table/appointments.service';
 import { TaskLinksService } from './task-links.service';
+import { IGroups } from '../groups.service';
 
 @Component({
   selector: 'app-link-task-to',
@@ -73,6 +74,11 @@ public constructor(@Inject(MAT_DIALOG_DATA)
     let app = record as IAppointment;
     if(app.Id != undefined){
       return { id : app.Id, desc : `${ app.AppointmentName}`};
+    }
+
+    let g = record as IGroups;
+    if(g.Id != undefined){
+      return { id : g.Id, desc : `${ g.Name}`};
     }
 
     return { id : -1, desc : `Unspecified`};

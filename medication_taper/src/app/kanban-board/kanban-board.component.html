@@ -3,6 +3,13 @@
     <button (click)="addTask();" class="action"><i class="bi bi-list-task"></i></button>
     <button (click)="addTaskLink();" class="action"><i class="bi bi-link"></i></button>
     <button (click)="deleteTasks();" class="action"><i class="bi bi-trash3"></i></button>
+    <span style="align-content: end;">
+        <label for="task_table_link">Group: </label> 
+        <select id="task_table_link" name="task_table_link" [(ngModel)]="groupID" (change)="onValueChanged($event)">
+            <option [value]="-1">Unfiltered</option>
+            <option *ngFor="let n of records;" [value]="n.id">{{n.desc}}</option>
+        </select>
+    </span>
 </span>
 <div #kanBanParent class="kanbanRoot">
    

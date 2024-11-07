@@ -1,13 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UrlsService } from 'src/urls.service';
+import { GroupsService, IGroups } from '../groups.service';
+import { TaskLinksService } from '../link-task-to/task-links.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
 
-  constructor(private httpClient : HttpClient, private urlsService : UrlsService) { }
+  constructor(private httpClient : HttpClient, 
+    private urlsService : UrlsService,
+    private taskLinksService : TaskLinksService) { }
 
   public async getAllForPerson(){
     let x = await this.httpClient.get<ITasks[]>( this.urlsService.GetApiURL()+"Api/Tasks").toPromise();
@@ -30,6 +34,21 @@ export class TasksService {
     return x;
   }
 
+  public async groupTasks(tasks : ITasks[]){
+    let taskIDs = tasks.map( x => x.Id);
+    let groups = await this.taskLinksService.GetLinks(taskIDs, "GROUPS");
+    for (let t of tasks){
+      let groupsForTask =  groups?.filter( x => x.TaskID == t.Id);
+      t.Groups ??= [];
+      groupsForTask ??= [];
+      for(let g of groupsForTask)
+        t.Groups.push(g.EntityID);
+    }
+
+    return tasks;
+  }
+
+  
   public async UpdateTask(task : ITasks){
     let x = await this.httpClient.put( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
     return x;
@@ -59,6 +78,7 @@ export interface ITasks {
     Priority: number;
     Status: string;
     Selected : boolean;
+    Groups : number[] | null;
 }
 
 export const COMPLETED = "COMPLETED";
