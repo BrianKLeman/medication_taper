@@ -89,4 +89,28 @@ export class TaskFormComponent {
 
   private entityID = -1;
   private tableName = "";
+
+  //#region Extras
+
+  public set RequiresLearning(arg : boolean){
+    this.currentTask.RequiresLearning = arg ? 1 : 0;
+  }
+  public get RequiresLearning(){
+    return this.currentTask.RequiresLearning > 0;
+  }
+
+  public set Difficulty(arg : number){
+    this.currentTask.Difficulty = arg;
+  }
+  public get Difficulty(){
+    return this.currentTask.Difficulty;
+  }
+
+  public set Priority(arg : number){
+    this.currentTask.Priority = arg;
+  }
+  public get Priority(){
+    return this.currentTask.Priority;
+  }
+  //#endregion
 }

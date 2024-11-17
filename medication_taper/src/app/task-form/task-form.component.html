@@ -23,7 +23,31 @@
                             
                                 <input id="date_time" name="date" type="date" [ngModel]="date" (ngModelChange)="changeDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
                                 <input id="date_time" name="time" type="time" [(ngModel)]="time" /> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
-                        </tr>                        
+                        </tr>  
+                        <tr>
+                            <p>
+                                <label for="priority">Priority</label>
+                            </p>
+                            
+                            
+                                <input id="prority" name="priority" type="number" [(ngModel)]="Priority" /> 
+                               
+                        </tr>  
+                        <tr>
+                            <p>
+                                <label for="difficulty">Difficulty</label>
+                            </p>                            
+                            
+                            <input id="difficulty" name="difficulty" type="number" [(ngModel)]="Difficulty"/>                                 
+                        </tr>    
+                        
+                        <tr>
+                            <p>
+                                <label for="requiresLearning">Requires Learning</label>
+                            </p>                            
+                            
+                            <input id="requiresLearning" name="requiresLearning" type="checkbox" [(ngModel)]="RequiresLearning"/>                                 
+                        </tr> 
 
                     </table>
                 </form>

@@ -79,6 +79,8 @@ export interface ITasks {
     Status: string;
     Selected : boolean;
     Groups : number[] | null;
+    Difficulty : number;
+    RequiresLearning : number;
 }
 
 export const COMPLETED = "COMPLETED";

@@ -53,6 +53,7 @@
 <ng-template #card let-task="task">
     <mat-card class="columnItem"draggable="true" (dragstart)="dragStart(task.Id)">
         <mat-card-header><div><input type="checkbox" [(ngModel)]="task.Selected"/> <b>#{{task.Id}}</b><button (click)="editTask(task);" class="action"><i class="bi bi-three-dots"></i></button></div></mat-card-header>
-        <mat-card-content><span><b>{{task.Priority}}</b> - {{task.TaskName}} </span></mat-card-content>
+        <mat-card-content><span>{{task.TaskName}} </span></mat-card-content>
+        <mat-card-footer><span><b>P{{task.Priority}}</b> - Difficulty:{{task.Difficulty}} - Learning Required: <input type="checkbox" disabled="true" [ngModel]="task.RequiresLearning>0"/> </span></mat-card-footer>
     </mat-card>
 </ng-template>
