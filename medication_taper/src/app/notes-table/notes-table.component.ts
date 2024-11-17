@@ -65,9 +65,21 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
     return this.timeService.adjustForTimezoneStr(date);
   }
 
+  @Input()
+  public showForm = false;
   public async refreshNotes(){
-    if(this.last7Days){
-      let x = await this.notesService.getAllNotesForLast7Days();
+    if(this.showForm){
+      let x = await this.notesService.getAllNotesForRange(this.fromDate, this.toDate);
+      this.notes = x ?? [];
+      console.log("Refreshed Notes "+ x?.length);
+      return x?.length ?? 0;
+    } else if(this.last7Days){
+      let datetime = new Date(Date.now());
+      datetime.setHours(0,0,0,0);
+      let fromDate = this.timeService.subtractDaysFromDateTime(7, datetime).toISOString();
+      datetime.setHours(23,59,59,999);
+      let toDate = datetime.toISOString();
+      let x = await this.notesService.getAllNotesForRange(fromDate, toDate);
       this.notes = x ?? [];
       console.log("Refreshed Notes "+ x?.length);
       return x?.length ?? 0;
@@ -168,6 +180,21 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
     let token = this.tokenService.Token;
     return token?.Token != "" &&  token?.Token != null;
   }
+
+  //#region Date Range
+
+  fromDate : string = "";
+
+  public changeFromDate(d : string){
+    this.fromDate = d;
+  }
+
+  toDate : string = "";
+
+  public changeToDate(d : string){
+    this.toDate = d;
+  }
+  //#endregion
 }
   
 

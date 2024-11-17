@@ -20,12 +20,8 @@ export class NotesService {
     return x;
   }
 
-  public async getAllNotesForLast7Days(){
-    let datetime = new Date(Date.now());
-    datetime.setHours(0,0,0,0);
-    let fromDate = this.timeService.subtractDaysFromDateTime(7, datetime).toISOString();
-    datetime.setHours(23,59,59,999);
-    let toDate = datetime.toISOString();
+  public async getAllNotesForRange(fromDate : string, toDate : string){
+    
     let x = await this.httpClient.get<INotes[]>( 
       this.apiUrls.GetApiURL()+"Api/Notes",
         

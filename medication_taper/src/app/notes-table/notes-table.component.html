@@ -1,3 +1,32 @@
+<div *ngIf="showForm">
+    <form>
+        <table>                 
+                        
+                        
+            <tr>
+                    <p>
+                        <label for="date_time">From Date</label>
+                    </p>
+                
+                
+                    <input id="fromDate" name="fromDate" type="date" [ngModel]="fromDate" (ngModelChange)="changeFromDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                    
+                    <p>
+                        <label for="toDate">To Date</label>
+                    </p>
+                
+                
+                    
+                    <input id="toDate" name="toDate" type="date" [ngModel]="toDate" (ngModelChange)="changeToDate($event)"  /> 
+            </tr>
+            
+            <tr>
+                <button (click)="refreshNotes()">Refresh</button>
+            </tr>
+        </table>
+    </form>
+</div>
+
 <table class="tableBody">
     <thead class="tableHeader">
         <th  *ngIf="HasUserID">Select</th>
