@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips'
 /* Homemade imports*/
 import { AppComponent } from './app.component';
 import { PrescriptionsTableComponent } from './prescriptions-table/prescriptions-table.component';
@@ -62,7 +63,8 @@ import { SleepsFormComponent } from './sleeps-form/sleeps-form.component'
     BrowserAnimationsModule,
     FormsModule,
     MatTabsModule,
-    MatCardModule
+    MatCardModule,
+    MatChipsModule
   ],
   providers: [
     { provide: HttpClient}, { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }],
