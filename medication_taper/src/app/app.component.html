@@ -22,6 +22,7 @@
 
     
     <mat-tab-group>
+        <mat-tab label="Alcohol" *ngIf="HasUserID"> <ng-template matTabContent><app-alcohol-table></app-alcohol-table></ng-template> </mat-tab>
         <mat-tab label="Appointments" *ngIf="HasUserID"> <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>
         <mat-tab label="Jobs At Home" *ngIf="HasUserID"> <ng-template matTabContent><app-jobs-at-home></app-jobs-at-home></ng-template> </mat-tab>
         <mat-tab label="Learning Aims"> <ng-template matTabContent><learning-aims-table ></learning-aims-table></ng-template> </mat-tab>

@@ -6,7 +6,14 @@
     <span style="align-content: end;">
         <label for="task_table_link">Group: </label> 
         <select id="task_table_link" name="task_table_link" [(ngModel)]="groupID" (change)="onValueChanged($event)">
-            <option [value]="-1">Unfiltered</option>
+            <option [value]="-1">--------</option>
+            <option *ngFor="let n of records;" [value]="n.id">{{n.desc}}</option>
+        </select>
+    </span>
+    <span style="align-content: end;">
+        <label for="priority">Prority: </label> 
+        <select id="priority" name="priority" [(ngModel)]="groupID" (change)="onValueChanged($event)">
+            <option [value]="-1">----------</option>
             <option *ngFor="let n of records;" [value]="n.id">{{n.desc}}</option>
         </select>
     </span>

@@ -30,7 +30,8 @@ import { KanbanBoardComponent } from './kanban-board/kanban-board.component';
 import { ShoppingBoardComponent } from './shopping-board/shopping-board.component';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { LinkTaskToComponent } from './link-task-to/link-task-to.component';
-import { SleepsFormComponent } from './sleeps-form/sleeps-form.component'
+import { SleepsFormComponent } from './sleeps-form/sleeps-form.component';
+import { AlcoholTableComponent } from './alcohol-table/alcohol-table.component'
 /* Register Module */
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { SleepsFormComponent } from './sleeps-form/sleeps-form.component'
     ShoppingBoardComponent,
     TaskFormComponent,
     LinkTaskToComponent,
-    SleepsFormComponent
+    SleepsFormComponent,
+    AlcoholTableComponent
   ],
   imports: [
     BrowserModule,
