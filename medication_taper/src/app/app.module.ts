@@ -31,7 +31,10 @@ import { ShoppingBoardComponent } from './shopping-board/shopping-board.componen
 import { TaskFormComponent } from './task-form/task-form.component';
 import { LinkTaskToComponent } from './link-task-to/link-task-to.component';
 import { SleepsFormComponent } from './sleeps-form/sleeps-form.component';
-import { AlcoholTableComponent } from './alcohol-table/alcohol-table.component'
+import { AlcoholTableComponent } from './alcohol-table/alcohol-table.component';
+import { GroupPipe } from './group-pipe.pipe';
+import { GroupsComponent } from './groups/groups.component';
+import { ReferenceInformationComponent } from './reference-information/reference-information.component'
 /* Register Module */
 @NgModule({
   declarations: [
@@ -53,7 +56,10 @@ import { AlcoholTableComponent } from './alcohol-table/alcohol-table.component'
     TaskFormComponent,
     LinkTaskToComponent,
     SleepsFormComponent,
-    AlcoholTableComponent
+    AlcoholTableComponent,
+    GroupPipe,
+    GroupsComponent,
+    ReferenceInformationComponent
   ],
   imports: [
     BrowserModule,

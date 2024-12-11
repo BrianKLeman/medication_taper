@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UrlsService } from 'src/urls.service';
 import { GroupsService, IGroups } from '../groups.service';
 import { TaskLinksService } from '../link-task-to/task-links.service';
+import { ISprint } from '../sprints.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,15 @@ export class TasksService {
     return x;
   }
 
+  public async getAllForPersonWithExtras(){
+    let x = await this.httpClient.get<ITasksGroupsViewModel[]>( this.urlsService.GetApiURL()+"Api/Tasks/taskswithextras").toPromise();
+    if(x)
+      for(let i of x){
+        i.Selected = false;
+      }
+    return x;
+  }
+
   public async getAllForPersonTableRecord(tableID : string, recordID : number){
     let x = await this.httpClient.get<ITasks[]>( this.urlsService.GetApiURL()+"Api/Tasks",  { 
       params: 
@@ -34,6 +44,17 @@ export class TasksService {
     return x;
   }
 
+  public async getAllWithExtrasForPersonTableRecord(tableID : string, recordID : number){
+    let x = await this.httpClient.get<ITasksGroupsViewModel[]>( this.urlsService.GetApiURL()+"Api/Tasks/taskswithextras",  { 
+      params: 
+      {
+        
+          "tableName" : tableID,
+          "entityID" : recordID            
+      }
+    }).toPromise();
+    return x;
+  }
   public async groupTasks(tasks : ITasks[]){
     let taskIDs = tasks.map( x => x.Id);
     let groups = await this.taskLinksService.GetLinks(taskIDs, "GROUPS");
@@ -48,7 +69,14 @@ export class TasksService {
     return tasks;
   }
 
-  
+  public async tasksWithExtras(){
+    let x = await this.httpClient.get<ITasksGroupsViewModel[]>( this.urlsService.GetApiURL()+"Api/Tasks/TasksWithExtras").toPromise();
+    if(x)
+      for(let i of x){
+        i.Selected = false;
+      }
+    return x;
+  }
   public async UpdateTask(task : ITasks){
     let x = await this.httpClient.put( this.urlsService.GetApiURL()+"Api/Tasks",  task).toPromise();
     return x;
@@ -83,6 +111,20 @@ export interface ITasks {
     RequiresLearning : number;
 }
 
+export interface ITasksGroupsViewModel
+{
+    Task : ITasks,
+    Groups : IGroup[],
+    Sprints : ISprint[],
+    Selected : boolean
+}
+
+export interface IGroup
+{
+  Id : number,
+  PersonId : number,
+  Name : string
+}
 export const COMPLETED = "COMPLETED";
 export const IN_REVIEW = "IN_REVIEW";
 export const NOT_STARTED = "NOT_STARTED";

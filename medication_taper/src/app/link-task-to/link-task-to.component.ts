@@ -7,6 +7,7 @@ import { IPhenomena } from '../phenomena-table/phenomena.service';
 import { IAppointment } from '../appointments-table/appointments.service';
 import { TaskLinksService } from './task-links.service';
 import { IGroups } from '../groups.service';
+import { ISprint } from '../sprints.service';
 
 @Component({
   selector: 'app-link-task-to',
@@ -79,6 +80,11 @@ public constructor(@Inject(MAT_DIALOG_DATA)
     let g = record as IGroups;
     if(g.Id != undefined){
       return { id : g.Id, desc : `${ g.Name}`};
+    }
+
+    let sprint = record as ISprint;
+    if(sprint.Id != undefined){
+      return { id : sprint.Id, desc : `${ sprint.Name}`};
     }
 
     return { id : -1, desc : `Unspecified`};

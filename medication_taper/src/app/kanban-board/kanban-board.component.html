@@ -3,19 +3,18 @@
     <button (click)="addTask();" class="action"><i class="bi bi-list-task"></i></button>
     <button (click)="addTaskLink();" class="action"><i class="bi bi-link"></i></button>
     <button (click)="deleteTasks();" class="action"><i class="bi bi-trash3"></i></button>
+    
     <span style="align-content: end;">
-        <label for="task_table_link">Group: </label> 
-        <select id="task_table_link" name="task_table_link" [(ngModel)]="groupID" (change)="onValueChanged($event)">
-            <option [value]="-1">--------</option>
-            <option *ngFor="let n of records;" [value]="n.id">{{n.desc}}</option>
+        <label for="sprint">Sprint: </label> 
+        <select id="sprint" name="sprint" [(ngModel)]="sprintID" (change)="onValueChanged($event)">
+            
+            <option [value]="-2">Backlog</option>
+            <option [value]="-1">----------</option>
+            <option *ngFor="let n of sprints;" [value]="n.id">{{ n.desc }}</option>
         </select>
     </span>
     <span style="align-content: end;">
-        <label for="priority">Prority: </label> 
-        <select id="priority" name="priority" [(ngModel)]="groupID" (change)="onValueChanged($event)">
-            <option [value]="-1">----------</option>
-            <option *ngFor="let n of records;" [value]="n.id">{{n.desc}}</option>
-        </select>
+        <app-groups (groupsChanged)="groupsChanged($event)"></app-groups>
     </span>
 </span>
 <div #kanBanParent class="kanbanRoot">
@@ -23,49 +22,50 @@
     <div #plannedColumn class="columnRoot" (drop)="onDropNotStarted($event)" (dragover)="allowDrop($event)">
         <mat-card class="notStarted columnHeader"> Not Started </mat-card>
         <ng-container *ngFor="let tas of NotStarted">
-            <ng-container *ngTemplateOutlet="card; context: {task : tas}"></ng-container>
+            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
         </ng-container>
     </div>
 
     <div #inprogressColumn class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">                
         <mat-card class="started columnHeader"> Started </mat-card>
         <ng-container *ngFor="let tas of Started">
-            <ng-container *ngTemplateOutlet="card; context: {task : tas}"></ng-container>
+            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
         </ng-container>
     </div>
 
     <div #inprogressColumn class="columnRoot" (drop)="onDropInProgress($event)" (dragover)="allowDrop($event)">                
         <mat-card class="inProgress columnHeader"> In Progress </mat-card>
         <ng-container *ngFor="let tas of InProgress">
-            <ng-container *ngTemplateOutlet="card; context: {task : tas}"></ng-container>
+            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
         </ng-container>
     </div>
 
     <div #completeColumn class="columnRoot" (drop)="onDropInReview($event)" (dragover)="allowDrop($event)">                
         <mat-card class="inReview columnHeader"> Review </mat-card>
         <ng-container *ngFor="let tas of InReview">
-            <ng-container *ngTemplateOutlet="card; context: {task : tas}"></ng-container>
+            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
         </ng-container>
     </div>
 
     <div #completeColumn class="columnRoot" (drop)="onDropComplete($event)" (dragover)="allowDrop($event)">                
         <mat-card class="completed columnHeader"> Completed </mat-card>
         <ng-container *ngFor="let tas of Completed">
-            <ng-container *ngTemplateOutlet="card; context: {task : tas}"></ng-container>
+            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
         </ng-container>
     </div>
 
 </div>
 
-<ng-template #card let-task="task">
-    <mat-card class="columnItem"draggable="true" (dragstart)="dragStart(task.Id)">
-        <mat-card-header><div><input type="checkbox" [(ngModel)]="task.Selected"/> <b>#{{task.Id}}</b><button (click)="editTask(task);" class="action"><i class="bi bi-three-dots"></i></button></div></mat-card-header>
-        <mat-card-content><span>{{task.TaskName}} </span></mat-card-content>
+<ng-template #card let-taskVM="taskVM">
+    <mat-card class="columnItem"draggable="true" (dragstart)="dragStart(taskVM.Task.Id)">
+        <mat-card-header><div><input type="checkbox" [(ngModel)]="taskVM.Selected"/> <b>#{{taskVM.Task.Id}}</b><button (click)="editTask(taskVM);" class="action"><i class="bi bi-three-dots"></i></button></div></mat-card-header>
+        <mat-card-content><span>{{taskVM.Task.TaskName}} </span></mat-card-content>
         <mat-card-footer>
             <mat-chip-set>
-                <mat-chip *ngIf="task.Priority>0"><b>P{{task.Priority}}</b></mat-chip> 
-                <mat-chip *ngIf="task.Difficulty > 0">Difficulty:{{task.Difficulty}}</mat-chip> 
-                <mat-chip *ngIf="task.RequiresLearning>0">Learning Required</mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.Priority>0"><b>P{{taskVM.Task.Priority}}</b></mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.Difficulty > 0">Difficulty:{{taskVM.Task.Difficulty}}</mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.RequiresLearning>0">Learning Required</mat-chip> 
+                <mat-chip *ngFor="let g of taskVM.Groups">{{ g.Id | group}}</mat-chip>
             </mat-chip-set>
         </mat-card-footer>
     </mat-card>

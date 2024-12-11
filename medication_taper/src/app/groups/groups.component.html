@@ -1,0 +1,12 @@
+
+    <details>
+        <summary>Groups</summary>
+        <form class="above">
+            <fieldset>
+                <div *ngFor="let g of groupViewModels" >
+                    <input class="checkbox"  type="checkbox" [name]="g.group.Id" (change)="checkUncheckGroup(g, $event)"/><label [for]="g.group.Id">{{g.group.Name}}</label>
+                </div>
+            </fieldset>
+        </form>
+    </details>
+

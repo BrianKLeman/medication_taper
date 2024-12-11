@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, NOT_STARTED, STARTED, TasksService } from './tasks.service';
+import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, ITasksGroupsViewModel, NOT_STARTED, STARTED, TasksService } from './tasks.service';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LinkTaskToComponent } from '../link-task-to/link-task-to.component';
-import { IGroups } from '../groups.service';
+import { GroupsService, IGroups } from '../groups.service';
 import { TaskLinksService } from '../link-task-to/task-links.service';
+import { IGroupsSelectionVM } from '../groups/groups.component';
+import { ISprint, SprintsService } from '../sprints.service';
 
 @Component({
   selector: 'app-kanban-board',
@@ -15,8 +17,9 @@ export class KanbanBoardComponent implements OnInit {
 
   //#region setup
   constructor(private tasksService : TasksService,
-              private recordsService :  TaskLinksService,
-              private dialog : MatDialog){   
+              private dialog : MatDialog,
+             private groupsService : GroupsService,
+              private sprintsService : SprintsService){   
   }
 
   @Input()
@@ -26,12 +29,14 @@ export class KanbanBoardComponent implements OnInit {
   public recordID : number = 0;
   
   @Input()
-  public groupID : number = 0;
+  public groupIDs : number[] = [];
 
-  
+  @Input()
+  public sprintID : number = 0;
   async ngOnInit() {
+    let groups = await this.groupsService.getAllGroupsForPerson();
     await this.refresh();
-    this.refreshGroups();
+    this.refreshSprints();
   }
 //#endregion
 
@@ -43,75 +48,78 @@ export class KanbanBoardComponent implements OnInit {
   private async refresh(){
     let tasks = [];
     if(this.table.trim() == "")
-      this.Tasks = tasks = await this.tasksService.getAllForPerson() ?? [];
+      this.Tasks = tasks = await this.tasksService.getAllForPersonWithExtras() ?? [];
     else      
-      this.Tasks = tasks = await this.tasksService.getAllForPersonTableRecord(this.table, this.recordID) ?? [];
+      this.Tasks = tasks = await this.tasksService.getAllWithExtrasForPersonTableRecord(this.table, this.recordID) ?? [];
+ 
+    if(this.sprintID > 0)
+      tasks = this.filterBySprint(this.sprintID, tasks);
 
-    if(this.groupID > 0){
-      tasks = await this.tasksService.groupTasks(tasks);
-      console.log(tasks.length + " - group " + this.groupID);
-      let group = this.groupID;
+    if(this.sprintID == -2) // Uncommitted Backlog
+    {
+      tasks = this.filterByUncommitted(tasks);
+    }
+    if(this.groupIDs.length > 0){
+      console.log(tasks.length + " - group " + this.groupIDs);
+      let group = this.groupIDs;
       let filtered = tasks;
       console.log
       tasks = [];
       for( let f of filtered)
         if(f.Groups)
-        for(let g of f.Groups)
-          if(g == group){
-            tasks.push(f);
-            console.log("push");
-          }
-      console.log( " TasksLength includes " + tasks.length)
+          for(let g of f.Groups)
+            if(group.indexOf(g.Id) > -1)
+              tasks.push(f);
     }
 
     this.InProgress.length = 0;
-    this.InProgress.push(...tasks.filter((value : ITasks) => 
+    this.InProgress.push(...tasks.filter((value : ITasksGroupsViewModel) => 
     {
-      return value.Status == IN_PROGRESS;
+      return value.Task.Status == IN_PROGRESS;
     }));
 
     this.Started.length = 0;
-    this.Started.push(...tasks.filter((value : ITasks) => 
+    this.Started.push(...tasks.filter((value : ITasksGroupsViewModel) => 
       {
-        return value.Status == STARTED;
+        return value.Task.Status == STARTED;
       }));
 
     this.NotStarted.length = 0;
     
-    this.NotStarted.push(...tasks.filter((value : ITasks) => 
+    this.NotStarted.push(...tasks.filter((value : ITasksGroupsViewModel) => 
     {
-      return value.Status == NOT_STARTED;
+      return value.Task.Status == NOT_STARTED;
     }));
     console.log(this.NotStarted.length);
 
     this.Completed.length = 0;
-    this.Completed.push(...tasks.filter((value : ITasks) => 
+    this.Completed.push(...tasks.filter((value : ITasksGroupsViewModel) => 
     {
-      return value.Status == COMPLETED;
+      return value.Task.Status == COMPLETED;
     }));
 
     this.InReview.length = 0;
-    this.InReview.push(...tasks.filter((value : ITasks) => 
+    this.InReview.push(...tasks.filter((value : ITasksGroupsViewModel) => 
     {
-      return value.Status == IN_REVIEW;
+      return value.Task.Status == IN_REVIEW;
     }));
   }
-  public Tasks : ITasks[] = [];
+  public Tasks : ITasksGroupsViewModel[] = [];
 
   
-  public Started : ITasks[] = [];
-  public InProgress : ITasks[] = [];
-  public NotStarted : ITasks[] = [];
-  public InReview : ITasks[] = [];
-  public Completed : ITasks[] = [];
+  public Started : ITasksGroupsViewModel[] = [];
+  public InProgress : ITasksGroupsViewModel[] = [];
+  public NotStarted : ITasksGroupsViewModel[] = [];
+  public InReview : ITasksGroupsViewModel[] = [];
+  public Completed : ITasksGroupsViewModel[] = [];
 //#endregion
   //#region Drag&Drop
   async onDropNotStarted(arg : any){
     var t = this.getTask();
     if(t){
       this.NotStarted.push(t);
-      t.Status = NOT_STARTED;
-      await this.tasksService.UpdateTask(t);
+      t.Task.Status = NOT_STARTED;
+      await this.tasksService.UpdateTask(t.Task);
     }
   }
 
@@ -119,8 +127,8 @@ export class KanbanBoardComponent implements OnInit {
     var t = this.getTask();
     if(t){
       this.Started.push(t);
-      t.Status = STARTED;
-      await this.tasksService.UpdateTask(t);
+      t.Task.Status = STARTED;
+      await this.tasksService.UpdateTask(t.Task);
     }
   }
 
@@ -128,8 +136,8 @@ export class KanbanBoardComponent implements OnInit {
     var t = this.getTask();
     if(t){
       this.InProgress.push(t);
-      t.Status = IN_PROGRESS;
-      await this.tasksService.UpdateTask(t);
+      t.Task.Status = IN_PROGRESS;
+      await this.tasksService.UpdateTask(t.Task);
     }
   }
 
@@ -137,8 +145,8 @@ export class KanbanBoardComponent implements OnInit {
     var t = this.getTask();
     if(t){
       this.InReview.push(t);
-      t.Status = IN_REVIEW;
-      await this.tasksService.UpdateTask(t);
+      t.Task.Status = IN_REVIEW;
+      await this.tasksService.UpdateTask(t.Task);
     }
   }
 
@@ -146,8 +154,8 @@ export class KanbanBoardComponent implements OnInit {
     var t = this.getTask();
     if(t){
       this.Completed.push(t);
-      t.Status = COMPLETED;
-      await this.tasksService.UpdateTask(t);
+      t.Task.Status = COMPLETED;
+      await this.tasksService.UpdateTask(t.Task);
     }
   }
 
@@ -160,7 +168,7 @@ export class KanbanBoardComponent implements OnInit {
     this.draggedTaskID = taskID;
   }
 
-  private getTask() : ITasks | undefined{
+  private getTask() : ITasksGroupsViewModel | undefined{
     let t = this.rem(this.NotStarted);
     if(!t)
       t = this.rem(this.Started);
@@ -173,10 +181,10 @@ export class KanbanBoardComponent implements OnInit {
     return t;
   }
 
-  private rem(items : ITasks[]) : ITasks | undefined{
+  private rem(items : ITasksGroupsViewModel[]) : ITasksGroupsViewModel | undefined{
     
     let i = - 1;
-    let t = items.find( (v : ITasks, index : number) => { if( v.Id == this.draggedTaskID) {i = index; return true; } else return false;});    
+    let t = items.find( (v : ITasksGroupsViewModel, index : number) => { if( v.Task.Id == this.draggedTaskID) {i = index; return true; } else return false;});    
     if(t)
       items.splice(i,1);
 
@@ -185,21 +193,20 @@ export class KanbanBoardComponent implements OnInit {
 //#endregion
 
 //#region Task Commands
-  public async addTaskLink(){
+  public addTaskLink(){
     
-    let selectedTasksIDs = this.Tasks.filter( x => x.Selected).map( x => x.Id);
-    let x = await this.dialog.open(LinkTaskToComponent, { data : 
+    let selectedTasksIDs = this.Tasks.filter( x => x.Selected).map( x => x.Task.Id);
+    this.dialog.open(LinkTaskToComponent, { data : 
       {
         taskIDs : selectedTasksIDs, 
-      }}).afterClosed().toPromise();
-    
-    setTimeout(async () => 
+      }}).afterClosed().toPromise().then(() =>
+      {        
+      setTimeout(async () => 
       { 
         await this.refresh(); 
-        console.log('returned' + count); 
       }, 
       500);
-    let count = await this.refresh();
+      });
   }
 
   public async addTask(){
@@ -219,13 +226,13 @@ export class KanbanBoardComponent implements OnInit {
     let count = await this.refresh();
   }
 
-  public async editTask(t : ITasks){
+  public async editTask(t : ITasksGroupsViewModel){
     let d = new Date()
     let x = await this.dialog.open(TaskFormComponent, { data : 
       {datetime : d, 
         entity : this.table, 
         entity_id : this.recordID,
-        task : t
+        task : t.Task
       }}).afterClosed().toPromise();
     
     setTimeout(async () => 
@@ -240,7 +247,7 @@ export class KanbanBoardComponent implements OnInit {
   public async deleteTasks(){    
     let selectedTasks = this.Tasks.filter( x => x.Selected);
     for( let t of selectedTasks)
-      await this.tasksService.DeleteTask(t);
+      await this.tasksService.DeleteTask(t.Task);
     setTimeout(async () => 
       { 
         await this.refresh(); 
@@ -251,9 +258,9 @@ export class KanbanBoardComponent implements OnInit {
   }
 //#endregion
 
-  //#region Record Type
-  private refreshGroups(){
-    this.recordsService.getRecords("GROUPS").then( 
+  //#region Sprints
+  private refreshSprints(){
+    this.sprintsService.getAllSprintsForPerson().then( 
       (results) => 
         {
           let record = [];
@@ -262,12 +269,12 @@ export class KanbanBoardComponent implements OnInit {
               record.push(this.ToRecord(x));
             }
           }
-          this.records = record;
+          this.sprints = record;
     });
   }
   
   public ToRecord(record : any) : {id : number, desc : string}{
-    let g = record as IGroups;
+    let g = record as ISprint;
     if(g.Id != undefined){
       return { id : g.Id, desc : `${ g.Name}`};
     }
@@ -275,7 +282,38 @@ export class KanbanBoardComponent implements OnInit {
     return { id : -1, desc : `Unspecified`};
   }
 
-  records : {id : number, desc : string}[] = [];
+  sprints : {id : number, desc : string}[] = [];
 
+  private filterBySprint(sprintID : number, tasks : ITasksGroupsViewModel[]){
+   let ts = tasks.filter( tVM => {
+    for(let s of tVM.Sprints)
+      if(s.Id == sprintID)
+        return true;
+
+    return false;
+   });
+   return ts;
+  }
+
+  private filterByUncommitted( tasks : ITasksGroupsViewModel[]){
+    let ts = tasks.filter( tVM => {
+      return tVM.Sprints.length == 0;
+    });
+    return ts;
+   }
+  //#endregion
+
+  //#region Groups
+  public async groupsChanged(groups : IGroupsSelectionVM[]){
+    this.groupIDs = [];
+    for(let g of groups)
+      if(g.isSelected){
+        this.groupIDs.push(g.group.Id);
+        console.log(this.groupIDs);
+      }
+
+    await this.refresh();
+
+  }
   //#endregion
 }

@@ -1,0 +1,55 @@
+/* customised, but learnt from below link */
+/* https://www.sitelint.com/blog/how-to-implement-multiple-selection-with-check-boxes-in-an-html-without-external-libraries */
+details {
+    border: 1px solid #767676;
+    border-radius: 3px;
+    display: inline-flex;
+    flex-direction: column;
+    padding: 3px 6px;
+    background-color: white;
+  }
+  
+  details summary::marker {
+    display: none;
+    font-size: 0;
+  }
+  
+  details summary::-webkit-details-marker {
+    display: none;
+    font-size: 0;
+  }
+  
+  details summary::after {
+    content: "\25BC" / "";
+    display: inline-block;
+    font-size: 0.6rem;
+    line-height: 1rem;
+    margin-left: 0.5rem;
+    position: relative;
+    transition: transform 0.25s;
+  }
+  
+  details[open] summary {
+    margin-bottom: 1rem;
+  }
+  
+  details[open] summary::after {
+    top: -0.15rem;
+    transform: rotate(180deg);
+  }
+  
+  .above {   
+    z-index: 1; 
+    position: fixed;
+    background-color: #767676;
+    display: flex;
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .checkbox{
+    margin: 4px;
+  }
+  
+
+  
