@@ -1,0 +1,19 @@
+<div>
+    <span>
+        <span>
+        <input type="text" [(ngModel)]="tableName" style="margin-right: 0;"/>
+        <button (click)="addTable();" class="action" style="margin-left: 0;"><i class="bi bi-plus"></i></button> 
+        </span>              
+    </span> 
+</div>
+<mat-expansion-panel *ngFor="let b of project.AdhocTables" style="margin-bottom: 10px;">
+    <mat-expansion-panel-header>
+        <mat-panel-title>{{b.Name}}</mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+        <div>        
+            <button (click)="deleteTable(b.Id);" class="action"><i class="bi bi-trash3"></i></button> 
+            <app-adhoc-tables  [adhocTable]="b"></app-adhoc-tables>
+        </div>
+    </ng-template>
+</mat-expansion-panel>

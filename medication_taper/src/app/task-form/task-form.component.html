@@ -11,6 +11,14 @@
                         </tr>
                        
                         <tr>
+                            <p>
+                                <label for="task-criteria">Acceptance Criteria</label>
+                            </p>
+                                <textarea id="task-criteria" name="task-criteria" rows="10" cols="50" [(ngModel)]="currentTask.AcceptanceCriteria" style="box-sizing: border-box; width: 100%;"></textarea>
+                                
+                        </tr>
+
+                        <tr>
                             <div>
                                 <app-notes-table [entity]="currentTask.Id" [showNotes]="true" tableName="TASKS" ></app-notes-table>
                             </div>                                
@@ -53,6 +61,6 @@
                 </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">        
-        <button mat-button [mat-dialog-close]="true" (click)="SaveTask()" cdkFocusInitial>Save</button>
-        <button mat-button mat-dialog-close>Cancel</button>
+        <button class="saveButton" mat-button [mat-dialog-close]="true" (click)="SaveTask()" cdkFocusInitial>Save</button>
+        <button class="cancelButton" mat-button mat-dialog-close>Cancel</button>
     </mat-dialog-actions>

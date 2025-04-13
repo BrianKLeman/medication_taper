@@ -25,10 +25,16 @@
     background-color:red; 
 }
 
+.ready
+{
+    
+    background-color: aqua; 
+}
+
 .started
 {
     
-    background-color: aquamarine; 
+    background-color: orange; 
 }
 
 .inProgress

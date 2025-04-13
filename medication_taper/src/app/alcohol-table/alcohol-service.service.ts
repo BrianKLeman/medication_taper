@@ -12,7 +12,7 @@ export class AlcoholServiceService {
   ) { }
 
   public async get(){
-    let x = await this.httpClient.get<{ value : IAlcohol[]}>( this.urlsService.GetApiURL()+"odata/Alcohol").toPromise();
+    let x = await this.httpClient.get<{ value : IAlcohol[]}>( this.urlsService.GetApiURL()+"odata/Alcohol?$OrderBy=ConsumedDate").toPromise();
 
     if(x){
       for(let a of x.value)

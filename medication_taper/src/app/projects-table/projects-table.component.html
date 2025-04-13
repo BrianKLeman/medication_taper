@@ -12,6 +12,7 @@
                 <td class="commands">
                     <button (click)="showNotes(p);" class="action"><i class="bi bi-sticky-fill"></i></button>
                     <button (click)="showTasks(p);" class="action"><i class="bi bi-list-task"></i></button>
+                    <button *ngIf="HasBeatcharts(p);" (click)="showBeatcharts(p)" class="action"><i class="bi bi-table"></i></button>
                 </td>
                 <td class="text">{{p.Name}}</td>
                 <td class="date">{{p.StartDate | date : "fullDate"}}</td>
@@ -25,6 +26,11 @@
             <tr *ngIf="p.ShowTasks" [ngClass]="{'altTableRow' : i%2 == 0}" >
                 <td colspan="4">
                     <app-kanban-board [recordID]="p.Id" table="PROJECTS" ></app-kanban-board>
+                </td>
+            </tr>
+            <tr *ngIf="p.ShowAdhocTables" [ngClass]="{'altTableRow' : i%2 == 0}" >
+                <td colspan="4">
+                    <app-project-adhoc-tables [project]="p" ></app-project-adhoc-tables>
                 </td>
             </tr>
         </ng-container>

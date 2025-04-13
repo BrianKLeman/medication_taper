@@ -26,6 +26,13 @@
         </ng-container>
     </div>
 
+    <div #readyColumn class="columnRoot" (drop)="onDropInReady($event)" (dragover)="allowDrop($event)">
+        <mat-card class="ready columnHeader"> Ready </mat-card>
+        <ng-container *ngFor="let tas of Ready">
+            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+        </ng-container>
+    </div>
+
     <div #inprogressColumn class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">                
         <mat-card class="started columnHeader"> Started </mat-card>
         <ng-container *ngFor="let tas of Started">

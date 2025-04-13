@@ -20,14 +20,35 @@ export class AppointmentsService {
     }
     return x;
   }
+
+  public addAppointment(appointment : IAppointment){
+    this.httpClient.post<IAppointment>( 
+      this.apiUrls.GetApiURL()+"Api/Appointments",
+      <IAppointment>{ Id : 0,
+        AppointmentDate : appointment.AppointmentDate,
+        AppointmentName : appointment.AppointmentName,
+        CreatedDate : new Date().toISOString(),
+        PersonID : 0,
+        CreatedBy : "BKL",
+        ShowNotes : false
+        }
+    ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
+  }
+
+  public updateAppointment(appointment : IAppointment){
+    this.httpClient.put<IAppointment>( 
+      this.apiUrls.GetApiURL()+"Api/Appointments",
+      appointment
+    ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
+  }
 }
 
 export interface IAppointment{
   Id : number,
   PersonID : number,
   AppointmentName : string,
-  CreatedDate : Date,
+  CreatedDate : string,
   CreatedBy : string, 
-  AppointmentDate : Date | null,  
+  AppointmentDate : string | null,  
   ShowNotes : boolean
 }

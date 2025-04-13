@@ -38,6 +38,6 @@
                 </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
+        <button mat-button [mat-dialog-close]="true" (click)="SaveNote()" cdkFocusInitial>Save</button>        
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-button [mat-dialog-close]="true" (click)="SaveNote()" cdkFocusInitial>Save</button>
     </mat-dialog-actions>

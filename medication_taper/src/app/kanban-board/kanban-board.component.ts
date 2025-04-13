@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, ITasksGroupsViewModel, NOT_STARTED, STARTED, TasksService } from './tasks.service';
+import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, ITasksGroupsViewModel, NOT_STARTED, READY, STARTED, TasksService } from './tasks.service';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LinkTaskToComponent } from '../link-task-to/link-task-to.component';
@@ -84,6 +84,12 @@ export class KanbanBoardComponent implements OnInit {
         return value.Task.Status == STARTED;
       }));
 
+      this.Ready.length = 0;
+      this.Ready.push(...tasks.filter((value : ITasksGroupsViewModel) => 
+        {
+          return value.Task.Status == READY;
+        }));
+
     this.NotStarted.length = 0;
     
     this.NotStarted.push(...tasks.filter((value : ITasksGroupsViewModel) => 
@@ -108,6 +114,7 @@ export class KanbanBoardComponent implements OnInit {
 
   
   public Started : ITasksGroupsViewModel[] = [];
+  public Ready : ITasksGroupsViewModel[] = [];
   public InProgress : ITasksGroupsViewModel[] = [];
   public NotStarted : ITasksGroupsViewModel[] = [];
   public InReview : ITasksGroupsViewModel[] = [];
@@ -137,6 +144,15 @@ export class KanbanBoardComponent implements OnInit {
     if(t){
       this.InProgress.push(t);
       t.Task.Status = IN_PROGRESS;
+      await this.tasksService.UpdateTask(t.Task);
+    }
+  }
+
+  async onDropInReady(arg : any){
+    var t = this.getTask();
+    if(t){
+      this.Ready.push(t);
+      t.Task.Status = READY;
       await this.tasksService.UpdateTask(t.Task);
     }
   }
@@ -178,6 +194,8 @@ export class KanbanBoardComponent implements OnInit {
       t = this.rem(this.InReview);
     if(!t)
       t = this.rem(this.Completed);
+    if(!t)
+      t = this.rem(this.Ready);
     return t;
   }
 

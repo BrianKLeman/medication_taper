@@ -7,7 +7,7 @@ import { TaskLinksService } from '../link-task-to/task-links.service';
 @Component({
   selector: 'app-task-form',
   templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.css']
+  styleUrls: ['./task-form.component.css', './../app.component.css']
 })
 export class TaskFormComponent {
     public constructor(@Inject(MAT_DIALOG_DATA) 
@@ -53,7 +53,8 @@ export class TaskFormComponent {
       Description : "",  
       DateCompleted: null,  
       Priority: 0,  
-      Status: "NOT_STARTED"
+      Status: "NOT_STARTED",
+      AcceptanceCriteria: ""
     };
     return task;
   }

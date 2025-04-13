@@ -10,6 +10,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { FormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips'
+import {MatExpansionModule} from '@angular/material/expansion';
 /* Homemade imports*/
 import { AppComponent } from './app.component';
 import { PrescriptionsTableComponent } from './prescriptions-table/prescriptions-table.component';
@@ -34,7 +35,10 @@ import { SleepsFormComponent } from './sleeps-form/sleeps-form.component';
 import { AlcoholTableComponent } from './alcohol-table/alcohol-table.component';
 import { GroupPipe } from './group-pipe.pipe';
 import { GroupsComponent } from './groups/groups.component';
-import { ReferenceInformationComponent } from './reference-information/reference-information.component'
+import { ReferenceInformationComponent } from './reference-information/reference-information.component';
+import { AppointmentComponent } from './appointment/appointment.component';
+import { AdhocTablesComponent } from './adhoc-tables/adhoctables.component';
+import { ProjectAdhocTablesComponent } from './project-adhoc-tables/project-adhoc-tables.component'
 /* Register Module */
 @NgModule({
   declarations: [
@@ -59,7 +63,10 @@ import { ReferenceInformationComponent } from './reference-information/reference
     AlcoholTableComponent,
     GroupPipe,
     GroupsComponent,
-    ReferenceInformationComponent
+    ReferenceInformationComponent,
+    AppointmentComponent,
+    AdhocTablesComponent,
+    ProjectAdhocTablesComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +79,8 @@ import { ReferenceInformationComponent } from './reference-information/reference
     FormsModule,
     MatTabsModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatExpansionModule
   ],
   providers: [
     { provide: HttpClient}, { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }],

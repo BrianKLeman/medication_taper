@@ -1,0 +1,51 @@
+
+
+<table class="tableBody" style="margin-left: 0;">
+    <thead class="tableHeader">
+    <th>Commands</th>
+    <th ></th>
+    <th *ngFor="let section of columns"><div ><span style="margin: auto;">{{section.Name}}</span><button (click)="deleteColumn(section.Id);" style="margin-right: 0; margin-left: auto; float: right;"><i class="bi bi-trash3"></i></button></div></th>
+    
+    </thead>
+    
+    <tbody>        
+        <span>
+            <button (click)="addNewRow();" class="action"><i class="bi bi-sticky-fill"></i></button> 
+            <span>
+            <input type="text" [(ngModel)]="columnName" style="margin-right: 0;"/>
+            <button (click)="addColumn();" class="action" style="margin-left: 0;"><i class="bi bi-plus"></i></button> 
+            </span>              
+        </span> 
+        <ng-container *ngFor="let s of rows; index as i;">
+            <tr *ngIf="(i % 8 == 0) && i > 7" class="tableHeader">
+                <td>Commands</td>
+                <td ></td>
+                <td *ngFor="let section of columns"><div ><span style="margin: auto;">{{section.Name}}</span><button (click)="deleteColumn(section.Id);" style="margin-right: 0; margin-left: auto; float: right;"><i class="bi bi-trash3"></i></button></div></td>
+                
+                </tr>
+            <tr [ngClass]="{'altTableRow' : i%2 == 0}">
+                <td class="commands">
+                    <button (click)="SaveDetails(s.Id, adhocTable.Id)"><i class="bi bi-floppy-fill"></i></button>
+                    <button class="dangerButton action" (click)="deleteRow(s.Id)"><i class="bi bi-trash3"></i></button>
+                </td>
+                <td class="text" >
+                    <div *ngIf="true">
+                        <textarea [(ngModel)]="s.Name"></textarea>
+                    </div>
+                    <div *ngIf="false">
+                        {{s.Name}}
+                    </div>
+                </td>
+                <td *ngFor="let section of columns;" class="text">
+                    <div *ngIf="true">
+                        <textarea [(ngModel)]="getDetailData(s.Id, section.Id).Details"></textarea>
+                    </div>
+                    <div *ngIf="false">
+                        {{getDetail(s.Id,section.Id)}}
+                    </div>
+                </td>                
+            </tr>            
+        </ng-container>
+    </tbody>
+
+</table>

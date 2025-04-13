@@ -109,6 +109,7 @@ export interface ITasks {
     Groups : number[] | null;
     Difficulty : number;
     RequiresLearning : number;
+    AcceptanceCriteria : string;
 }
 
 export interface ITasksGroupsViewModel
@@ -129,4 +130,5 @@ export const COMPLETED = "COMPLETED";
 export const IN_REVIEW = "IN_REVIEW";
 export const NOT_STARTED = "NOT_STARTED";
 export const IN_PROGRESS = "IN_PROGRESS"; 
-export const STARTED = "STARTED"; 
+export const STARTED = "STARTED";  
+export const READY = "READY"; 
