@@ -96,7 +96,7 @@ public constructor(
   public async addColumn(){
     if(this.columnName.trim().length > 0){
       let x = <IAdhocTableColumnResponse>await this.service.CreateColumn(this.adhocTable.Id, this.columnName);
-      this.columns.push( <IAdhocTableColumn>{ Id: x.AdhocTableColumnId, Name: this.columnName, Order : 0})
+      this.columns.push( <IAdhocTableColumn>{ Id: x.AdhocTableColumnID, Name: this.columnName, Order : 0})
     }
   }
 

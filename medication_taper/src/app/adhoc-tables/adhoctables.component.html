@@ -4,7 +4,7 @@
     <thead class="tableHeader">
     <th>Commands</th>
     <th ></th>
-    <th *ngFor="let section of columns"><div ><span style="margin: auto;">{{section.Name}}</span><button (click)="deleteColumn(section.Id);" style="margin-right: 0; margin-left: auto; float: right;"><i class="bi bi-trash3"></i></button></div></th>
+    <th *ngFor="let section of columns"><div ><span style="margin: auto;">{{section.Name}}</span><button (click)="deleteColumn(section.Id);" style="margin: 3px; float: right;"><i class="bi bi-trash3"></i></button></div></th>
     
     </thead>
     
@@ -20,7 +20,7 @@
             <tr *ngIf="(i % 8 == 0) && i > 7" class="tableHeader">
                 <td>Commands</td>
                 <td ></td>
-                <td *ngFor="let section of columns"><div ><span style="margin: auto;">{{section.Name}}</span><button (click)="deleteColumn(section.Id);" style="margin-right: 0; margin-left: auto; float: right;"><i class="bi bi-trash3"></i></button></div></td>
+                <td *ngFor="let section of columns"><div ><span style="margin: auto;">{{section.Name}}</span><button (click)="deleteColumn(section.Id);" style="margin: 3px; float: right;"><i class="bi bi-trash3"></i></button></div></td>
                 
                 </tr>
             <tr [ngClass]="{'altTableRow' : i%2 == 0}">

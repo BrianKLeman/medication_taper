@@ -150,5 +150,5 @@ export interface IAdhocTableDetailResponse{
 }
 
 export interface IAdhocTableColumnResponse{  
-  AdhocTableColumnId : number;
+  AdhocTableColumnID : number;
 }
