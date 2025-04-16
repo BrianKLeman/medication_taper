@@ -14,7 +14,8 @@
             <span>
             <input type="text" [(ngModel)]="columnName" style="margin-right: 0;"/>
             <button (click)="addColumn();" class="action" style="margin-left: 0;"><i class="bi bi-plus"></i></button> 
-            </span>              
+            </span>  
+            <button (click)="saveAll();" class="action" style="margin-left: 0;">Save All</button>             
         </span> 
         <ng-container *ngFor="let s of rows; index as i;">
             <tr *ngIf="(i % 8 == 0) && i > 7" class="tableHeader">

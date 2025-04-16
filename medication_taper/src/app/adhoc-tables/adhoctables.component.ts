@@ -72,6 +72,12 @@ public constructor(
       console.log("Scene was not found.");
   }
 
+  // Save each row
+  public async saveAll(){
+    for(let r of this.rows){
+      this.SaveDetails(r.Id, this.adhocTable.Id);
+    }
+  }
   public async deleteRow(rowID : number){
     await this.service.deleteRow(this.adhocTable.Id, rowID);
     let sceneIndex = this.rows.findIndex( x => x.Id == rowID);
