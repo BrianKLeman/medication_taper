@@ -12,7 +12,7 @@
                 <td class="commands">
                     <button (click)="showNotes(p);" class="action"><i class="bi bi-sticky-fill"></i></button>
                     <button (click)="showTasks(p);" class="action"><i class="bi bi-list-task"></i></button>
-                    <button *ngIf="HasBeatcharts(p);" (click)="showBeatcharts(p)" class="action"><i class="bi bi-table"></i></button>
+                    <button (click)="showBeatcharts(p)" class="action"><i class="bi bi-table"></i></button>
                 </td>
                 <td class="text">{{p.Name}}</td>
                 <td class="date">{{p.StartDate | date : "fullDate"}}</td>

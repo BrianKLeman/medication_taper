@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotesComponent } from '../notes/notes.component';
 import { LinkNoteToComponent } from '../link-note-to/link-note-to.component';
 import { TokenService } from '../token.service';
+import { FormControl, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-notes-table',
@@ -56,19 +57,17 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
 
   public notes : INotes[] = [];
 
-  public async deleteNote(noteID : number){
-    let x = await this.notesService.DeleteNote(noteID);
+  public async deleteNotes(){
+    for( let n of this.notes.filter( x => x.Link))
+      await this.notesService.DeleteNote(n.Id);
     setTimeout(async () => { await this.refreshNotes(); }, 500);
   }
 
-  public adjustForTimezone(date : string){
-    return this.timeService.adjustForTimezoneStr(date);
-  }
 
   @Input()
   public showForm = false;
   public async refreshNotes(){
-    if(this.showForm){
+    if(this.fromDate && this.toDate){
       let x = await this.notesService.getAllNotesForRange(this.fromDate, this.toDate);
       this.notes = x ?? [];
       console.log("Refreshed Notes "+ x?.length);
@@ -157,21 +156,21 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
   }
 
   public dateDiff(a : string, b : string){
-    let c = this.adjustForTimezone(a).getDate();
-    let d = this.adjustForTimezone(b).getDate();
+    let c = new Date(a).getDate();
+    let d = new Date(b).getDate();
     return c - d;
   }
 
   public dayOfWeek(a: string, addDays : number){
     const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
     
-    return weekday[this.adjustForTimezone(a).getDay()+7+addDays];
+    return weekday[new Date(a).getDay()+7+addDays];
   }
 
   public format(text : string, displayAsHTML : boolean)
   {
     if(displayAsHTML == false)
-      return text.replace('\n', "<p>").replace('\n', "<p>");
+      return text.replace('\n\r', "<br/>").replace('\n', "<br/>").replace('\r', "<br/>");
     else 
       return text;
   }
@@ -183,6 +182,10 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
 
   //#region Date Range
 
+  searchFormGroup = new FormGroup({
+    fromDate: new FormControl('', Validators.required),
+    toDate: new FormControl('', Validators.required)
+  });
   fromDate : string = "";
 
   public changeFromDate(d : string){

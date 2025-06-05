@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips'
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -80,10 +80,11 @@ import { ProjectAdhocTablesComponent } from './project-adhoc-tables/project-adho
     MatTabsModule,
     MatCardModule,
     MatChipsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ReactiveFormsModule
   ],
   providers: [
-    { provide: HttpClient}, { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }],
+     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

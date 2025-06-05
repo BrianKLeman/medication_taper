@@ -13,7 +13,7 @@ export class AppointmentsService {
   }
 
   public async getAllAppointmentsForPerson(){
-    let x = await this.httpClient.get<IAppointment[]>( this.apiUrls.GetApiURL()+"Api/Appointments/Appointments").toPromise();
+    let x = await this.httpClient.get<IAppointment[]>( this.apiUrls.GetApiURL()+"Api/Appointments").toPromise();
     if(x)
     for(let p of x){
       p.ShowNotes = false;

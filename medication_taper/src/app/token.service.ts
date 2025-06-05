@@ -13,7 +13,7 @@ export class TokenService {
   }
 
   public async GetToken(userID : string, password : string){
-    let x = await this.httpClient.get<IToken>(this.urlsService.GetApiURL()+"/api/Auth/Token").toPromise();
+    let x = await this.httpClient.get<IToken>(this.urlsService.GetApiURL()+"api/Auth/Token").toPromise();
     if(x){
       this.token = x;  
       

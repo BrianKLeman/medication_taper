@@ -23,15 +23,15 @@ export class NotesComponent {
 
       if(!data.note){
         let now = new Date(Date.now());
-        now = this.timeService.adjustForTimezone(now);
         this.entityID = data.entity_id;
         this.tableName = data.entity;
         this.currentNote = this.CreateNewNote(now);
       } else {
         this.currentNote = data.note;
-        
+        if(this.currentNote.BehaviorChange != true)
+          this.currentNote.BehaviorChange = false;
         // I need to correct the date time because the server is adjusting it.
-        let rd = this.timeService.adjustForTimezone(new Date(this.currentNote.RecordedDate));
+        let rd = new Date(this.currentNote.RecordedDate);
         this.currentNote.RecordedDate = rd.toISOString();
         this.setDateAndTime(rd);
       }

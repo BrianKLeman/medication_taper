@@ -14,7 +14,7 @@ export class AuthHttpInterceptorService implements HttpInterceptor {
 
     let c : any = {};
     let token = this.token.Token;   
-    if(token && token.Token.length > 0){
+    if(token != undefined && token != null && token.Token.length > 0){
         c = req.clone( { headers: 
         req.headers.append("Auth-Token", token.Token)
         });

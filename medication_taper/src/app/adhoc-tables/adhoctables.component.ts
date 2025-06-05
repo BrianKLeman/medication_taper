@@ -43,14 +43,13 @@ public constructor(
   }
 
   public async addNewRow(){
-    let draftRow = this.rows.filter( x => x.Id == 0);
-    if(draftRow.length == 0){
+    
       let row = <IAdhocTableRow>{ Id: 0, AdhocTableID: this.adhocTable.Id, Name: "New*"};
       let response = await this.service.createRow(this.adhocTable.Id, row);
       row.Id = response?.AdhocTableRowID ?? 0;
       if(row.Id > 0)
         this.rows.push(row);
-    }
+    
   }
 
   public async SaveDetails(rowID : number, adhocTableId : number){
