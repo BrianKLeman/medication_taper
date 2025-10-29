@@ -54,7 +54,8 @@ export class TaskFormComponent {
       DateCompleted: null,  
       Priority: 0,  
       Status: "NOT_STARTED",
-      AcceptanceCriteria: ""
+      AcceptanceCriteria: "",
+      Order : 0
     };
     return task;
   }

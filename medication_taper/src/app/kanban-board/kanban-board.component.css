@@ -1,21 +1,28 @@
 .kanbanRoot
 {
-    display: flex;
     background-color: rgb(208, 205, 205);
     border-radius: 0 0 16px 16px;
     margin: auto;
 }
 
+.kanbanSwimlineA
+{
+    background-color: cornflowerblue;
+}
+
+.kanbanSwimlineB
+{
+    background-color: aquamarine;
+}
 .columnRoot
 {
     padding: 10px;
-    display: flex;
-    flex-direction: column;
+    vertical-align: top;
 }
 
 .columnHeader
 {
-    margin : 0 0 16px 0px; 
+    margin : 16px 16px 16px 0px; 
     padding : 16px;
 }
 

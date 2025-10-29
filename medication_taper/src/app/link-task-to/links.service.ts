@@ -6,6 +6,7 @@ import { PhenomenaService } from '../phenomena-table/phenomena.service';
 import { AppointmentsService } from '../appointments-table/appointments.service';
 import { GroupsService } from '../groups.service';
 import { SprintsService } from '../sprints.service';
+import { FeaturesService } from '../features.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class LinksService {
     private phenomenaService : PhenomenaService,
     private appointmentsService : AppointmentsService,
     private groupsService : GroupsService,
-    private sprintsService : SprintsService ) { }
+    private sprintsService : SprintsService,
+    private featuresService : FeaturesService ) { }
 
   public async getRecords(recordType : string){
 
@@ -48,6 +50,10 @@ export class LinksService {
 
     if(recordType == "SPRINTS"){
       return await this.sprintsService.getAllSprintsForPerson();
+    }
+
+    if(recordType == "FEATURES"){
+      return await this.featuresService.getAllFeaturesForPerson();
     }
 
     return [];

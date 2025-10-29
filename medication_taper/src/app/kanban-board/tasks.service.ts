@@ -4,6 +4,7 @@ import { UrlsService } from 'src/urls.service';
 import { GroupsService, IGroups } from '../groups.service';
 import { TaskLinksService } from '../link-task-to/task-links.service';
 import { ISprint } from '../sprints.service';
+import { FeaturesService, IFeature } from '../features.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class TasksService {
 
   constructor(private httpClient : HttpClient, 
     private urlsService : UrlsService,
-    private taskLinksService : TaskLinksService) { }
+    private taskLinksService : TaskLinksService,
+    private featuresService : FeaturesService) { }
 
   public async getAllForPerson(){
     let x = await this.httpClient.get<ITasks[]>( this.urlsService.GetApiURL()+"Api/Tasks").toPromise();
@@ -54,6 +56,10 @@ export class TasksService {
       }
     }).toPromise();
     return x;
+  }
+
+  public async getAllFeaturesForProject(projectID : number){
+      return await this.featuresService.getAllFeaturesForProjectAndPerson(projectID);
   }
   public async groupTasks(tasks : ITasks[]){
     let taskIDs = tasks.map( x => x.Id);
@@ -110,6 +116,7 @@ export interface ITasks {
     Difficulty : number;
     RequiresLearning : number;
     AcceptanceCriteria : string;
+    Order : number;
 }
 
 export interface ITasksGroupsViewModel
@@ -117,6 +124,7 @@ export interface ITasksGroupsViewModel
     Task : ITasks,
     Groups : IGroup[],
     Sprints : ISprint[],
+    Features : IFeature[],
     Selected : boolean
 }
 

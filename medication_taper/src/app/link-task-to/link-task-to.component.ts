@@ -8,6 +8,7 @@ import { IAppointment } from '../appointments-table/appointments.service';
 import { TaskLinksService } from './task-links.service';
 import { IGroups } from '../groups.service';
 import { ISprint } from '../sprints.service';
+import { IFeature } from '../features.service';
 
 @Component({
   selector: 'app-link-task-to',
@@ -87,6 +88,10 @@ public constructor(@Inject(MAT_DIALOG_DATA)
       return { id : sprint.Id, desc : `${ sprint.Name}`};
     }
 
+    let feature = record as IFeature;
+    if(feature.Id != undefined){
+      return { id : feature.Id, desc : `${ feature.Name}`};
+    }
     return { id : -1, desc : `Unspecified`};
   }
 

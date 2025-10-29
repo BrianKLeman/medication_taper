@@ -7,6 +7,7 @@ import { GroupsService, IGroups } from '../groups.service';
 import { TaskLinksService } from '../link-task-to/task-links.service';
 import { IGroupsSelectionVM } from '../groups/groups.component';
 import { ISprint, SprintsService } from '../sprints.service';
+import { FeaturesService, IFeature } from '../features.service';
 
 @Component({
   selector: 'app-kanban-board',
@@ -19,7 +20,8 @@ export class KanbanBoardComponent implements OnInit {
   constructor(private tasksService : TasksService,
               private dialog : MatDialog,
              private groupsService : GroupsService,
-              private sprintsService : SprintsService){   
+              private sprintsService : SprintsService,
+            private featuresService : FeaturesService){   
   }
 
   @Input()
@@ -33,10 +35,19 @@ export class KanbanBoardComponent implements OnInit {
 
   @Input()
   public sprintID : number = 0;
+
+  public features : IFeature[] = [{Name : "N/A", Id : 0, PersonID : 0, ProjectID : 0, LearningAimID : 0}]
   async ngOnInit() {
     let groups = await this.groupsService.getAllGroupsForPerson();
     await this.refresh();
     this.refreshSprints();
+  }
+
+  public filter(arg : ITasksGroupsViewModel[], f : IFeature){
+    if(f.Id == 0)
+      return arg.filter( x => x.Features.length == 0);
+
+    return arg.filter( x => x.Features.some( x => x.Id == f.Id));
   }
 //#endregion
 
@@ -46,12 +57,23 @@ export class KanbanBoardComponent implements OnInit {
     await this.refresh();
   }
   private async refresh(){
+    let features : IFeature[] = [];
     let tasks = [];
-    if(this.table.trim() == "")
+    if(this.table.trim() == ""){
+      features = await this.featuresService.getAllFeaturesForPerson();
       this.Tasks = tasks = await this.tasksService.getAllForPersonWithExtras() ?? [];
-    else      
+    }
+    else{
+      if( this.table == "LEARNING_AIMS")
+        features = await this.featuresService.getAllFeaturesForLearningAimAndPerson(this.recordID);
+      else if (this.table == "PROJECTS")
+        features = await this.featuresService.getAllFeaturesForProjectAndPerson(this.recordID);
+      else
+        features = this.features;
       this.Tasks = tasks = await this.tasksService.getAllWithExtrasForPersonTableRecord(this.table, this.recordID) ?? [];
- 
+    }
+    tasks = tasks.sort( (a, b) => a.Task.Order - b.Task.Order);
+    this.Tasks = tasks;
     if(this.sprintID > 0)
       tasks = this.filterBySprint(this.sprintID, tasks);
 
@@ -109,6 +131,9 @@ export class KanbanBoardComponent implements OnInit {
     {
       return value.Task.Status == IN_REVIEW;
     }));
+
+    this.features = features;
+    this.features.push({ Name : "N/A", Id : 0, ProjectID : 0, LearningAimID : 0, PersonID : 0});
   }
   public Tasks : ITasksGroupsViewModel[] = [];
 

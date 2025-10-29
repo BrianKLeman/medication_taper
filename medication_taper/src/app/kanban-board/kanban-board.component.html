@@ -17,51 +17,81 @@
         <app-groups (groupsChanged)="groupsChanged($event)"></app-groups>
     </span>
 </span>
-<div #kanBanParent class="kanbanRoot">
+<table #kanBanParent class="kanbanRoot">
    
-    <div #plannedColumn class="columnRoot" (drop)="onDropNotStarted($event)" (dragover)="allowDrop($event)">
-        <mat-card class="notStarted columnHeader"> Not Started </mat-card>
-        <ng-container *ngFor="let tas of NotStarted">
-            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-        </ng-container>
-    </div>
+    <thead class="tableHeader">
+        <th>
+            <mat-card class="columnHeader"> Features </mat-card>
+        </th>
 
-    <div #readyColumn class="columnRoot" (drop)="onDropInReady($event)" (dragover)="allowDrop($event)">
-        <mat-card class="ready columnHeader"> Ready </mat-card>
-        <ng-container *ngFor="let tas of Ready">
-            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-        </ng-container>
-    </div>
+        <th>
+            <mat-card class="notStarted columnHeader"> Not Started </mat-card>
+        </th>
+        
+        <th>            
+            <mat-card class="ready columnHeader"> Ready </mat-card>
+        </th>
+        
+        <th>                       
+            <mat-card class="started columnHeader"> Started </mat-card>
+        </th>
+        
+        <th>
+            <mat-card class="inProgress columnHeader"> In Progress </mat-card>
+        </th>
+        
+        <th>                          
+            <mat-card class="inReview columnHeader"> Review </mat-card>
+        </th>
+        
+        <th>                            
+            <mat-card class="completed columnHeader"> Completed </mat-card>
+        </th>
+    </thead>
 
-    <div #inprogressColumn class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">                
-        <mat-card class="started columnHeader"> Started </mat-card>
-        <ng-container *ngFor="let tas of Started">
-            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-        </ng-container>
-    </div>
+    <tbody>
+        <tr *ngFor="let featureID of features; let i = index" [ngClass]="{'kanbanSwimlineA' : i%2 == 0, 'kanbanSwimlineB' : i%2 == 1}">
+            <td>{{featureID.Name}}</td>
+            <td #plannedColumn class="columnRoot" (drop)="onDropNotStarted($event)" (dragover)="allowDrop($event)">
+                
+                <ng-container *ngFor="let tas of filter(NotStarted, featureID)">
+                    <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+                </ng-container>
+            </td>
 
-    <div #inprogressColumn class="columnRoot" (drop)="onDropInProgress($event)" (dragover)="allowDrop($event)">                
-        <mat-card class="inProgress columnHeader"> In Progress </mat-card>
-        <ng-container *ngFor="let tas of InProgress">
-            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-        </ng-container>
-    </div>
+            <td #readyColumn class="columnRoot" (drop)="onDropInReady($event)" (dragover)="allowDrop($event)">
+                <ng-container *ngFor="let tas of filter(Ready, featureID)">
+                    <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+                </ng-container>
+            </td>
 
-    <div #completeColumn class="columnRoot" (drop)="onDropInReview($event)" (dragover)="allowDrop($event)">                
-        <mat-card class="inReview columnHeader"> Review </mat-card>
-        <ng-container *ngFor="let tas of InReview">
-            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-        </ng-container>
-    </div>
+            <td #inprogressColumn class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">     
+                <ng-container *ngFor="let tas of filter(Started, featureID)">
+                    <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+                </ng-container>
+            </td>
 
-    <div #completeColumn class="columnRoot" (drop)="onDropComplete($event)" (dragover)="allowDrop($event)">                
-        <mat-card class="completed columnHeader"> Completed </mat-card>
-        <ng-container *ngFor="let tas of Completed">
-            <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-        </ng-container>
-    </div>
+            <td #inprogressColumn class="columnRoot" (drop)="onDropInProgress($event)" (dragover)="allowDrop($event)">                
+                
+                <ng-container *ngFor="let tas of filter(InProgress, featureID)">
+                    <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+                </ng-container>
+            </td>
 
-</div>
+            <td #completeColumn class="columnRoot" (drop)="onDropInReview($event)" (dragover)="allowDrop($event)">  
+                <ng-container *ngFor="let tas of filter(InReview, featureID)">
+                    <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+                </ng-container>
+            </td>
+
+            <td #completeColumn class="columnRoot" (drop)="onDropComplete($event)" (dragover)="allowDrop($event)">
+                <ng-container *ngFor="let tas of filter(Completed, featureID)">
+                    <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <ng-template #card let-taskVM="taskVM">
     <mat-card class="columnItem"draggable="true" (dragstart)="dragStart(taskVM.Task.Id)">
