@@ -9,7 +9,6 @@ import { TimezonesService } from '../timezones.service';
 })
 export class SleepsService {
   constructor(private httpClient : HttpClient, 
-    private user : UserCredentialsService,
     private apiUrls : UrlsService,
     private timezoneService : TimezonesService) { 
 
