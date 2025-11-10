@@ -7,12 +7,12 @@
 
 .kanbanSwimlineA
 {
-    background-color: cornflowerblue;
+    background-color: lightgray;
 }
 
 .kanbanSwimlineB
 {
-    background-color: aquamarine;
+    background-color: rgb(234, 233, 233);
 }
 .columnRoot
 {

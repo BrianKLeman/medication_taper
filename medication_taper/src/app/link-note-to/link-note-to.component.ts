@@ -52,32 +52,32 @@ export class LinkNoteToComponent {
 
     let la = record as ILearningAim;
 
-    if(la.Id != undefined){
+    if(la.Id != undefined && la.Name != undefined){
       return { id : la.Id, desc : `${la.Name}`};
     }
 
     let sleep = record as ISleeps;
-    if(sleep.Id != undefined){
+    if(sleep.Id != undefined && sleep.FromDate != undefined){
       return { id : sleep.Id, desc : `${ sleep.FromDate }`};
     }
 
     let p = record as IProject;
-    if(p.Id != undefined){
+    if(p.Id != undefined && p.Name != undefined){
       return { id : p.Id, desc : `${ p.Name}`};
     }
 
     let s = record as IPhenomena;
-    if(s.Id != undefined){
+    if(s.Id != undefined && s.PhenomenaDetails != undefined){
       return { id : s.Id, desc : `${ s.PhenomenaDetails}`};
     }
 
     let app = record as IAppointment;
-    if(app.Id != undefined){
+    if(app.Id != undefined && app.AppointmentName != undefined){
       return { id : app.Id, desc : `${ app.AppointmentName}`};
     }
 
     let feature = record as IFeature;
-      if(feature.Id != undefined){
+      if(feature.Id != undefined && feature.Name != undefined){
         return { id : feature.Id, desc : `${ feature.Name}`};
       }
         

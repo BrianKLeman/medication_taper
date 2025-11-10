@@ -99,6 +99,7 @@
         <mat-card-content><span>{{taskVM.Task.TaskName}} </span></mat-card-content>
         <mat-card-footer>
             <mat-chip-set>
+                <mat-chip ><b>{{taskVM.Task.Order}}</b></mat-chip> 
                 <mat-chip *ngIf="taskVM.Task.Priority>0"><b>P{{taskVM.Task.Priority}}</b></mat-chip> 
                 <mat-chip *ngIf="taskVM.Task.Difficulty > 0">Difficulty:{{taskVM.Task.Difficulty}}</mat-chip> 
                 <mat-chip *ngIf="taskVM.Task.RequiresLearning>0">Learning Required</mat-chip> 
