@@ -9,7 +9,6 @@ import { UrlsService } from 'src/urls.service';
 export class LearningAimsService {
 
   constructor(private httpClient : HttpClient, 
-    private user : UserCredentialsService,
     private apiUrls : UrlsService) { 
 
   }

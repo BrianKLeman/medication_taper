@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UrlsService } from 'src/urls.service';
-import { GroupsService, IGroups } from '../groups.service';
 import { TaskLinksService } from '../link-task-to/task-links.service';
 import { ISprint } from '../sprints.service';
 import { FeaturesService, IFeature } from '../features.service';
