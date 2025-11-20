@@ -11,18 +11,21 @@ export class AuthHttpInterceptorService implements HttpInterceptor {
 
   constructor(private user : UserCredentialsService, private token : TokenService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    const authHeader = "Authorization";
+    const basic = "basic";
     let c : any = {};
     let token = this.token.Token;   
     if(token != undefined && token != null && token.Token.length > 0){
         c = req.clone( { headers: 
-        req.headers.append("Auth-Token", token.Token)
+        req.headers.append(authHeader, `${basic} ${btoa(token.Token)}`)
         });
     }
     else {
         c = req.clone( { headers: 
-          req.headers.append("UserID",this.user.getUserID())
-          .append("Password", this.user.getPassword())
+          req.headers.append(
+            authHeader,
+            `${basic} ${btoa(this.user.getUserID()+':'+this.user.getPassword())}`
+          )
           }
         );
     }
