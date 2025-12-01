@@ -28,12 +28,13 @@ export class ShoppingItemsService {
 
 export interface IShoppingItems {
   Id: number;
-  Name: string;
+  ItemName: string;
   Status: string;
-  PersonID: number;
+  PersonId: number;
   DateChecked: string | null;
   CreatedDate: string;
   CreatedBy: string;
+  Personal : number;
 }
 
 export const ENOUGH = "ENOUGH";
