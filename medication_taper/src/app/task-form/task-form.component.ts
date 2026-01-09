@@ -45,17 +45,18 @@ export class TaskFormComponent {
     console.log(ct.toISOString());
     let task = <ITasks> { 
       Id: 0,
-      TaskName : "",  
+      TaskName : "Name",  
       CreatedDate: ct.toISOString(),  
       CreatedBy: "BKL",  
       PersonID: 0,  
       DueDate: null,  
-      Description : "",  
+      Description : "As [Role], I [Want], [Because]\n\r Remember 5 Ws - What, Why, Who, When and Where (https://claude.ai/chat/22e900b4-8987-43aa-aeab-f8c9bf4102bd)",  
       DateCompleted: null,  
       Priority: 0,  
       Status: "NOT_STARTED",
-      AcceptanceCriteria: "",
-      Order : 0
+      AcceptanceCriteria: "Given/When/Then",
+      Order : 0,
+      Estimate : 0
     };
     return task;
   }
@@ -113,6 +114,20 @@ export class TaskFormComponent {
   }
   public get Priority(){
     return this.currentTask.Priority;
+  }
+
+  public set Estimate(arg : number){
+    this.currentTask.Estimate = arg;
+  }
+  public get Estimate(){
+    return this.currentTask.Estimate;
+  }
+
+   public set Impeded(arg : boolean){
+    this.currentTask.Impeded = arg ? 1 : 0;
+  }
+  public get Impeded(){
+    return this.currentTask.Impeded > 0;
   }
   //#endregion
 }

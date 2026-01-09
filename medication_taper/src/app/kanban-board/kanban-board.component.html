@@ -1,5 +1,5 @@
 
-<span>
+<mat-toolbar>
     <button (click)="addTask();" class="action"><i class="bi bi-list-task"></i></button>
     <button (click)="addTaskLink();" class="action"><i class="bi bi-link"></i></button>
     <button (click)="deleteTasks();" class="action"><i class="bi bi-trash3"></i></button>
@@ -10,42 +10,45 @@
             
             <option [value]="-2">Backlog</option>
             <option [value]="-1">----------</option>
-            <option *ngFor="let n of sprints;" [value]="n.id">{{ n.desc }}</option>
+            <option *ngFor="let n of sprints;" [value]="n.id">{{ n.desc }} - {{ n.FromDate | date : "shortDate" }} - {{ n.EndDate | date : "shortDate"}}</option>
         </select>
     </span>
     <span style="align-content: end;">
         <app-groups (groupsChanged)="groupsChanged($event)"></app-groups>
     </span>
-</span>
+    <mat-chip *ngIf="countAllUnestimated() > 0">{{countAllUnestimated()}}  Tasks Unestimated</mat-chip>
+    <mat-chip *ngIf="countAll() > 0">{{count('COMPLETED')}} of {{countAll()}} Tasks Completed</mat-chip>
+    <mat-chip>Estimate: {{ sumEstimateAll()}}</mat-chip>
+    </mat-toolbar>
 <table #kanBanParent class="kanbanRoot">
    
     <thead class="tableHeader">
         <th>
-            <mat-card class="columnHeader"> Features </mat-card>
+            <mat-card class="columnHeader"> Features</mat-card>
         </th>
 
         <th>
-            <mat-card class="notStarted columnHeader"> Not Started </mat-card>
+            <ng-container *ngTemplateOutlet="header; context: {label : 'Not Started', columnStatus : 'NOT_STARTED'}"></ng-container>
         </th>
         
         <th>            
-            <mat-card class="ready columnHeader"> Ready </mat-card>
+            <ng-container *ngTemplateOutlet="header; context: {label : 'Ready', columnStatus : 'READY'}"></ng-container>
         </th>
         
         <th>                       
-            <mat-card class="started columnHeader"> Started </mat-card>
+            <ng-container *ngTemplateOutlet="header; context: {label : 'Started', columnStatus : 'STARTED'}"></ng-container>
         </th>
         
         <th>
-            <mat-card class="inProgress columnHeader"> In Progress </mat-card>
+            <ng-container *ngTemplateOutlet="header; context: {label : 'In Progress', columnStatus : 'IN_PROGRESS'}"></ng-container>
         </th>
         
         <th>                          
-            <mat-card class="inReview columnHeader"> Review </mat-card>
+            <ng-container *ngTemplateOutlet="header; context: {label : 'In Review', columnStatus : 'IN_REVIEW'}"></ng-container>
         </th>
         
         <th>                            
-            <mat-card class="completed columnHeader"> Completed </mat-card>
+            <ng-container *ngTemplateOutlet="header; context: {label : 'Completed', columnStatus : 'COMPLETED'}"></ng-container>
         </th>
     </thead>
 
@@ -65,7 +68,7 @@
                 </ng-container>
             </td>
 
-            <td #inprogressColumn class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">     
+            <td  class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">     
                 <ng-container *ngFor="let tas of filter(Started, featureID)">
                     <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
                 </ng-container>
@@ -78,7 +81,7 @@
                 </ng-container>
             </td>
 
-            <td #completeColumn class="columnRoot" (drop)="onDropInReview($event)" (dragover)="allowDrop($event)">  
+            <td #inReview class="columnRoot" (drop)="onDropInReview($event)" (dragover)="allowDrop($event)">  
                 <ng-container *ngFor="let tas of filter(InReview, featureID)">
                     <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
                 </ng-container>
@@ -95,16 +98,35 @@
 
 <ng-template #card let-taskVM="taskVM">
     <mat-card class="columnItem"draggable="true" (dragstart)="dragStart(taskVM.Task.Id)">
-        <mat-card-header><div><input type="checkbox" [(ngModel)]="taskVM.Selected"/> <b>#{{taskVM.Task.Id}}</b><button (click)="editTask(taskVM);" class="action"><i class="bi bi-three-dots"></i></button></div></mat-card-header>
+        <mat-card-header><div><input type="checkbox" [(ngModel)]="taskVM.Selected"/><span *ngIf="taskVM.Task.Impeded > 0">!</span> <b>#{{taskVM.Task.Id}}</b><button (click)="editTask(taskVM);" class="action"><i class="bi bi-three-dots"></i></button></div></mat-card-header>
         <mat-card-content><span>{{taskVM.Task.TaskName}} </span></mat-card-content>
         <mat-card-footer>
             <mat-chip-set>
-                <mat-chip ><b>{{taskVM.Task.Order}}</b></mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.Order>0"><b>{{taskVM.Task.Order}}</b></mat-chip> 
                 <mat-chip *ngIf="taskVM.Task.Priority>0"><b>P{{taskVM.Task.Priority}}</b></mat-chip> 
                 <mat-chip *ngIf="taskVM.Task.Difficulty > 0">Difficulty:{{taskVM.Task.Difficulty}}</mat-chip> 
                 <mat-chip *ngIf="taskVM.Task.RequiresLearning>0">Learning Required</mat-chip> 
-                <mat-chip *ngFor="let g of taskVM.Groups">{{ g.Id | group}}</mat-chip>
+                <mat-chip *ngFor="let g of taskVM.Groups">{{ g.Id | group}}</mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.Estimate">Estimate: {{taskVM.Task.Estimate}}</mat-chip>
             </mat-chip-set>
         </mat-card-footer>
     </mat-card>
 </ng-template>
+
+<ng-template #header let-columnStatus="columnStatus" let-labelText="label">
+    <mat-card style="margin: auto;" [ngClass]="{notStarted : columnStatus =='NOT_STARTED', ready : columnStatus == 'READY', 'started' : columnStatus == 'STARTED', inProgress : columnStatus == 'IN_PROGRESS', inReview : columnStatus == 'IN_REVIEW', completed : columnStatus == 'COMPLETED', columnHeader : true}">
+        
+        <mat-card-header>
+            {{labelText}} 
+        </mat-card-header>
+        <mat-card-footer>
+            <mat-chip-set>
+                <mat-chip *ngIf="count(columnStatus) > 0">{{ count(columnStatus)}} Tasks</mat-chip>
+                <mat-chip *ngIf="sumEstimate(columnStatus) > 0">Estimate: {{ sumEstimate(columnStatus)}}</mat-chip>
+                <mat-chip *ngIf="countUnestimated(columnStatus) > 0">{{ countUnestimated(columnStatus)}} Tasks Unestimated</mat-chip>
+            </mat-chip-set>
+        </mat-card-footer>
+         
+    </mat-card>
+</ng-template>
+   

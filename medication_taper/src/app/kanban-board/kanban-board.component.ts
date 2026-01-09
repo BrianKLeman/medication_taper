@@ -4,7 +4,6 @@ import { TaskFormComponent } from '../task-form/task-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LinkTaskToComponent } from '../link-task-to/link-task-to.component';
 import { GroupsService, IGroups } from '../groups.service';
-import { TaskLinksService } from '../link-task-to/task-links.service';
 import { IGroupsSelectionVM } from '../groups/groups.component';
 import { ISprint, SprintsService } from '../sprints.service';
 import { FeaturesService, IFeature } from '../features.service';
@@ -35,14 +34,27 @@ export class KanbanBoardComponent implements OnInit {
 
   @Input()
   public sprintID : number = 0;
-
-  public features : IFeature[] = [{Name : "N/A", Id : 0, PersonID : 0, ProjectID : 0, LearningAimID : 0}]
+  
+  public features : IFeature[] = []
   async ngOnInit() {
     let groups = await this.groupsService.getAllGroupsForPerson();
     await this.refresh();
     this.refreshSprints();
   }
 
+  public filterFeaturesWithAvailableTasks(tasks : ITasksGroupsViewModel[], features : IFeature[]) : IFeature[]{
+    const defaultFeature : IFeature = {Name : "N/A", Id : 0, PersonID : 0, ProjectID : 0, LearningAimID : 0};
+    let filteredFeatures = [defaultFeature];
+    for(let f of features){
+      for(let t of tasks){
+        let exists = t.Features.find( (feature) => feature.Id == f.Id) ;
+        if(exists != undefined && filteredFeatures.find((feature)=> feature.Id == f.Id) == undefined){
+          filteredFeatures.push(exists);
+        }
+      }
+    }
+    return filteredFeatures;
+  }
   public filter(arg : ITasksGroupsViewModel[], f : IFeature){
     if(f.Id == 0)
       return arg.filter( x => x.Features.length == 0);
@@ -56,31 +68,18 @@ export class KanbanBoardComponent implements OnInit {
   public async onValueChanged(arg : any){
     await this.refresh();
   }
-  private async refresh(){
-    let features : IFeature[] = [];
-    let tasks = [];
-    if(this.table.trim() == ""){
-      features = await this.featuresService.getAllFeaturesForPerson();
-      this.Tasks = tasks = await this.tasksService.getAllForPersonWithExtras() ?? [];
-    }
-    else{
-      if( this.table == "LEARNING_AIMS")
-        features = await this.featuresService.getAllFeaturesForLearningAimAndPerson(this.recordID);
-      else if (this.table == "PROJECTS")
-        features = await this.featuresService.getAllFeaturesForProjectAndPerson(this.recordID);
-      else
-        features = this.features;
-      this.Tasks = tasks = await this.tasksService.getAllWithExtrasForPersonTableRecord(this.table, this.recordID) ?? [];
-    }
-    tasks = tasks.sort( (a, b) => a.Task.Order - b.Task.Order);
-    this.Tasks = tasks;
-    if(this.sprintID > 0)
+
+  public filterTasks(toFilter : ITasksGroupsViewModel[]) : ITasksGroupsViewModel[]{
+    let tasks = toFilter;
+     if(this.sprintID > 0){
       tasks = this.filterBySprint(this.sprintID, tasks);
+    }
 
     if(this.sprintID == -2) // Uncommitted Backlog
     {
       tasks = this.filterByUncommitted(tasks);
     }
+
     if(this.groupIDs.length > 0){
       console.log(tasks.length + " - group " + this.groupIDs);
       let group = this.groupIDs;
@@ -94,6 +93,31 @@ export class KanbanBoardComponent implements OnInit {
               tasks.push(f);
     }
 
+    return tasks;
+  }
+  private async refresh(){
+    let features : IFeature[] = [];
+    let tasks = [];
+    if(this.table.trim() == ""){
+      features = await this.featuresService.getAllFeaturesForPerson();
+      tasks = await this.tasksService.getAllForPersonWithExtras() ?? [];
+    }
+    else{
+      if( this.table == "LEARNING_AIMS")
+        features = await this.featuresService.getAllFeaturesForLearningAimAndPerson(this.recordID);
+      else if (this.table == "PROJECTS")
+        features = await this.featuresService.getAllFeaturesForProjectAndPerson(this.recordID);
+      else
+        features = this.features;
+      tasks = await this.tasksService.getAllWithExtrasForPersonTableRecord(this.table, this.recordID) ?? [];
+    }
+    tasks = tasks.sort( (a, b) => a.Task.Order - b.Task.Order);
+    this.Tasks = [...tasks];
+   
+    tasks = this.filterTasks(tasks);
+    
+    features = this.filterFeaturesWithAvailableTasks(tasks, features);
+    this.features = [...features]
     this.InProgress.length = 0;
     this.InProgress.push(...tasks.filter((value : ITasksGroupsViewModel) => 
     {
@@ -132,8 +156,6 @@ export class KanbanBoardComponent implements OnInit {
       return value.Task.Status == IN_REVIEW;
     }));
 
-    this.features = features;
-    this.features.push({ Name : "N/A", Id : 0, ProjectID : 0, LearningAimID : 0, PersonID : 0});
   }
   public Tasks : ITasksGroupsViewModel[] = [];
 
@@ -196,6 +218,7 @@ export class KanbanBoardComponent implements OnInit {
     if(t){
       this.Completed.push(t);
       t.Task.Status = COMPLETED;
+      t.Task.DateCompleted = new Date(Date.now()).toISOString();
       await this.tasksService.UpdateTask(t.Task);
     }
   }
@@ -316,16 +339,16 @@ export class KanbanBoardComponent implements OnInit {
     });
   }
   
-  public ToRecord(record : any) : {id : number, desc : string}{
+  public ToRecord(record : any) : {id : number, desc : string, FromDate : string, EndDate : string}{
     let g = record as ISprint;
     if(g.Id != undefined){
-      return { id : g.Id, desc : `${ g.Name}`};
+      return { id : g.Id, desc : `${ g.Name}`, FromDate : g.StartDate, EndDate : g.EndDate};
     }
 
-    return { id : -1, desc : `Unspecified`};
+    return { id : -1, desc : `Unspecified`, FromDate : "", EndDate : ""};
   }
 
-  sprints : {id : number, desc : string}[] = [];
+  sprints : {id : number, desc : string, FromDate : string, EndDate : string}[] = [];
 
   private filterBySprint(sprintID : number, tasks : ITasksGroupsViewModel[]){
    let ts = tasks.filter( tVM => {
@@ -359,4 +382,43 @@ export class KanbanBoardComponent implements OnInit {
 
   }
   //#endregion
+//#region Calculations
+
+public sumEstimate(status : string){
+  let tasks = this.filterTasks([...this.Tasks]).filter((value : ITasksGroupsViewModel) => value.Task.Status == status);
+  if(tasks.length == 0)
+    return 0;
+  return tasks.map( (t) => t.Task.Estimate).reduce( (prev, current) => prev + current);
+}
+
+public countUnestimated(status: string){
+  let tasks = this.filterTasks([...this.Tasks]).filter((value : ITasksGroupsViewModel) => value.Task.Status == status);
+  if(tasks.length == 0)
+    return 0;
+  return tasks.map( (x) => x.Task.Estimate < 1 ? <number>1 : <number>0).reduce((p,c) => p+c);
+}
+
+public countAllUnestimated(){
+  let tasks = this.filterTasks([...this.Tasks]);
+  if(tasks.length == 0)
+    return 0;
+  return tasks.map( (x) => x.Task.Estimate < 1 ? <number>1 : <number>0).reduce((p,c) => p+c);
+}
+
+public sumEstimateAll(){
+  let tasks = this.filterTasks([...this.Tasks]);
+  if(tasks.length == 0)
+    return 0;
+  return tasks.map( (t) => t.Task.Estimate).reduce( (prev, current) => prev + current);
+}
+
+public countAll(){
+  let tasks = this.filterTasks([...this.Tasks]);
+  return tasks.length; 
+}
+public count(status: string){
+  let tasks = this.filterTasks([...this.Tasks]).filter((value : ITasksGroupsViewModel) => value.Task.Status == status);
+  return tasks.length;
+}
+//#endregion
 }

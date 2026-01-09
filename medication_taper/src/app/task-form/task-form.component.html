@@ -4,10 +4,19 @@
                     <table>
                         <tr>
                             <p>
-                                <label for="task-content">Text</label>
+                                <label for="task-name">Title</label>
                             </p>
-                                <textarea id="task-content" name="task-content" rows="10" cols="50" [(ngModel)]="currentTask.TaskName" style="box-sizing: border-box; width: 100%;"></textarea>
+                                <input id="task-name" name="task-name" length="50" [(ngModel)]="currentTask.TaskName" style="box-sizing: border-box; width: 100%;"/>
                                 
+                        </tr>
+                        <tr>
+                            <p>
+                                <label for="task-content">Description</label>
+                            </p>
+                            <div >
+                                <textarea id="task-content" name="task-content" rows="10" cols="50" [(ngModel)]="currentTask.Description" style="box-sizing: border-box; width: 100%;"></textarea>
+                                <span class="tooltiptext">As [Role], I [Want], [Because]\n\r Remember 5 Ws - What, Why, Who, When and Where</span>
+                            </div>
                         </tr>
                        
                         <tr>
@@ -62,6 +71,22 @@
                             </p>                            
                             
                             <input id="requiresLearning" name="requiresLearning" type="checkbox" [(ngModel)]="RequiresLearning"/>                                 
+                        </tr> 
+
+                        <tr>
+                            <p>
+                                <label for="estimate">Estimate (fibonacci)</label>
+                            </p>                            
+                            
+                            <input id="estimate" name="estimate" type="number" [(ngModel)]="Estimate"/>                                 
+                        </tr> 
+
+                        <tr>
+                            <p>
+                                <label for="impeded">Impeded</label>
+                            </p>                            
+                            
+                            <input id="impeded" name="impeded" type="checkbox" [(ngModel)]="Impeded"/>                                 
                         </tr> 
 
                     </table>

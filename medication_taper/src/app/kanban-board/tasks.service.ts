@@ -116,6 +116,8 @@ export interface ITasks {
     RequiresLearning : number;
     AcceptanceCriteria : string;
     Order : number;
+    Estimate : number;
+    Impeded : number;
 }
 
 export interface ITasksGroupsViewModel
