@@ -54,44 +54,46 @@ public constructor(@Inject(MAT_DIALOG_DATA)
 
     let la = record as ILearningAim;
 
-    if(la.Id != undefined){
+    if(la.Id != undefined && la.Name != undefined){
       return { id : la.Id, desc : `${la.Name}`};
     }
 
     let sleep = record as ISleeps;
-    if(sleep.Id != undefined){
+    if(sleep.Id != undefined && sleep.FromDate != undefined){
       return { id : sleep.Id, desc : `${ sleep.FromDate }`};
     }
 
     let p = record as IProject;
-    if(p.Id != undefined){
+    if(p.Id != undefined && p.Name != undefined){
       return { id : p.Id, desc : `${ p.Name}`};
     }
 
     let s = record as IPhenomena;
-    if(s.Id != undefined){
+    if(s.Id != undefined && s.PhenomenaDetails != undefined){
       return { id : s.Id, desc : `${ s.PhenomenaDetails}`};
     }
 
     let app = record as IAppointment;
-    if(app.Id != undefined){
+    if(app.Id != undefined && app.AppointmentName != undefined){
       return { id : app.Id, desc : `${ app.AppointmentName}`};
     }
 
+    let feature = record as IFeature;
+      if(feature.Id != undefined && feature.Name != undefined){
+        return { id : feature.Id, desc : `${ feature.Name}`};
+      }
+ 
+
     let g = record as IGroups;
-    if(g.Id != undefined){
+    if(g.Id != undefined && g.Name != undefined){
       return { id : g.Id, desc : `${ g.Name}`};
     }
 
     let sprint = record as ISprint;
-    if(sprint.Id != undefined){
+    if(sprint.Id != undefined && sprint.Name != undefined){
       return { id : sprint.Id, desc : `${ sprint.Name}`};
     }
 
-    let feature = record as IFeature;
-    if(feature.Id != undefined){
-      return { id : feature.Id, desc : `${ feature.Name}`};
-    }
     return { id : -1, desc : `Unspecified`};
   }
 
