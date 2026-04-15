@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "medication_taper:build:production"
+              "buildTarget": "medication_taper:build:production"
             },
             "development": {
-              "browserTarget": "medication_taper:build:development"
+              "buildTarget": "medication_taper:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "medication_taper:build"
+            "buildTarget": "medication_taper:build"
           }
         },
         "test": {
