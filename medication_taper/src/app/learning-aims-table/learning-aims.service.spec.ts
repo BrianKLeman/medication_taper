@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { LearningAimsService } from './learning-aims.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('LearningAimsService', () => {
   let service: LearningAimsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-          imports: [HttpClientTestingModule]});
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     service = TestBed.inject(LearningAimsService);
   });
 

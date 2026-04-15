@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AdhocTablesService } from './adhoctables.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('BeatchartsService', () => {
   let service: AdhocTablesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-          imports: [HttpClientTestingModule]});
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     service = TestBed.inject(AdhocTablesService);
   });
 

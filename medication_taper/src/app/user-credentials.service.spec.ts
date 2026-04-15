@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { UserCredentialsService } from './user-credentials.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('UserCredentialsService', () => {
   let service: UserCredentialsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-          imports: [HttpClientTestingModule]});
+    imports: [],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     service = TestBed.inject(UserCredentialsService);
   });
 

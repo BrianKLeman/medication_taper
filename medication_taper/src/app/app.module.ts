@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips'
@@ -57,68 +57,63 @@ import { StoryKanbanBoardComponent } from './story-kanban-board/story-kanban-boa
 import { SprintTaskChartComponent } from './sprint-task-chart/sprint-task-chart.component';
 import { RoadmapDialogComponent } from './roadmap-dialog/roadmap-dialog.component'
 /* Register Module */
-@NgModule({
-  declarations: [
-    AppComponent,
-    PrescriptionsTableComponent,
-    MedicationDosesTableComponent,
-    NotesComponent,
-    NotesTableComponent,
-    AuthDialogComponent,
-    ProjectsTableComponent,
-    LearningAimsTableComponent,
-    SleepsTableComponent,
-    PhenomenaTableComponent,
-    LinkNoteToComponent,
-    AppointmentsComponent,
-    JobsAtHomeComponent,
-    KanbanBoardComponent,
-    ShoppingBoardComponent,
-    TaskFormComponent,
-    LinkTaskToComponent,
-    SleepsFormComponent,
-    AlcoholTableComponent,
-    GroupPipe,
-    GroupsComponent,
-    ReferenceInformationComponent,
-    AppointmentComponent,
-    AdhocTablesComponent,
-    ProjectAdhocTablesComponent,
-    AddMedicationComponent,
-    FoodDiaryComponent,
-    SprintChartComponent,
-    BacklogComponent,
-    EpicEditComponent,
-    RoadmapEditComponent,
-    TaskEditComponent,
-    SubTasksEditComponent,
-    SubTasksFormComponent,
-    StoryKanbanBoardComponent,
-    SprintTaskChartComponent,
-    RoadmapDialogComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MatDialogModule,
-    MatToolbarModule,
-    MatIconModule,    
-    BrowserAnimationsModule,
-    FormsModule,
-    MatTabsModule,
-    MatCardModule,
-    MatChipsModule,
-    MatExpansionModule,
-    ReactiveFormsModule,
-    MatMenuModule,
-    MatSlideToggleModule,
-    MatTreeModule,
-    MatDividerModule,
-    MatButtonModule
-  ],
-  providers: [
-     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        PrescriptionsTableComponent,
+        MedicationDosesTableComponent,
+        NotesComponent,
+        NotesTableComponent,
+        AuthDialogComponent,
+        ProjectsTableComponent,
+        LearningAimsTableComponent,
+        SleepsTableComponent,
+        PhenomenaTableComponent,
+        LinkNoteToComponent,
+        AppointmentsComponent,
+        JobsAtHomeComponent,
+        KanbanBoardComponent,
+        ShoppingBoardComponent,
+        TaskFormComponent,
+        LinkTaskToComponent,
+        SleepsFormComponent,
+        AlcoholTableComponent,
+        GroupPipe,
+        GroupsComponent,
+        ReferenceInformationComponent,
+        AppointmentComponent,
+        AdhocTablesComponent,
+        ProjectAdhocTablesComponent,
+        AddMedicationComponent,
+        FoodDiaryComponent,
+        SprintChartComponent,
+        BacklogComponent,
+        EpicEditComponent,
+        RoadmapEditComponent,
+        TaskEditComponent,
+        SubTasksEditComponent,
+        SubTasksFormComponent,
+        StoryKanbanBoardComponent,
+        SprintTaskChartComponent,
+        RoadmapDialogComponent
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        MatDialogModule,
+        MatToolbarModule,
+        MatIconModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatTabsModule,
+        MatCardModule,
+        MatChipsModule,
+        MatExpansionModule,
+        ReactiveFormsModule,
+        MatMenuModule,
+        MatSlideToggleModule,
+        MatTreeModule,
+        MatDividerModule,
+        MatButtonModule], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
