@@ -32,6 +32,10 @@ export class MedicationDosesService {
     return doses;
   }
 
+  public AmountAtTimeOfOlanzapine(date : Date){
+
+  }
+
   public async deleteDose(id : number){
     let x = await this.httpClient.delete(this.apiUrls.GetApiURL()+"Api/MedicationDoses/"+id).toPromise().then( x => { console.log("deleted")});
   }
@@ -41,17 +45,59 @@ export class MedicationDosesService {
       let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"Api/MedicationDoses", { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), Password: p, PrescriptionID : report.PrescriptionID}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("repeated")});
   }
 
+  public async createNew( report : IMedication){
+    let p = this.getPassword();
+      let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"Api/MedicationDoses", { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), Password: p, PrescriptionID : report.PrescriptionId}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("created")});
+  }
+
   public async GetNotesForDay(report : IReport){
     let notes = await this.notesService.getAllNotesForPerson();
     return notes;    
-  }
-
-  
+  }  
   
   public CalculateAccumulatedAmounts(reports : IReport[], historyLength : number){
     for(let x of reports){
       this.CalculateAccumulatedAmount(reports, historyLength, x);
     }
+  }
+
+  public calculateExpectedAmount(reports : IReport[], historyLength : number, report : IReport){
+    let orderedByDate = reports.filter( (r) => {
+      return r.Name == report.Name;
+    }).sort( 
+      (a, b) => { 
+        let d1 = this.UTC(a.DateTimeConsumed);
+        let d2 = this.UTC(b.DateTimeConsumed);
+        return d2 - d1;
+      }
+    );
+
+    let amount = 0;
+    let index = orderedByDate.findIndex( (r) => { return r.Id == report.Id;});
+    if(index == -1)
+      return;
+    for(let i = 0; i < historyLength; ++i){
+      
+      // avoid going out of bounds
+      if(orderedByDate.length <= i + index)
+        break;
+
+      // hours
+      let r2 = orderedByDate[i+index];
+      let d1 = r2.DateTimeConsumed;
+      let d2 = report.DateTimeConsumed;
+      var hours = Math.abs(this.UTC(d1) - this.UTC(d2)) / 36e5;
+      
+      // using half life calculate the amount remaining
+      let mgRemaining = Math.pow(0.5, hours/r2.HalfLifeHrs)*r2.DoseTakenMG;
+      amount += mgRemaining;
+
+      // estimated remaining as of today
+      var hours2 = Math.abs(this.UTC(d1)-Date.now()) / 36e5;
+      r2.RemainingMg = Math.pow(0.5, hours2/r2.HalfLifeHrs)*r2.DoseTakenMG;
+    }
+
+    report.AccumulatedMg = amount;
   }
 
   public CalculateAccumulatedAmount(reports : IReport[], historyLength : number, report : IReport){

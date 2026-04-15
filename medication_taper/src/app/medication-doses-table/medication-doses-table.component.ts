@@ -5,6 +5,7 @@ import { NotesComponent } from '../notes/notes.component';
 import { AuthDialogComponent } from '../auth-dialog/auth-dialog.component';
 import { TokenService } from '../token.service';
 import { TimezonesService } from '../timezones.service';
+import { AddMedicationComponent } from '../add-medication/add-medication.component';
 
 @Component({
   selector: 'medication-doses-table',
@@ -12,11 +13,13 @@ import { TimezonesService } from '../timezones.service';
   styleUrls: ['./../app.component.css']
 })
 export class MedicationDosesTableComponent implements OnInit {
-  constructor(private service : MedicationDosesService,
-    private tokenService : TokenService,
-    private adjustTime : TimezonesService){
+  constructor(private readonly service : MedicationDosesService,
+    private readonly tokenService : TokenService,
+    private readonly adjustTime : TimezonesService,
+    private readonly dialog : MatDialog    ){
 
   }
+
   public isLoggedIn(){
     let token = this.tokenService.Token?.Token?.trim();
 
@@ -30,7 +33,6 @@ export class MedicationDosesTableComponent implements OnInit {
   public doFilter(arg : any ){
     
     let m = this.filterPrescriptionName(this.model);
-    m = this.filterPrescriptionDose(m);
     this.filteredModel = m;
   }
 
@@ -43,14 +45,7 @@ export class MedicationDosesTableComponent implements OnInit {
       return m;
   }
 
-  public filterPrescriptionDose(m : IReport[]){
-    const dName = document.getElementById('prescribedDose') as any;
-    const v = dName.value;
-    if(v.trim() != "None")
-      return m.filter( (r : IReport) => { return r.DoseMG == v; })
-    else
-      return m;
-  }
+  
   @Input()
   model : IReport[] = [];
 
@@ -108,6 +103,18 @@ export class MedicationDosesTableComponent implements OnInit {
     await this.service.repeatToday(report);
     await this.reload();
   }
+
+  public async addNew(report : IReport){
+    
+    let x = await this.dialog.open(AddMedicationComponent, { data : 
+      {
+        prescriptionId : report.PrescriptionID
+      }}).afterClosed().toPromise();
+    
+    
+        await this.reload(); 
+      
+  }  
 
   public async showNotes(report : IReport){
     report.ShowNotes = !report.ShowNotes;
