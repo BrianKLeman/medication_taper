@@ -7,9 +7,10 @@ import { TokenService } from '../token.service';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-appointments-table',
-  templateUrl: './appointments-table.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'app-appointments-table',
+    templateUrl: './appointments-table.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class AppointmentsComponent {
     constructor(private appointmentsService : AppointmentsService,

@@ -3,9 +3,10 @@ import { AppointmentsService, IAppointment } from '../appointments-table/appoint
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-appointment',
-  templateUrl: './appointment.component.html',
-  styleUrls: ['./appointment.component.css']
+    selector: 'app-appointment',
+    templateUrl: './appointment.component.html',
+    styleUrls: ['./appointment.component.css'],
+    standalone: false
 })
 export class AppointmentComponent {
 public constructor(@Inject(MAT_DIALOG_DATA) 

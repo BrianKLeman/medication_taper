@@ -5,9 +5,10 @@ import { TaskLinksService } from '../link-task-to/task-links.service';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-task-edit',
-  templateUrl: './task-edit.component.html',
-  styleUrls: ['./task-edit.component.css']
+    selector: 'app-task-edit',
+    templateUrl: './task-edit.component.html',
+    styleUrls: ['./task-edit.component.css'],
+    standalone: false
 })
 export class TaskEditComponent {
   constructor( private service : TasksService,

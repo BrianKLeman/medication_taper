@@ -4,9 +4,10 @@ import { COMPLETED, IN_PROGRESS, IN_REVIEW, NOT_STARTED, READY, STARTED } from '
 import { ISubTask, SubTasksService } from './sub-tasks.service';
 
 @Component({
-  selector: 'app-sub-tasks-edit',
-  templateUrl: './sub-tasks-edit.component.html',
-  styleUrls: ['./sub-tasks-edit.component.css']
+    selector: 'app-sub-tasks-edit',
+    templateUrl: './sub-tasks-edit.component.html',
+    styleUrls: ['./sub-tasks-edit.component.css'],
+    standalone: false
 })
 export class SubTasksEditComponent {
 

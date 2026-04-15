@@ -3,9 +3,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { FeaturesService, IFeature } from '../features.service';
 
 @Component({
-  selector: 'app-epic-edit',
-  templateUrl: './epic-edit.component.html',
-  styleUrls: ['./epic-edit.component.css']
+    selector: 'app-epic-edit',
+    templateUrl: './epic-edit.component.html',
+    styleUrls: ['./epic-edit.component.css'],
+    standalone: false
 })
 export class EpicEditComponent {
 constructor(private featuresService : FeaturesService){

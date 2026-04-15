@@ -3,9 +3,10 @@ import { ILearningAim, LearningAimsService } from './learning-aims.service';
 import { TimezonesService } from '../timezones.service';
 
 @Component({
-  selector: 'learning-aims-table',
-  templateUrl: './learning-aims-table.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'learning-aims-table',
+    templateUrl: './learning-aims-table.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class LearningAimsTableComponent implements OnInit {
 

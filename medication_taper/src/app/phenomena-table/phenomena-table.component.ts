@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { IPhenomena, PhenomenaService } from './phenomena.service';
 
 @Component({
-  selector: 'phenomena-table',
-  templateUrl: './phenomena-table.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'phenomena-table',
+    templateUrl: './phenomena-table.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class PhenomenaTableComponent {
   constructor(private phenomenaService : PhenomenaService

@@ -8,9 +8,10 @@ import { TimezonesService } from '../timezones.service';
 import { AddMedicationComponent } from '../add-medication/add-medication.component';
 
 @Component({
-  selector: 'medication-doses-table',
-  templateUrl: './medication-doses-table.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'medication-doses-table',
+    templateUrl: './medication-doses-table.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class MedicationDosesTableComponent implements OnInit {
   constructor(private readonly service : MedicationDosesService,

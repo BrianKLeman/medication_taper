@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { UserCredentialsService } from '../user-credentials.service';
 import { NgModel } from '@angular/forms';
 @Component({
-  selector: 'app-auth-dialog',
-  templateUrl: './auth-dialog.component.html',
-  styleUrls: ['./auth-dialog.component.css']
+    selector: 'app-auth-dialog',
+    templateUrl: './auth-dialog.component.html',
+    styleUrls: ['./auth-dialog.component.css'],
+    standalone: false
 })
 export class AuthDialogComponent {
 

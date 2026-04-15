@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingItemsService, NOT_ENOUGH, ENOUGH, BUYING, IN_TROLLEY, IShoppingItems } from './shopping-items.service';
 
 @Component({
-  selector: 'app-shopping-board',
-  templateUrl: './shopping-board.component.html',
-  styleUrls: ['./shopping-board.component.css']
+    selector: 'app-shopping-board',
+    templateUrl: './shopping-board.component.html',
+    styleUrls: ['./shopping-board.component.css'],
+    standalone: false
 })
 export class ShoppingBoardComponent implements OnInit {
 

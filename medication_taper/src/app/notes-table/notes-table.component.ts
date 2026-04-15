@@ -10,9 +10,10 @@ import { MedicationDosesService } from '../medication-doses-table/medication-dos
 import { MedicationDoseCalculatorService } from '../medication-doses-table/medication-dose-calculator.service';
 
 @Component({
-  selector: 'app-notes-table',
-  templateUrl: './notes-table.component.html',
-  styleUrls: ['./../app.component.css', './notes-table.component.css']
+    selector: 'app-notes-table',
+    templateUrl: './notes-table.component.html',
+    styleUrls: ['./../app.component.css', './notes-table.component.css'],
+    standalone: false
 })
 export class NotesTableComponent implements OnInit, AfterViewInit{
 

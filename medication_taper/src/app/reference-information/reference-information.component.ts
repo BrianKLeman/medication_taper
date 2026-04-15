@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-reference-information',
-  templateUrl: './reference-information.component.html',
-  styleUrls: ['./reference-information.component.css']
+    selector: 'app-reference-information',
+    templateUrl: './reference-information.component.html',
+    styleUrls: ['./reference-information.component.css'],
+    standalone: false
 })
 export class ReferenceInformationComponent {
 

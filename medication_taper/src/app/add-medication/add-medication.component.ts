@@ -4,9 +4,10 @@ import { TimezonesService } from '../timezones.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-add-medication',
-  templateUrl: './add-medication.component.html',
-  styleUrls: ['./add-medication.component.css']
+    selector: 'app-add-medication',
+    templateUrl: './add-medication.component.html',
+    styleUrls: ['./add-medication.component.css'],
+    standalone: false
 })
 export class AddMedicationComponent {
 

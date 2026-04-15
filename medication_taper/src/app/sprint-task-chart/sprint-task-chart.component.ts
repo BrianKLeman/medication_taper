@@ -6,9 +6,10 @@ import { TimezonesService } from '../timezones.service';
 import { ISubTask } from '../sub-tasks-edit/sub-tasks.service';
 
 @Component({
-  selector: 'app-sprint-task-chart',
-  templateUrl: './sprint-task-chart.component.html',
-  styleUrls: ['./sprint-task-chart.component.css']
+    selector: 'app-sprint-task-chart',
+    templateUrl: './sprint-task-chart.component.html',
+    styleUrls: ['./sprint-task-chart.component.css'],
+    standalone: false
 })
 export class SprintTaskChartComponent {
 

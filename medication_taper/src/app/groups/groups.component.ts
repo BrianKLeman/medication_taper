@@ -2,9 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { GroupsService, IGroups } from '../groups.service';
 
 @Component({
-  selector: 'app-groups',
-  templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.css']
+    selector: 'app-groups',
+    templateUrl: './groups.component.html',
+    styleUrls: ['./groups.component.css'],
+    standalone: false
 })
 export class GroupsComponent {
     constructor(private groupsService : GroupsService){}

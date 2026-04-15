@@ -11,9 +11,10 @@ import { SprintChartComponent } from '../sprint-chart/sprint-chart.component';
 import { TaskLinksService } from '../link-task-to/task-links.service';
 
 @Component({
-  selector: 'app-kanban-board',
-  templateUrl: './kanban-board.component.html',
-  styleUrls: ['./kanban-board.component.css']
+    selector: 'app-kanban-board',
+    templateUrl: './kanban-board.component.html',
+    styleUrls: ['./kanban-board.component.css'],
+    standalone: false
 })
 export class KanbanBoardComponent implements AfterViewInit {
 

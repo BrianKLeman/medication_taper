@@ -4,9 +4,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { IRoadMap } from '../backlog/roadmap.service';
 
 @Component({
-  selector: 'app-roadmap-edit',
-  templateUrl: './roadmap-edit.component.html',
-  styleUrls: ['./roadmap-edit.component.css']
+    selector: 'app-roadmap-edit',
+    templateUrl: './roadmap-edit.component.html',
+    styleUrls: ['./roadmap-edit.component.css'],
+    standalone: false
 })
 export class RoadmapEditComponent {
 constructor(private roadmapsService : RoadmapService){

@@ -3,9 +3,10 @@ import { IProject } from '../projects-table/projects.service';
 import { AdhocTablesService, IAdhocTable } from '../adhoc-tables/adhoctables.service';
 
 @Component({
-  selector: 'app-project-adhoc-tables',
-  templateUrl: './project-adhoc-tables.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'app-project-adhoc-tables',
+    templateUrl: './project-adhoc-tables.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class ProjectAdhocTablesComponent {
 

@@ -4,9 +4,10 @@ import { RoadmapEditComponent } from '../roadmap-edit/roadmap-edit.component';
 import { IRoadMap } from '../backlog/roadmap.service';
 
 @Component({
-  selector: 'app-roadmap-dialog',
-  templateUrl: './roadmap-dialog.component.html',
-  styleUrls: ['./roadmap-dialog.component.css']
+    selector: 'app-roadmap-dialog',
+    templateUrl: './roadmap-dialog.component.html',
+    styleUrls: ['./roadmap-dialog.component.css'],
+    standalone: false
 })
 export class RoadmapDialogComponent implements AfterViewInit {
     public constructor(@Inject(MAT_DIALOG_DATA) 

@@ -43,9 +43,10 @@ interface ProjectFlatNode {
 }
 
 @Component({
-  selector: 'app-backlog',
-  templateUrl: './backlog.component.html',
-  styleUrls: ['./backlog.component.css']
+    selector: 'app-backlog',
+    templateUrl: './backlog.component.html',
+    styleUrls: ['./backlog.component.css'],
+    standalone: false
 })
 export class BacklogComponent implements OnInit {
     @Input()

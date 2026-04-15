@@ -6,9 +6,10 @@ import { TaskLinksService } from '../link-task-to/task-links.service';
 import { TaskEditComponent } from '../task-edit/task-edit.component';
 
 @Component({
-  selector: 'app-task-form',
-  templateUrl: './task-form.component.html',
-  styleUrls: ['./task-form.component.css', './../app.component.css']
+    selector: 'app-task-form',
+    templateUrl: './task-form.component.html',
+    styleUrls: ['./task-form.component.css', './../app.component.css'],
+    standalone: false
 })
 export class TaskFormComponent implements AfterViewInit {
     public constructor(@Inject(MAT_DIALOG_DATA) 

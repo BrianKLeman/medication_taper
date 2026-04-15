@@ -4,9 +4,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TimezonesService } from '../timezones.service';
 
 @Component({
-  selector: 'app-notes',
-  templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.css']
+    selector: 'app-notes',
+    templateUrl: './notes.component.html',
+    styleUrls: ['./notes.component.css'],
+    standalone: false
 })
 export class NotesComponent {
 

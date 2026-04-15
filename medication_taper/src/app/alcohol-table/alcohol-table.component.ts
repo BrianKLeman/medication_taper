@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AlcoholServiceService as AlcoholService, IAlcohol } from './alcohol-service.service';
 
 @Component({
-  selector: 'app-alcohol-table',
-  templateUrl: './alcohol-table.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'app-alcohol-table',
+    templateUrl: './alcohol-table.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class AlcoholTableComponent implements OnInit{
   constructor(

@@ -4,9 +4,10 @@ import { ISleeps, SleepsService } from '../sleeps-table/sleeps.service';
 import { TimezonesService } from '../timezones.service';
 
 @Component({
-  selector: 'app-sleeps-form',
-  templateUrl: './sleeps-form.component.html',
-  styleUrls: ['./sleeps-form.component.css']
+    selector: 'app-sleeps-form',
+    templateUrl: './sleeps-form.component.html',
+    styleUrls: ['./sleeps-form.component.css'],
+    standalone: false
 })
 export class SleepsFormComponent {
  public constructor(@Inject(MAT_DIALOG_DATA) 

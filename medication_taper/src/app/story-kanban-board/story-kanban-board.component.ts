@@ -10,9 +10,10 @@ import { SubTasksFormComponent } from '../sub-tasks-form/sub-tasks-form.componen
 import { SprintTaskChartComponent } from '../sprint-task-chart/sprint-task-chart.component';
 
 @Component({
-  selector: 'app-story-kanban-board',
-  templateUrl: './story-kanban-board.component.html',
-  styleUrls: ['./story-kanban-board.component.css']
+    selector: 'app-story-kanban-board',
+    templateUrl: './story-kanban-board.component.html',
+    styleUrls: ['./story-kanban-board.component.css'],
+    standalone: false
 })
 export class StoryKanbanBoardComponent implements AfterViewInit {
   //#region setup

@@ -3,9 +3,10 @@ import { IJobDetails, JobsAtHomeService, LogActivity } from './jobs-at-home.serv
 import { TimezonesService } from '../timezones.service';
 
 @Component({
-  selector: 'app-jobs-at-home',
-  templateUrl: './jobs-at-home.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'app-jobs-at-home',
+    templateUrl: './jobs-at-home.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class JobsAtHomeComponent {
   constructor(private jobsService : JobsAtHomeService,

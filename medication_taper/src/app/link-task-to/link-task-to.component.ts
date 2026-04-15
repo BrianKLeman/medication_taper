@@ -11,9 +11,10 @@ import { ISprint } from '../sprints.service';
 import { IFeature } from '../features.service';
 
 @Component({
-  selector: 'app-link-task-to',
-  templateUrl: './link-task-to.component.html',
-  styleUrls: ['./link-task-to.component.css']
+    selector: 'app-link-task-to',
+    templateUrl: './link-task-to.component.html',
+    styleUrls: ['./link-task-to.component.css'],
+    standalone: false
 })
 export class LinkTaskToComponent {
 public constructor(@Inject(MAT_DIALOG_DATA) 

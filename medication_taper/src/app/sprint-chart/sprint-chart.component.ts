@@ -5,9 +5,10 @@ import { ISprint } from '../sprints.service';
 import { TimezonesService } from '../timezones.service';
 
 @Component({
-  selector: 'app-sprint-chart',
-  templateUrl: './sprint-chart.component.html',
-  styleUrls: ['./sprint-chart.component.css']
+    selector: 'app-sprint-chart',
+    templateUrl: './sprint-chart.component.html',
+    styleUrls: ['./sprint-chart.component.css'],
+    standalone: false
 })
 export class SprintChartComponent {
 

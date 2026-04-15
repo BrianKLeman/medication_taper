@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AdhocTablesService, IAdhocTable, IAdhocTableDetail, IAdhocTableRow, IAdhocTableColumn, IAdhocTableColumnResponse } from './adhoctables.service';
 
 @Component({
-  selector: 'app-adhoc-tables',
-  templateUrl: './adhoctables.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'app-adhoc-tables',
+    templateUrl: './adhoctables.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class AdhocTablesComponent implements OnInit{
 public constructor(

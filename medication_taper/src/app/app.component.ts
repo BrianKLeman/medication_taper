@@ -5,9 +5,10 @@ import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
 import { IToken, TokenService } from './token.service';
 import { UserCredentialsService } from './user-credentials.service';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
 export class AppComponent {
   title = 'medication_taper';

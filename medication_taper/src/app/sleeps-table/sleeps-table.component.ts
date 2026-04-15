@@ -6,9 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { SleepsFormComponent } from '../sleeps-form/sleeps-form.component';
 
 @Component({
-  selector: 'sleeps-table',
-  templateUrl: './sleeps-table.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'sleeps-table',
+    templateUrl: './sleeps-table.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class SleepsTableComponent {
 

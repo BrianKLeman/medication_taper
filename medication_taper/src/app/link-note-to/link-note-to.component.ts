@@ -8,9 +8,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IAppointment } from '../appointments-table/appointments.service';
 import { IFeature } from '../features.service';
 @Component({
-  selector: 'app-link-note-to',
-  templateUrl: './link-note-to.component.html',
-  styleUrls: ['./link-note-to.component.css']
+    selector: 'app-link-note-to',
+    templateUrl: './link-note-to.component.html',
+    styleUrls: ['./link-note-to.component.css'],
+    standalone: false
 })
 export class LinkNoteToComponent {
 

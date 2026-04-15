@@ -3,9 +3,10 @@ import { IPrescription, PrescriptionsService } from './prescriptions.service';
 import { TimezonesService } from '../timezones.service';
 
 @Component({
-  selector: 'prescriptions-table',
-  templateUrl: './prescriptions-table.component.html',
-  styleUrls: ['./../app.component.css']
+    selector: 'prescriptions-table',
+    templateUrl: './prescriptions-table.component.html',
+    styleUrls: ['./../app.component.css'],
+    standalone: false
 })
 export class PrescriptionsTableComponent {
   constructor(private prescriptionsService : PrescriptionsService,

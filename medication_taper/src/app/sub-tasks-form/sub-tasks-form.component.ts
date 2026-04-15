@@ -4,9 +4,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ISubTask } from '../sub-tasks-edit/sub-tasks.service';
 
 @Component({
-  selector: 'app-sub-tasks-form',
-  templateUrl: './sub-tasks-form.component.html',
-  styleUrls: ['./sub-tasks-form.component.css']
+    selector: 'app-sub-tasks-form',
+    templateUrl: './sub-tasks-form.component.html',
+    styleUrls: ['./sub-tasks-form.component.css'],
+    standalone: false
 })
 export class SubTasksFormComponent implements AfterViewInit {
     public constructor(@Inject(MAT_DIALOG_DATA) 
