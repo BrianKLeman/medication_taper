@@ -11,7 +11,7 @@ export class SprintsService {
     private apiUrls : UrlsService) { 
   }  
 
-  public async getAllSprintsForPerson() {
+  public async getAllSprintsForPerson() : Promise<ISprint[]> {
     let g = await this.httpClient.get<{ value : ISprint[]}>( this.apiUrls.GetApiURL()+"Odata/Sprints").toPromise();
     if(g == undefined)
       return [];
@@ -23,8 +23,8 @@ export class SprintsService {
 }
 
 export interface ISprint{  
-    Id: 1;
-    PersonID: 1;
+    Id: number;
+    PersonID: number;
     Name: string;
     Description: string;
     StartDate: string;

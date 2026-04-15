@@ -6,6 +6,8 @@ import { NotesComponent } from '../notes/notes.component';
 import { LinkNoteToComponent } from '../link-note-to/link-note-to.component';
 import { TokenService } from '../token.service';
 import { FormControl, FormGroup, RequiredValidator, Validators } from '@angular/forms';
+import { MedicationDosesService } from '../medication-doses-table/medication-doses.service';
+import { MedicationDoseCalculatorService } from '../medication-doses-table/medication-dose-calculator.service';
 
 @Component({
   selector: 'app-notes-table',
@@ -17,11 +19,13 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
   constructor(private notesService : NotesService,
             private timeService : TimezonesService,
             private dialog : MatDialog,            
-            private tokenService : TokenService
+            private tokenService : TokenService,
+            private doseCalculatorService : MedicationDoseCalculatorService
   ){
   }
 
   async ngOnInit() {
+    await this.doseCalculatorService.ngOnInit();
     await this.refreshNotes();
   }
 
@@ -197,6 +201,21 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
   public changeToDate(d : string){
     this.toDate = d;
   }
+  //#endregion
+
+  //#region Calculation
+  public getLastPillAmount(date : Date | string){
+    return this.doseCalculatorService.LastPillAmount(date,3);
+  }
+/*
+  public getDeterminedAmountPillAmount(date : Date){
+    return this.doseCalculatorService.calculateExpectedAmount(date);
+  }
+    */
+
+  
+  @Input()
+  public showLastPillAmount = false;
   //#endregion
 }
   

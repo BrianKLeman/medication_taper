@@ -1,0 +1,10 @@
+/* recommended by claude.ai with prompt: what is the best way to layout a form columns using html */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 2 equal columns */
+    gap: 16px;
+}
+
+.full-width {
+    grid-column: 1 / -1; /* span all columns */
+}

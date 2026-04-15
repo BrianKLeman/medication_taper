@@ -1,0 +1,8 @@
+<h4 mat-dialog-title>Roadmap<h4>
+<mat-dialog-content class="mat-typography"> 
+    <app-roadmap-edit #roadmapEdit [inDialog]="true"></app-roadmap-edit>
+</mat-dialog-content>
+<mat-dialog-actions align="end">        
+    <button class="saveButton" mat-button [mat-dialog-close]="true" (click)="roadmapEdit.onSubmit()" cdkFocusInitial>Save</button>
+    <button class="cancelButton" mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

@@ -1,0 +1,60 @@
+<div class="backlogContainer">
+  <div class="treeContainer">
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <!-- This is the tree node template for leaf nodes -->
+      <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding >
+        <span (click)="onSelect(node.projectNode);">
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          <ng-container *ngTemplateOutlet="nameAndMenu; context: {node : node}"></ng-container>
+          <ng-container *ngTemplateOutlet="statusIcon; context: {node : node}"></ng-container> 
+        </span>
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle > 
+        <span>
+          <div style="display: inline; " (click)="onSelect(node.projectNode);" matIconButton matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon style="vertical-align: bottom;"  class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </div>
+          <ng-container *ngTemplateOutlet="nameAndMenu; context: {node : node}"></ng-container>
+          <ng-container *ngTemplateOutlet="statusIcon; context: {node : node}"></ng-container> 
+        </span> 
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+
+  <ng-template #icon let-node="node">
+    <i [ngClass]="{ 'bi bi-compass' : node.itemType==0, 
+                    'bi bi-diagram-2' : node.itemType == 1,
+                    'bi bi-crosshair' : node.itemType == 2,
+                    'bi bi-geo' : node.itemType == 3 
+                  }"></i>    
+  </ng-template>
+
+  <ng-template #statusIcon let-node="node">
+    <i [ngClass]="{ 'bi bi-trophy-fill' : node.status=='COMPLETED',
+                    'bi bi-play-fill' : node.status=='IN_PROGRESS'
+                  }"></i>    
+  </ng-template>
+
+  <ng-template #nameAndMenu let-node="node">  
+    <div *ngIf="isTask(node)==false" style="display: inline;">
+      {{node.name}}
+    </div>
+    <div *ngIf="isTask(node)" style="display: inline;">
+      {{node.name}}
+    </div>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="appendNewNode(node)">Add Child</button>
+    </mat-menu>
+  </ng-template>
+
+  <div class="detailContainer">
+    <app-epic-edit *ngIf="isSelectedNodeAnEpic();" [inDialog]="false" #epicEdit></app-epic-edit>
+    <app-roadmap-edit *ngIf="isSelectedNodeARoadmap();" [inDialog]="false" #roadmapEdit></app-roadmap-edit>
+    <app-task-edit *ngIf="isSelectedNodeAStory();" [showSaveButton]="true" #taskEdit></app-task-edit>
+    <app-sub-tasks-edit *ngIf="isSelectedNodeATask();" [inDialog]="false" #subTaskEdit></app-sub-tasks-edit>
+  </div>
+</div>

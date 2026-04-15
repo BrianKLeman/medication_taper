@@ -6,11 +6,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips'
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatMenuModule} from '@angular/material/menu';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatTreeModule } from '@angular/material/tree';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 /* Homemade imports*/
 import { AppComponent } from './app.component';
 import { PrescriptionsTableComponent } from './prescriptions-table/prescriptions-table.component';
@@ -38,7 +43,19 @@ import { GroupsComponent } from './groups/groups.component';
 import { ReferenceInformationComponent } from './reference-information/reference-information.component';
 import { AppointmentComponent } from './appointment/appointment.component';
 import { AdhocTablesComponent } from './adhoc-tables/adhoctables.component';
-import { ProjectAdhocTablesComponent } from './project-adhoc-tables/project-adhoc-tables.component'
+import { ProjectAdhocTablesComponent } from './project-adhoc-tables/project-adhoc-tables.component';
+import { AddMedicationComponent } from './add-medication/add-medication.component';
+import { FoodDiaryComponent } from './food-diary/food-diary.component';
+import { SprintChartComponent } from './sprint-chart/sprint-chart.component';
+import { BacklogComponent } from './backlog/backlog.component';
+import { EpicEditComponent } from './epic-edit/epic-edit.component';
+import { RoadmapEditComponent } from './roadmap-edit/roadmap-edit.component';
+import { TaskEditComponent } from './task-edit/task-edit.component';
+import { SubTasksEditComponent } from './sub-tasks-edit/sub-tasks-edit.component';
+import { SubTasksFormComponent } from './sub-tasks-form/sub-tasks-form.component';
+import { StoryKanbanBoardComponent } from './story-kanban-board/story-kanban-board.component';
+import { SprintTaskChartComponent } from './sprint-task-chart/sprint-task-chart.component';
+import { RoadmapDialogComponent } from './roadmap-dialog/roadmap-dialog.component'
 /* Register Module */
 @NgModule({
   declarations: [
@@ -66,7 +83,19 @@ import { ProjectAdhocTablesComponent } from './project-adhoc-tables/project-adho
     ReferenceInformationComponent,
     AppointmentComponent,
     AdhocTablesComponent,
-    ProjectAdhocTablesComponent
+    ProjectAdhocTablesComponent,
+    AddMedicationComponent,
+    FoodDiaryComponent,
+    SprintChartComponent,
+    BacklogComponent,
+    EpicEditComponent,
+    RoadmapEditComponent,
+    TaskEditComponent,
+    SubTasksEditComponent,
+    SubTasksFormComponent,
+    StoryKanbanBoardComponent,
+    SprintTaskChartComponent,
+    RoadmapDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +110,12 @@ import { ProjectAdhocTablesComponent } from './project-adhoc-tables/project-adho
     MatCardModule,
     MatChipsModule,
     MatExpansionModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatMenuModule,
+    MatSlideToggleModule,
+    MatTreeModule,
+    MatDividerModule,
+    MatButtonModule
   ],
   providers: [
      { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptorService, multi: true }],

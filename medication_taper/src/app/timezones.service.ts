@@ -19,12 +19,36 @@ export class TimezonesService {
     return this.addMinutes(date, -offset);
   }
 
-  private addMinutes(date : Date, minutes : number){
+  public addMinutes(date : Date, minutes : number){
     return new Date(date.getTime() + minutes * 60000);
   }
   
   public dateDifferenceInDays(dateInitial : Date, dateFinal : Date) : number{
     return ((dateFinal.valueOf()) - (dateInitial.valueOf())) / (24*60*60*1000);
+  }
+
+  public findNonWorkingDays(dateInitial : Date, dateFinal : Date) : Date[]{
+
+    const firstDay = dateInitial.valueOf();
+    const lastDay = dateFinal.valueOf();
+    const msInDay = 1000*60*60*24; // milliseconds in 1 day
+    let weekendDays = [];
+    for(let i = firstDay; i < lastDay + msInDay; i += msInDay){
+      const currentDay = new Date(i);
+      const dayOfWeek = currentDay.getDay();
+      const sunday = 0;
+      const saturday = 6;
+      if(dayOfWeek == sunday || dayOfWeek == saturday){
+        weekendDays.push(currentDay);
+      }
+    }
+    return weekendDays;
+  }
+
+  public isSameday(a : Date, subjectDay: Date){
+    return a.getDate() == subjectDay.getDate() && a.getMonth() == subjectDay.getMonth()
+    && a.getFullYear() == subjectDay.getFullYear();
+      
   }
 
   public dateDiff(a : string, b : string){
@@ -45,5 +69,11 @@ export class TimezonesService {
     let ms = d.valueOf();
     const msInDay = 24 * 60 * 60 * 1000;
     return new Date(ms - msInDay*i);
+  }
+
+  public addDaysToDateTime(i : number, d : Date){
+    let ms = d.valueOf();
+    const msInDay = 24 * 60 * 60 * 1000;
+    return new Date(ms + msInDay*i);
   }
 }

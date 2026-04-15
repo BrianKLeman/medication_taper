@@ -1,0 +1,32 @@
+
+<h4 mat-dialog-title>Add Medication Dose<h4>
+<mat-dialog-content class="mat-typography">        
+    <form>
+        <table>
+            <tr>
+                <td>mg Of Tablet</td>
+                <td><input type="number" id="mg" name="mg" [(ngModel)]="doseWeight_mg"/></td>
+            </tr>
+            
+            <tr>
+                <td>Total Weight (mg)</td>
+                <td>
+                    <input type="number" id="mgOfTablet" name="mgOfTablet" [(ngModel)]="tabletWeight_mg"/>                                
+                </td>
+            </tr>
+
+            <tr>
+                <td>DateTime</td>
+                <td>                           
+                <input id="date_time" name="date" type="date" [ngModel]="date" (ngModelChange)="changeDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                <input id="date_time" name="time" type="time" [(ngModel)]="time" /> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                </td>
+            </tr>                        
+
+        </table>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="true" (click)="SaveMedication()" cdkFocusInitial>Save</button>        
+    <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

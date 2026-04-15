@@ -1,0 +1,198 @@
+
+    <mat-toolbar>
+        <span class="rightFilterMargin">
+            <mat-slide-toggle (click)="hideCompleted(!hideComplete)" [checked]="hideComplete">Hide Completed</mat-slide-toggle>
+        </span>
+        <span class="rightFilterMargin" style="align-content: end;">
+            <label for="sprint">Sprint: </label> 
+            <select id="sprint" name="sprint" [(ngModel)]="sprintID" (change)="onValueChanged($event)">
+                
+                <option [value]="-2">Backlog</option>
+                <option [value]="-1">----------</option>
+                <option *ngFor="let n of sprints;" [value]="n.Id">{{ n.Description }} - {{ n.StartDate | date : "dd/MM/YYYY" }} - {{ n.EndDate | date : "dd/MM/YYYY"}}</option>
+            </select>
+        </span>
+        <span>
+            <mat-chip>Stories: {{storiesCount() | number : '1.0-0'}}</mat-chip>
+            
+            <mat-chip *ngIf="unestimatedSubTasks() > 0">Unestimated Sub Tasks: {{unestimatedSubTasks() | number }}</mat-chip>
+            <mat-chip>Expected Hours: {{expectedHours() | number : '1.0-0'}}</mat-chip>
+            <mat-chip>ExpectedHoursRemaining: {{expectedHoursRemaining() | number : '1.0-0'}}</mat-chip>
+            <mat-chip>Sub Tasks Remaining: {{subTasksRemaining() | number : '1.0-0'}}</mat-chip>
+        </span>
+    </mat-toolbar>
+    <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Burndown Chart
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-sprint-task-chart #taskBurndownChart></app-sprint-task-chart>
+    </mat-expansion-panel>
+<table #kanBanParent class="kanbanRoot">
+   
+    <thead class="tableHeader">
+        <tr>
+        <ng-container *ngTemplateOutlet="header; context: {label : 'Stories', columnStatus : 'STORIES'}"></ng-container>
+        
+    
+            <ng-container *ngTemplateOutlet="header; context: {label : 'Not Started', columnStatus : 'NOT_STARTED'}"></ng-container>
+        
+        
+                    
+            <ng-container *ngTemplateOutlet="header; context: {label : 'Ready', columnStatus : 'READY'}"></ng-container>
+        
+        
+                               
+            <ng-container *ngTemplateOutlet="header; context: {label : 'Started', columnStatus : 'STARTED'}"></ng-container>
+        
+        
+        
+            <ng-container *ngTemplateOutlet="header; context: {label : 'In Progress', columnStatus : 'IN_PROGRESS'}"></ng-container>
+        
+        
+                                  
+            <ng-container *ngTemplateOutlet="header; context: {label : 'In Review', columnStatus : 'IN_REVIEW'}"></ng-container>
+        
+        
+                                    
+            <ng-container *ngTemplateOutlet="header; context: {label : (hideComplete) ? ' Completed (Hidden)' : 'Completed', columnStatus : 'COMPLETED'}"></ng-container>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let task of allTasks(); let i = index" [ngClass]="{'kanbanSwimlineA' : i%2 == 0, 'kanbanSwimlineB' : i%2 == 1}">
+            <td class="columnRoot" >
+                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+                    <ng-container *ngTemplateOutlet="storyCard; context: {taskVM : task}"></ng-container>
+                </div>
+            </td>
+            <td #plannedColumn class="columnRoot" (drop)="onDropNotStarted($event)" (dragover)="allowDrop($event)">
+                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+                    <ng-container *ngFor="let tas of filter('NOT_STARTED', task)">
+                        <ng-container *ngTemplateOutlet="card; context: {SubTask : tas}"></ng-container>
+                    </ng-container>
+                </div>
+            </td>
+
+            <td #readyColumn class="columnRoot" (drop)="onDropInReady($event)" (dragover)="allowDrop($event)">
+                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+                    <ng-container *ngFor="let tas of filter('READY', task)">
+                        <ng-container *ngTemplateOutlet="card; context: {SubTask : tas}"></ng-container>
+                    </ng-container>
+                </div>
+            </td>
+
+            <td  class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">     
+                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+                    <ng-container *ngFor="let tas of filter('STARTED', task)">
+                        <ng-container *ngTemplateOutlet="card; context: {SubTask : tas}"></ng-container>
+                    </ng-container>
+                </div>
+            </td>
+
+            <td #inprogressColumn class="columnRoot" (drop)="onDropInProgress($event)" (dragover)="allowDrop($event)">                
+                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+                    <ng-container *ngFor="let tas of filter('IN_PROGRESS', task)">
+                        <ng-container *ngTemplateOutlet="card; context: {SubTask : tas}"></ng-container>
+                    </ng-container>
+                </div>
+            </td>
+
+            <td #inReview class="columnRoot" (drop)="onDropInReview($event)" (dragover)="allowDrop($event)">  
+                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+                    <ng-container *ngFor="let tas of filter('IN_REVIEW', task)">
+                        <ng-container *ngTemplateOutlet="card; context: {SubTask : tas}"></ng-container>
+                    </ng-container>
+                </div>
+            </td>
+
+            <td #completeColumn class="columnRoot" (drop)="onDropComplete($event)" (dragover)="allowDrop($event)">                
+                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+                    <ng-container *ngIf="!(hideComplete && filter('COMPLETED', task).length > 0); else Hidden;">
+                        <ng-container *ngFor="let tas of filter('COMPLETED', task)" >
+                            <ng-container  *ngTemplateOutlet="card; context: {SubTask : tas}"></ng-container>
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #Hidden>
+                        <mat-card>Hidden tasks...</mat-card>
+                    </ng-template>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ng-template #card let-SubTask="SubTask">
+    <mat-card class="columnItem subTaskItem"draggable="true" (dragstart)="dragStart(SubTask.Id)" >
+        <mat-card-header>
+            <div>
+                <b>{{SubTask.Id}}</b>
+
+                <button matButton [matMenuTriggerFor]="menu"><i class="bi bi-three-dots"></i></button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="editSubTask(SubTask)">Edit</button>
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item (click)="deleteSubTask(SubTask)">Delete</button>
+                </mat-menu>
+            </div>
+        </mat-card-header>
+        <mat-card-content><span>{{SubTask.Name}} </span></mat-card-content>
+        <mat-card-footer><mat-chip *ngIf="SubTask.ExpectedHours > 0"><span>{{SubTask.ExpectedHours}} hours </span></mat-chip></mat-card-footer>
+    </mat-card>
+</ng-template>
+
+<ng-template #header let-columnStatus="columnStatus" let-labelText="label">
+    <th style="border-radius: 3px; min-width: 10.0vw; max-width: 10.0vw;" [ngClass]="{notStarted : columnStatus =='NOT_STARTED', 'started' : columnStatus == 'STARTED', inProgress : columnStatus == 'IN_PROGRESS', inReview : columnStatus == 'IN_REVIEW', completed : columnStatus == 'COMPLETED', columnHeader : true}">
+        
+            {{labelText}} 
+    </th>
+</ng-template>
+   
+<ng-template #storyCard let-taskVM="taskVM">
+    <mat-card class="columnItem"draggable="true" (dragstart)="dragStart(taskVM.Task.Id)" >
+        <mat-card-header>
+            <div>
+                <input type="checkbox" [(ngModel)]="taskVM.Selected"/>
+                <span *ngIf="taskVM.Task.Impeded > 0">!</span> <b>{{taskVM.Task.Id}}</b>
+                <button matButton [matMenuTriggerFor]="menu"><i class="bi bi-three-dots"></i></button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="editTask(taskVM)">Edit</button>
+                    <button mat-menu-item *ngIf="taskVM.Task.DateCompleted != null"(click)="resetCompletedDate(taskVM.Task.Id)">Reset Completed Date</button>
+                    <button mat-menu-item *ngIf="taskVM.Groups.length > 0 || taskVM.Sprints.length > 0 || taskVM.Features.length > 0" [matMenuTriggerFor]="links">Remove Links</button>
+                    <button mat-menu-item (click)="addLinksForTasks([taskVM.Task.Id])">Link To</button>
+                    <button mat-menu-item (click)="addSubTask(taskVM)">Add Sub Task</button>
+                </mat-menu>
+                <mat-menu #links="matMenu">
+                    <button *ngIf="taskVM.Groups.length > 0" mat-menu-item [matMenuTriggerFor]="groups">Groups</button> 
+                    <button *ngIf="taskVM.Features.length > 0" mat-menu-item [matMenuTriggerFor]="features">Features</button>
+                    <button *ngIf="taskVM.Sprints.length > 0" mat-menu-item [matMenuTriggerFor]="sprints">Sprints</button>
+                </mat-menu>
+                <mat-menu #groups="matMenu">                    
+                    <button mat-menu-item 
+                    *ngFor="let g of taskVM.Groups"
+                    (click)="deleteLinksForTasks([taskVM.Task.Id], 'GROUPS',g.Id)">{{g.Name}}</button>
+                </mat-menu>
+                <mat-menu #features="matMenu">                    
+                    <button mat-menu-item *ngFor="let f of taskVM.Features"
+                    (click)="deleteLinksForTasks([taskVM.Task.Id], 'FEATURES',f.Id)">{{f.Name}}</button>
+                </mat-menu>
+                <mat-menu #sprints="matMenu">                    
+                    <button mat-menu-item *ngFor="let s of taskVM.Sprints"
+                    (click)="deleteLinksForTasks([taskVM.Task.Id], 'SPRINTS',s.Id)">{{s.Name}}</button>
+                </mat-menu>
+            </div>
+        </mat-card-header>
+        <mat-card-content><span>{{taskVM.Task.TaskName}} </span></mat-card-content>
+        <mat-card-footer>
+            <mat-chip-set>
+                <mat-chip *ngIf="taskVM.Task.Order>0"><b>{{taskVM.Task.Order}}</b></mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.Priority>0"><b>P{{taskVM.Task.Priority}}</b></mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.Difficulty > 0">Difficulty:{{taskVM.Task.Difficulty}}</mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.RequiresLearning>0">Learning Required</mat-chip> 
+                <mat-chip *ngFor="let g of taskVM.Groups">{{ g.Id | group}}</mat-chip> 
+                <mat-chip *ngIf="taskVM.Task.Estimate">Estimate: {{taskVM.Task.Estimate}}</mat-chip>
+            </mat-chip-set>
+        </mat-card-footer>
+    </mat-card>
+</ng-template>

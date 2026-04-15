@@ -1,9 +1,9 @@
-.container{
-    /*width: 100em;*/
+.container div{
+    max-width: 1920;
 }
 
 table, p, h1, h2, h3, h4, h5, h6, pre {
-    border-radius: 16px;
+    border-radius: 3px;
     border-color: greenyellow;
     color: black;
     padding: 16px;
@@ -14,11 +14,16 @@ table, p, h1, h2, h3, h4, h5, h6, pre {
 th {
     font-weight: bold;
     max-width: 15ch;
+    position: sticky; 
+    top: 0;
+    z-index: 100;
+    
+    background-color: rgb(196, 219, 219);
 }
 
-td{
+/* td{
     padding: 8px;
-}
+} */
 .number{
     text-align: right;
 }
@@ -43,6 +48,11 @@ td{
     background-color: rgb(196, 219, 219);
 }
 
+.tableToolBar{    
+    position: sticky; 
+    top: 0;
+    z-index: 100;
+}
 .tableDivider{
     background-color: rgb(196, 219, 219);
 }
@@ -73,3 +83,26 @@ td{
     mask-clip: 50%;
 }
 */
+
+/* Tooltip container */
+.tooltip {
+
+}
+
+/* Tooltip text */
+.tooltiptext {
+  visibility: hidden; /* Hidden by default */
+  width: 130px;
+  background-color: black;
+  color: #ffffff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1; /* Ensure tooltip is displayed above content */
+}
+
+/* Show the tooltip text on hover */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

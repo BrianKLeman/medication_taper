@@ -10,24 +10,30 @@
                         
                         
             <tr>
-                    <p>
-                        <label for="date_time">From Date</label>
-                    </p>
-                
-                
+                <td align="right">
+                    
+                        From Date
+                    
+                </td>
+                <td align="left">
                     <input id="fromDate" name="fromDate" type="date" formControlName="fromDate" [ngModel]="fromDate" (ngModelChange)="changeFromDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
-                    
-                    <p>
-                        <label for="toDate">To Date</label>
-                    </p>
-                
-                
-                    
-                    <input id="toDate" name="toDate" type="date" formControlName="toDate" [ngModel]="toDate" (ngModelChange)="changeToDate($event)"  /> 
+                </td>
             </tr>
+                    <tr>
+                        <td align="right">
+                            To Date
+                        </td>
+                        <td align="left">
+                        <input id="toDate" name="toDate" type="date" formControlName="toDate" [ngModel]="toDate" (ngModelChange)="changeToDate($event)"  /> 
+                             </td>
+                  
+                     </tr>
             
             <tr>
-                <button (click)="refreshNotes()" [disabled]="!searchFormGroup.valid">Refresh</button>
+                <td></td>
+                <td>
+                    <button (click)="refreshNotes()" [disabled]="!searchFormGroup.valid">Refresh</button>
+                </td>
             </tr>
         </table>
     </form>
@@ -40,8 +46,8 @@
             <th>Note</th>
     </thead>
     <tbody>
-        <tr *ngIf="HasUserID">
-            <span>
+        <tr *ngIf="HasUserID" class="tableToolBar">
+            <span class="tableToolBar">
                 <button (click)="addNote();" class="action"><i class="bi bi-sticky-fill"></i></button>
                 <button (click)="LinkNotes();" class="action"><i class="bi bi-link"></i></button>
                 <button *ngIf="HasUserID" style="float: right;display: inline; margin: 10px; vertical-align: middle;"(click)="deleteNotes()" class="dangerButton action"><i style="vertical-align: baseline;" class="bi bi-trash3"></i></button>
@@ -64,7 +70,10 @@
                                 <p style="float: left; display: inline; margin: 10px; padding: 0;  vertical-align: middle;">{{ d.RecordedDate | date: 'shortTime'}}</p> 
                                                
                                <button *ngIf="HasUserID" style="float: right;display: inline; margin: 10px; vertical-align: middle;" (click)="editNote(d)" class="amberButton action"><i style="vertical-align: baseline;"class="bi bi-pencil-square"></i></button>                        
-                                
+                                <p *ngIf="showLastPillAmount" style="float: left; display: inline; margin: 10px; padding: 0;  vertical-align: middle;">
+                                   
+                                    <mat-chip>Last Pill Amount: {{getLastPillAmount(notes[i].RecordedDate) | number: '1.2-2'}}</mat-chip>
+                                </p> 
                         </span>
                     </td>
                 </ng-container>

@@ -44,12 +44,37 @@ export class FeaturesService {
   }
 
   features !: IFeature[]; 
+
+  
+    public async CreateFeature(feature : IFeature){
+      return await this.httpClient.post<number>(this.apiUrls.GetApiURL()+`api/features/`, feature).toPromise();
+    }
+  
+    public async UpdateFeature(feature : IFeature){
+      return await this.httpClient.put<number>(this.apiUrls.GetApiURL()+`api/features/${feature.Id}`, feature).toPromise();
+    }
+
+    public CreateDefault(projectID : number, roadmapID : number){
+      return  <IFeature>{
+       Name : "Untitled",
+       Details : "",
+       Id : 0,
+       PersonID : 0,
+       CreatedDate : new Date(Date.now()),
+       ProjectID : projectID,
+       LearningAimID : null,
+       RoadMapID : roadmapID
+      }
+    }
 }
 
 export interface IFeature{  
     Id: number;
     PersonID: number;
     Name: string;
-    ProjectID : number;
-    LearningAimID: number;    
+    Details : string;
+    CreatedDate : string | null | Date;
+    ProjectID : number | null;
+    LearningAimID: number | null;  
+    RoadMapID: number;  
 }

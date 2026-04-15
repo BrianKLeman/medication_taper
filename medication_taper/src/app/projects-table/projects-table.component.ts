@@ -55,4 +55,12 @@ export class ProjectsTableComponent {
   async showBeatcharts(project : IProject){
     project.ShowAdhocTables = !project.ShowAdhocTables;    
   }
+
+  async showRoadmap(project : IProject){
+    project.ShowBacklog = !project.ShowBacklog;    
+  }
+
+  async showEpics(project : IProject){
+    project.ShowEpics = !project.ShowEpics;    
+  }
 }

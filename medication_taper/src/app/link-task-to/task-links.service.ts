@@ -39,6 +39,17 @@ export class TaskLinksService {
       }
     ).toPromise();
   }
+
+  public DeleteLinks(taskIDs : number[], tableName : string, entityID : number){
+    this.httpClient.request<number>("DELETE", 
+      this.urlsService.GetApiURL()+"Api/TaskLinks",
+      { body:{
+        TaskIDs : taskIDs,
+        Table : tableName,
+        EntityID : entityID
+      }}
+    ).toPromise().then( (n) => { console.log(`deleted task links with id ${n}`); });
+  }
 }
 
 export interface ITaskLink{

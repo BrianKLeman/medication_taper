@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { INote, INotes, NotesService } from './notes.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TimezonesService } from '../timezones.service';
@@ -31,27 +31,24 @@ export class NotesComponent {
         if(this.currentNote.BehaviorChange != true)
           this.currentNote.BehaviorChange = false;
         // I need to correct the date time because the server is adjusting it.
-        let rd = new Date(this.currentNote.RecordedDate);
-        this.currentNote.RecordedDate = rd.toISOString();
-        this.setDateAndTime(rd);
+        this.date = this.currentNote.RecordedDate.split("T")[0];
+        this.time = this.currentNote.RecordedDate.split("T")[1].substring(0,5);
       }
       
   }
 
   private CreateNewNote(now : Date) : INotes{
-    let ct = now;
-    ct.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
-    this.setDateAndTime(ct);
-    console.log(ct.toISOString());
+    
+    this.setDateAndTime(now);
     let currentNote = <INotes> 
     { 
-      RecordedDate : ct.toISOString(), 
+      RecordedDate : now.toISOString(), 
       Id : 0, 
       PersonID : 0, 
       Text : "",
       BehaviorChange : false,
       CreatedUser : "",
-      CreatedDate : ct.toISOString(),
+      CreatedDate : now.toISOString(),
       UpdatedUser : "",
       UpdatedDate : "",
       DisplayAsHTML : false
@@ -78,7 +75,7 @@ export class NotesComponent {
 
   private setDateAndTime(d : Date){
         this.date = d.toISOString().split("T")[0];
-        this.time = d.toISOString().split("T")[1].substring(0,5);
+        this.time = d.toTimeString().substring(0,5);
   }
 
   private updateNote(n : INotes){    
@@ -87,4 +84,5 @@ export class NotesComponent {
 
   private entityID = -1;
   private tableName = "";
+
 }

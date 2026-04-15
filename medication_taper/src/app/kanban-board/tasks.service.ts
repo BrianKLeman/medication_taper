@@ -4,6 +4,7 @@ import { UrlsService } from 'src/urls.service';
 import { TaskLinksService } from '../link-task-to/task-links.service';
 import { ISprint } from '../sprints.service';
 import { FeaturesService, IFeature } from '../features.service';
+import { ISubTask } from '../sub-tasks-edit/sub-tasks.service';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +97,24 @@ export class TasksService {
     let x = await this.httpClient.delete( this.urlsService.GetApiURL()+"Api/Tasks",  {body : task}).toPromise();
     return x;
   }
+
+  public DefaultTask(ct :Date){
+    return  <ITasks> { 
+      Id: 0,
+      TaskName : "Name",  
+      CreatedDate: ct.toISOString(),  
+      CreatedBy: "BKL",  
+      PersonID: 0,  
+      DueDate: null,  
+      Description : "As [Role], I [Want], [Because]\n\r Remember 5 Ws - What, Why, Who, When and Where (https://claude.ai/chat/22e900b4-8987-43aa-aeab-f8c9bf4102bd)",  
+      DateCompleted: null,  
+      Priority: 0,  
+      Status: NOT_STARTED,
+      AcceptanceCriteria: "Given/When/Then",
+      Order : 0,
+      Estimate : 0
+    };
+  }
 }
 
 
@@ -126,6 +145,7 @@ export interface ITasksGroupsViewModel
     Groups : IGroup[],
     Sprints : ISprint[],
     Features : IFeature[],
+    SubTasks : ISubTask[],
     Selected : boolean
 }
 
@@ -135,6 +155,9 @@ export interface IGroup
   PersonId : number,
   Name : string
 }
+
+
+
 export const COMPLETED = "COMPLETED";
 export const IN_REVIEW = "IN_REVIEW";
 export const NOT_STARTED = "NOT_STARTED";

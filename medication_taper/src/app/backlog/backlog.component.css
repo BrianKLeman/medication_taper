@@ -1,0 +1,12 @@
+.backlogContainer{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.treeContainer{
+
+}
+
+.detailContainer{
+
+}

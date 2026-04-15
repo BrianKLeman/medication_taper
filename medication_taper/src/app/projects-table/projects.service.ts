@@ -20,7 +20,8 @@ export class ProjectsService {
       p.ShowNotes = false;
       p.ShowTasks = false;
       p.ShowAdhocTables = false;
-
+      p.ShowBacklog = false;
+      p.ShowEpics = false;
     }
     return x;
   }
@@ -41,5 +42,7 @@ export interface IProject{
   ShowNotes : boolean,
   ShowTasks : boolean,
   ShowAdhocTables : boolean,
+  ShowBacklog : boolean,
+  ShowEpics : boolean,
   AdhocTables : IAdhocTable[]
 }

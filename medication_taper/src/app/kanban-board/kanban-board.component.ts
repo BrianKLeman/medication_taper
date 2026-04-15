@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { COMPLETED, IN_PROGRESS, IN_REVIEW, ITasks, ITasksGroupsViewModel, NOT_STARTED, READY, STARTED, TasksService } from './tasks.service';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,20 +7,23 @@ import { GroupsService, IGroups } from '../groups.service';
 import { IGroupsSelectionVM } from '../groups/groups.component';
 import { ISprint, SprintsService } from '../sprints.service';
 import { FeaturesService, IFeature } from '../features.service';
+import { SprintChartComponent } from '../sprint-chart/sprint-chart.component';
+import { TaskLinksService } from '../link-task-to/task-links.service';
 
 @Component({
   selector: 'app-kanban-board',
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.css']
 })
-export class KanbanBoardComponent implements OnInit {
+export class KanbanBoardComponent implements AfterViewInit {
 
   //#region setup
   constructor(private tasksService : TasksService,
               private dialog : MatDialog,
              private groupsService : GroupsService,
               private sprintsService : SprintsService,
-            private featuresService : FeaturesService){   
+            private featuresService : FeaturesService,
+          private taskLinksService : TaskLinksService){   
   }
 
   @Input()
@@ -35,15 +38,21 @@ export class KanbanBoardComponent implements OnInit {
   @Input()
   public sprintID : number = 0;
   
-  public features : IFeature[] = []
-  async ngOnInit() {
+  public features : IFeature[] = [];
+
+   @ViewChild('burndownChart')
+    public chartComponent !: SprintChartComponent;
+
+  async ngAfterViewInit() {
     let groups = await this.groupsService.getAllGroupsForPerson();
+    
+    await this.refreshSprints();
     await this.refresh();
-    this.refreshSprints();
+
   }
 
   public filterFeaturesWithAvailableTasks(tasks : ITasksGroupsViewModel[], features : IFeature[]) : IFeature[]{
-    const defaultFeature : IFeature = {Name : "N/A", Id : 0, PersonID : 0, ProjectID : 0, LearningAimID : 0};
+    const defaultFeature : IFeature = {Name : "N/A", Details : "", Id : 0, PersonID : 0, ProjectID : 0, LearningAimID : 0, RoadMapID : 0, CreatedDate : null};
     let filteredFeatures = [defaultFeature];
     for(let f of features){
       for(let t of tasks){
@@ -115,7 +124,11 @@ export class KanbanBoardComponent implements OnInit {
     this.Tasks = [...tasks];
    
     tasks = this.filterTasks(tasks);
-    
+
+    const sprint = this.sprints.find( (x : ISprint) => x.Id == this.sprintID);
+    if(sprint != null && sprint != undefined)
+      this.chartComponent.createBurndownChart(tasks, sprint); 
+
     features = this.filterFeaturesWithAvailableTasks(tasks, features);
     this.features = [...features]
     this.InProgress.length = 0;
@@ -227,6 +240,9 @@ export class KanbanBoardComponent implements OnInit {
     arg.preventDefault();
   }
 
+  public completedStatus(){
+    return COMPLETED;
+  }
   private draggedTaskID : number = -1;
   dragStart(taskID : number){
     this.draggedTaskID = taskID;
@@ -262,6 +278,10 @@ export class KanbanBoardComponent implements OnInit {
   public addTaskLink(){
     
     let selectedTasksIDs = this.Tasks.filter( x => x.Selected).map( x => x.Task.Id);
+    this.addLinksForTasks(selectedTasksIDs);
+  }
+
+  public addLinksForTasks(selectedTasksIDs : number[]){
     this.dialog.open(LinkTaskToComponent, { data : 
       {
         taskIDs : selectedTasksIDs, 
@@ -274,7 +294,6 @@ export class KanbanBoardComponent implements OnInit {
       500);
       });
   }
-
   public async addTask(){
     let d = new Date()
     let x = await this.dialog.open(TaskFormComponent, { data : 
@@ -322,33 +341,45 @@ export class KanbanBoardComponent implements OnInit {
       500);
     let count = await this.refresh();
   }
+
+  async resetCompletedDate(taskID : number){
+    var t = this.Tasks.find( (x) => x.Task.Id == taskID);
+    if(t){
+      this.Completed.push(t);
+      t.Task.DateCompleted = null;
+      await this.tasksService.UpdateTask(t.Task);
+    }
+  }
+
+  public async deleteLinksForTasks(selectedTasksIDs : number[], entity_type : string, entity_id : number){
+    await this.taskLinksService.DeleteLinks(selectedTasksIDs, entity_type, entity_id);
+  }
 //#endregion
 
   //#region Sprints
-  private refreshSprints(){
-    this.sprintsService.getAllSprintsForPerson().then( 
-      (results) => 
-        {
-          let record = [];
-          if(results){
-            for(let x of results){
-              record.push(this.ToRecord(x));
-            }
-          }
-          this.sprints = record;
-    });
+  private async refreshSprints(){
+    let results = await this.sprintsService.getAllSprintsForPerson();
+    let record : ISprint[]= [];
+    if(results){
+      results.sort((a, b) => new Date(a.StartDate).valueOf() - new Date(b.StartDate).valueOf());
+      for(let x of results){
+        record.push(this.ToRecord(x));
+      }
+    }
+    this.sprints = record;
+    this.sprintID = this.sprints[this.sprints.length-1].Id;
   }
   
-  public ToRecord(record : any) : {id : number, desc : string, FromDate : string, EndDate : string}{
+  public ToRecord(record : any) : ISprint{
     let g = record as ISprint;
     if(g.Id != undefined){
-      return { id : g.Id, desc : `${ g.Name}`, FromDate : g.StartDate, EndDate : g.EndDate};
+      return <ISprint>{ Id : g.Id, Description : `${ g.Name}`, StartDate : g.StartDate, EndDate : g.EndDate};
     }
 
-    return { id : -1, desc : `Unspecified`, FromDate : "", EndDate : ""};
+    return <ISprint>{ Id : -1, Name : "UnNamed", Description : `Unspecified`, StartDate : "", EndDate : "", PersonID : 1};
   }
 
-  sprints : {id : number, desc : string, FromDate : string, EndDate : string}[] = [];
+  sprints : ISprint[] = [];
 
   private filterBySprint(sprintID : number, tasks : ITasksGroupsViewModel[]){
    let ts = tasks.filter( tVM => {
@@ -367,6 +398,12 @@ export class KanbanBoardComponent implements OnInit {
     });
     return ts;
    }
+
+   public hideCompleted(hide : boolean){
+    this.hideComplete = hide;
+   }
+
+   public hideComplete : boolean = true;
   //#endregion
 
   //#region Groups

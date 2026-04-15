@@ -1,0 +1,125 @@
+       
+                <form>
+                    <table>
+                        <tr>
+                            <td align="right">
+                                Title
+                            </td>
+                            <td>                            
+                                <input id="task-name" name="task-name" length="50" [(ngModel)]="currentTask.TaskName" style="box-sizing: border-box; width: 100%;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                Description
+                            </td>
+                            <td align="left">
+                            
+                            <div >
+                                <textarea id="task-content" name="task-content" rows="10" cols="50" [(ngModel)]="currentTask.Description" style="box-sizing: border-box; width: 100%;"></textarea>
+                                <span class="tooltiptext">As [Role], I [Want], [Because]\n\r Remember 5 Ws - What, Why, Who, When and Where</span>
+                            </div>
+                            </td>
+                        </tr>
+                       
+                        <tr>                            
+                            <td align="right">
+                                Acceptance Criteria
+                            </td>
+                            <td align="left">
+                                <textarea id="task-criteria" name="task-criteria" rows="10" cols="50" [(ngModel)]="currentTask.AcceptanceCriteria" style="box-sizing: border-box; width: 100%;"></textarea>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2">
+                                <app-notes-table [entity]="currentTask.Id" [showNotes]="true" tableName="TASKS" ></app-notes-table>
+                                            </td>              
+                        </tr>
+                        <tr>
+                           
+                            <td align="right">
+                                DateTime
+                            </td>
+                            <td align="left">
+                            
+                            
+                            
+                                <input id="date_time" name="date" type="date" [ngModel]="date" (ngModelChange)="changeDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                                <input id="date_time" name="time" type="time" [(ngModel)]="time" /> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+                            </td>
+                        </tr>  
+                        <tr>
+                            <td align="right">
+                                Order
+                            </td>
+                            <td align="left">
+                            
+                            
+                            <input id="order" name="order" type="number" [(ngModel)]="currentTask.Order"/>     
+                            </td>                            
+                        </tr>   
+                        <tr>
+                           <td align="right">
+                                Priority
+                            </td>
+                            <td align="left">
+                            
+                            
+                                <input id="prority" name="priority" type="number" [(ngModel)]="Priority" /> 
+                            </td>
+                        </tr>  
+                        <tr>
+                            <td align="right">
+                                Difficulty
+                            </td>
+                            <td align="left">                           
+                            
+                            <input id="difficulty" name="difficulty" type="number" [(ngModel)]="Difficulty"/>      
+                            </td>                          
+                        </tr>    
+                        
+                        <tr>
+                           <td align="right">
+                                Requires Learning
+                            </td>
+                            <td align="left">
+                            
+                            
+                            <input id="requiresLearning" name="requiresLearning" type="checkbox" [(ngModel)]="RequiresLearning"/>  
+                            </td>                              
+                        </tr> 
+
+                        <tr>
+                           <td align="right">
+                                Estimate
+                            </td>
+                            <td align="left">
+                            
+                            
+                            <input id="estimate" name="estimate" type="number" [(ngModel)]="Estimate"/>       
+                            </td>                          
+                        </tr> 
+
+                        <tr>
+                            <td align="right">
+                                Impeded
+                            </td>
+                            <td align="left">
+                            
+                            
+                            <input id="impeded" name="impeded" type="checkbox" [(ngModel)]="Impeded"/>   
+                            </td>                              
+                        </tr> 
+
+                        <tr class="field">
+                            <td align="right">Status: </td>
+                            <td align="left">
+                                <select id="status" [formControl]="statusFormControl">
+                                    <option *ngFor="let o of statusOptions" value="{{o[0]}}">{{o[1]}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <button *ngIf="showSaveButton" (click)="save()">Save</button>
+                </form>

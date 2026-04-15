@@ -1,17 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserCredentialsService } from '../user-credentials.service';
 import { UrlsService } from 'src/urls.service';
-import { TimezonesService } from '../timezones.service';
 @Injectable({
   providedIn: 'root'
 })
 export class NotesService {
 
   constructor(private httpClient : HttpClient, 
-    private user : UserCredentialsService,
-    private apiUrls : UrlsService,
-    private timeService : TimezonesService) { 
+    private apiUrls : UrlsService) { 
 
   }
 
@@ -80,29 +76,40 @@ export class NotesService {
   }
 
   public AddNote(datetime : Date, text : string, behaviorChange : boolean, displayAsHTML : boolean, tableName : string, entityID : number){
-    this.httpClient.post<number>( 
-      this.apiUrls.GetApiURL()+"Api/Notes",
-      <INote>{ 
-        dateTime : new Date(datetime),
-        NoteText : text,
+    let today = datetime;
+    
+    let offsetMinutes = today.getTimezoneOffset()
+    today.setHours(today.getHours()-offsetMinutes/60)
+    let json =  <INote>{ 
+        dateTime : today,
+        NoteText : text.trim() == "" ? "unset" : text,
         BehaviorChange : behaviorChange,
         DisplayAsHTML : displayAsHTML,
         entityID : entityID,
         tableName : tableName
         }
+    this.httpClient.post<number>( 
+      this.apiUrls.GetApiURL()+"Api/Notes",
+     json
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
   }
 
   public UpdateNote(note : INotes){
-    this.httpClient.put<number>( 
-      this.apiUrls.GetApiURL()+"Api/Notes",
-      <INote>{ 
-        dateTime : new Date(note.RecordedDate),
-        NoteText : note.Text,
+    let today = new Date();
+    
+    let offsetMinutes = today.getTimezoneOffset()
+    today.setHours(today.getHours()-offsetMinutes/60)
+    let json = <INote>{ 
+        dateTime : today,
+        NoteText : note.Text.trim() == "" ? "unset" : note.Text,
         BehaviorChange : note.BehaviorChange,
         NoteID : note.Id,
         DisplayAsHTML : note.DisplayAsHTML
-        }
+        };
+    console.log(JSON.stringify(json));
+    this.httpClient.put<number>( 
+      this.apiUrls.GetApiURL()+"Api/Notes",
+      json
     ).toPromise().then( (n) => { console.log(`written note with id ${n}`); });
   }
 
