@@ -1,24 +1,28 @@
 <h3>Roadmap</h3>
 <form [formGroup]="roadmapForm" (ngSubmit)="onSubmit()">
-    <div class="form-grid">
-        <div class="field">
-            <label for="name">Name: </label>
-            <input id="name" type="text" formControlName="name" maxlength="45"/>
-        </div>
-        <div class="field">
-            <label for="details">Details: </label>
-            <input id="details" type="text" formControlName="details" maxlength="1024"/>
-        </div>
-        <div class="field">
-            <label for="createdDate">Created: </label>
-            <input id="createdDate" type="datetime" readonly formControlName="createdDate"/>
-        </div>
-        
-        <div class="field" *ngIf="roadmapID > 0">
-            <app-notes-table [entity]="roadmapID" tableName="ROADMAPS" ></app-notes-table>                
-        </div>
-        <div class="field" *ngIf="inDialog == false">
-            <button type="submit" [disabled]="!roadmapForm.valid">Submit</button>
-        </div>
+  <div class="form-grid">
+    <div class="field">
+      <label for="name">Name: </label>
+      <input id="name" type="text" formControlName="name" maxlength="45"/>
     </div>
+    <div class="field">
+      <label for="details">Details: </label>
+      <input id="details" type="text" formControlName="details" maxlength="1024"/>
+    </div>
+    <div class="field">
+      <label for="createdDate">Created: </label>
+      <input id="createdDate" type="datetime" readonly formControlName="createdDate"/>
+    </div>
+
+    @if (roadmapID > 0) {
+      <div class="field">
+        <app-notes-table [entity]="roadmapID" tableName="ROADMAPS" ></app-notes-table>
+      </div>
+    }
+    @if (inDialog == false) {
+      <div class="field">
+        <button type="submit" [disabled]="!roadmapForm.valid">Submit</button>
+      </div>
+    }
+  </div>
 </form>

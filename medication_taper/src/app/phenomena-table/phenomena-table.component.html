@@ -1,21 +1,23 @@
 
 <table class="tableBody">
-    <thead class="tableHeader">
-        <th>Notes</th>
+  <thead class="tableHeader">
+    <th>Notes</th>
     <th>Phenomena</th>
-    </thead>
-    <tbody>
-        <ng-container *ngFor="let p of phenomena; index as i;">
-            <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
-                <td class="commands"><button (click)="showNotes(p);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
-                <td class="text">{{p.PhenomenaDetails}}</td>
-            </tr>
-            <tr *ngIf="p.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
-                <td colspan="2">
-                    <app-notes-table [entity]="p.Id" [showNotes]="p.ShowNotes" tableName="PHENOMENA" [showLastPillAmount]="true"></app-notes-table>
-                </td>
-            </tr>
-        </ng-container>
-    </tbody>
+  </thead>
+  <tbody>
+    @for (p of phenomena; track p; let i = $index) {
+      <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
+        <td class="commands"><button (click)="showNotes(p);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
+        <td class="text">{{p.PhenomenaDetails}}</td>
+      </tr>
+      @if (p.ShowNotes) {
+        <tr [ngClass]="{'altTableRow' : i%2 == 0}" >
+          <td colspan="2">
+            <app-notes-table [entity]="p.Id" [showNotes]="p.ShowNotes" tableName="PHENOMENA" [showLastPillAmount]="true"></app-notes-table>
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
 
 </table>

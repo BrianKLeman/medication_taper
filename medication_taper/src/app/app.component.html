@@ -1,66 +1,90 @@
 
 <div class="container" style="max-width: 1920px;">
-    <mat-toolbar>
-        <p>Personal Organiser</p>
-        <button *ngIf="!HasUserID" (click)="showAuthorise()" aria-label="Example icon-button with heart icon">           
-            <span *ngIf="!HasUserID">
-                <i *ngIf="!HasUserID" class="bi bi-box-arrow-in-right"></i>
-                Login
-            </span>
-        </button>
-        <button *ngIf="HasUserID" (click)="Logout()" aria-label="Example icon-button with heart icon">            
-            <span >
-                <i class="bi bi-box-arrow-in-left"></i>
-                Logout
-            </span>
-        </button>
-        <h1>{{ UserID }}</h1>
-    </mat-toolbar>
+  <mat-toolbar>
+    <p>Personal Organiser</p>
+    @if (!HasUserID) {
+      <button (click)="showAuthorise()" aria-label="Example icon-button with heart icon">
+        @if (!HasUserID) {
+          <span>
+            @if (!HasUserID) {
+              <i class="bi bi-box-arrow-in-right"></i>
+            }
+            Login
+          </span>
+        }
+      </button>
+    }
+    @if (HasUserID) {
+      <button (click)="Logout()" aria-label="Example icon-button with heart icon">
+        <span >
+          <i class="bi bi-box-arrow-in-left"></i>
+          Logout
+        </span>
+      </button>
+    }
+    <h1>{{ UserID }}</h1>
+  </mat-toolbar>
 
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 
-    <mat-tab-group [selectedIndex]="2">
-        <mat-tab label="Health">
+  <mat-tab-group [selectedIndex]="2">
+    <mat-tab label="Health">
+      <ng-template matTabContent>
+        <mat-tab-group [selectedIndex]="1">
+          @if (HasUserID) {
+            <mat-tab label="Alcohol"> <ng-template matTabContent><app-alcohol-table></app-alcohol-table></ng-template> </mat-tab>
+          }
+          @if (HasUserID) {
+            <mat-tab label="Medication Doses"> <ng-template matTabContent><medication-doses-table ></medication-doses-table></ng-template> </mat-tab>
+          }
+          @if (HasUserID) {
+            <mat-tab label="Phenomena" > <ng-template matTabContent><phenomena-table ></phenomena-table></ng-template></mat-tab>
+          }
+          @if (HasUserID) {
+            <mat-tab label="Prescriptions"><ng-template matTabContent><prescriptions-table ></prescriptions-table></ng-template></mat-tab>
+          }
+          @if (HasUserID) {
+            <mat-tab label="Sleeps"> <ng-template matTabContent><sleeps-table ></sleeps-table></ng-template></mat-tab>
+          }
+        </mat-tab-group>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="House Keeping">
+      <ng-template matTabContent>
+        <mat-tab-group [selectedIndex]="1">
+          <mat-tab label="Shopping"> <ng-template matTabContent><app-shopping-board ></app-shopping-board></ng-template></mat-tab>
+          @if (HasUserID) {
+            <mat-tab label="Jobs At Home"> <ng-template matTabContent><app-jobs-at-home></app-jobs-at-home></ng-template> </mat-tab>
+          }
+          @if (HasUserID) {
+            <mat-tab label="Appointments"> <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>
+          }
+        </mat-tab-group>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Work">
+      <ng-template matTabContent>
+        <mat-tab-group [selectedIndex]="2">
+          <mat-tab label="Learning Aims"> <ng-template matTabContent><learning-aims-table ></learning-aims-table></ng-template> </mat-tab>
+          @if (HasUserID) {
+            <mat-tab label="Notes"> <ng-template matTabContent><app-notes-table [show]="true" [last7Days]="true" ></app-notes-table></ng-template> </mat-tab>
+          }
+          <mat-tab label="Projects"> <ng-template matTabContent><projects-table ></projects-table></ng-template> </mat-tab>
+          <mat-tab label="Epics">
             <ng-template matTabContent>
-                <mat-tab-group [selectedIndex]="1">
-                  <mat-tab label="Alcohol" *ngIf="HasUserID"> <ng-template matTabContent><app-alcohol-table></app-alcohol-table></ng-template> </mat-tab>
-                  <mat-tab label="Medication Doses" *ngIf="HasUserID"> <ng-template matTabContent><medication-doses-table ></medication-doses-table></ng-template> </mat-tab>
-                  <mat-tab label="Phenomena" *ngIf="HasUserID" > <ng-template matTabContent><phenomena-table ></phenomena-table></ng-template></mat-tab>
-                  <mat-tab label="Prescriptions" *ngIf="HasUserID"><ng-template matTabContent><prescriptions-table ></prescriptions-table></ng-template></mat-tab>
-                  <mat-tab label="Sleeps" *ngIf="HasUserID"> <ng-template matTabContent><sleeps-table ></sleeps-table></ng-template></mat-tab>        
-                </mat-tab-group>
+              <app-kanban-board></app-kanban-board>
             </ng-template>
-        </mat-tab>
-        <mat-tab label="House Keeping">
+          </mat-tab>
+          <mat-tab label="Stories">
             <ng-template matTabContent>
-                <mat-tab-group [selectedIndex]="1">
-                    <mat-tab label="Shopping"> <ng-template matTabContent><app-shopping-board ></app-shopping-board></ng-template></mat-tab>
-                    <mat-tab label="Jobs At Home" *ngIf="HasUserID"> <ng-template matTabContent><app-jobs-at-home></app-jobs-at-home></ng-template> </mat-tab>
-                    <mat-tab label="Appointments" *ngIf="HasUserID"> <ng-template matTabContent><app-appointments-table></app-appointments-table></ng-template> </mat-tab>        
-                </mat-tab-group>
+              <app-story-kanban-board></app-story-kanban-board>
             </ng-template>
-        </mat-tab>
-        <mat-tab label="Work">
-            <ng-template matTabContent>                
-                    <mat-tab-group [selectedIndex]="2">
-                        <mat-tab label="Learning Aims"> <ng-template matTabContent><learning-aims-table ></learning-aims-table></ng-template> </mat-tab>
-                        <mat-tab label="Notes" *ngIf="HasUserID"> <ng-template matTabContent><app-notes-table [show]="true" [last7Days]="true" ></app-notes-table></ng-template> </mat-tab>
-                        <mat-tab label="Projects"> <ng-template matTabContent><projects-table ></projects-table></ng-template> </mat-tab>
-                        <mat-tab label="Epics">
-                            <ng-template matTabContent>
-                                <app-kanban-board></app-kanban-board>
-                            </ng-template>
-                        </mat-tab>
-                        <mat-tab label="Stories">
-                            <ng-template matTabContent>
-                                <app-story-kanban-board></app-story-kanban-board>
-                            </ng-template>
-                        </mat-tab>
-                    </mat-tab-group>
-            </ng-template>
-        </mat-tab>
-    </mat-tab-group>
-    
+          </mat-tab>
+        </mat-tab-group>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
 
 </div>
 

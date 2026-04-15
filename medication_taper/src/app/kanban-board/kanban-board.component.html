@@ -1,188 +1,224 @@
 
 <mat-toolbar>
-    <button (click)="addTask();" class="action rightFilterMargin"><i class="bi bi-list-task"></i></button>
-    <button (click)="addTaskLink();" class="action rightFilterMargin"><i class="bi bi-link"></i></button>
-    <button (click)="deleteTasks();" class="action rightFilterMargin"><i class="bi bi-trash3"></i></button>
-    <span class="rightFilterMargin">
-        <mat-slide-toggle (click)="hideCompleted(!hideComplete)" [checked]="hideComplete">Hide Completed</mat-slide-toggle>
-    </span>
-    <span class="rightFilterMargin" style="align-content: end;">
-        <label for="sprint">Sprint: </label> 
-        <select id="sprint" name="sprint" [(ngModel)]="sprintID" (change)="onValueChanged($event)">
-            
-            <option [value]="-2">Backlog</option>
-            <option [value]="-1">----------</option>
-            <option *ngFor="let n of sprints;" [value]="n.Id">{{ n.Description }} - {{ n.StartDate | date : "dd/MM/YYYY" }} - {{ n.EndDate | date : "dd/MM/YYYY"}}</option>
-        </select>
-    </span>
-    <span class="rightFilterMargin" style="align-content: end;">
-        <app-groups (groupsChanged)="groupsChanged($event)"></app-groups>
-    </span>
-    <mat-chip class="rightFilterMargin" *ngIf="countAllUnestimated() > 0">{{countAllUnestimated()}}  Tasks Unestimated</mat-chip>
-    <mat-chip class="rightFilterMargin" *ngIf="countAll() > 0">{{count('COMPLETED')}} of {{countAll()}} Tasks Completed</mat-chip>
-    <mat-chip class="rightFilterMargin" >Estimate: {{ sumEstimateAll()}}</mat-chip>
-    </mat-toolbar>
-    <mat-expansion-panel class="expansion-panel">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            Burndown Chart
-        </mat-panel-title></mat-expansion-panel-header>
+  <button (click)="addTask();" class="action rightFilterMargin"><i class="bi bi-list-task"></i></button>
+  <button (click)="addTaskLink();" class="action rightFilterMargin"><i class="bi bi-link"></i></button>
+  <button (click)="deleteTasks();" class="action rightFilterMargin"><i class="bi bi-trash3"></i></button>
+  <span class="rightFilterMargin">
+    <mat-slide-toggle (click)="hideCompleted(!hideComplete)" [checked]="hideComplete">Hide Completed</mat-slide-toggle>
+  </span>
+  <span class="rightFilterMargin" style="align-content: end;">
+    <label for="sprint">Sprint: </label>
+    <select id="sprint" name="sprint" [(ngModel)]="sprintID" (change)="onValueChanged($event)">
 
-            <app-sprint-chart #burndownChart></app-sprint-chart>
-</mat-expansion-panel>
-<table #kanBanParent class="kanbanRoot boardBackground">
-   
+      <option [value]="-2">Backlog</option>
+      <option [value]="-1">----------</option>
+      @for (n of sprints; track n) {
+        <option [value]="n.Id">{{ n.Description }} - {{ n.StartDate | date : "dd/MM/YYYY" }} - {{ n.EndDate | date : "dd/MM/YYYY"}}</option>
+      }
+    </select>
+  </span>
+  <span class="rightFilterMargin" style="align-content: end;">
+    <app-groups (groupsChanged)="groupsChanged($event)"></app-groups>
+  </span>
+  @if (countAllUnestimated() > 0) {
+    <mat-chip class="rightFilterMargin">{{countAllUnestimated()}}  Tasks Unestimated</mat-chip>
+  }
+  @if (countAll() > 0) {
+    <mat-chip class="rightFilterMargin">{{count('COMPLETED')}} of {{countAll()}} Tasks Completed</mat-chip>
+  }
+  <mat-chip class="rightFilterMargin" >Estimate: {{ sumEstimateAll()}}</mat-chip>
+</mat-toolbar>
+<mat-expansion-panel class="expansion-panel">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Burndown Chart
+    </mat-panel-title></mat-expansion-panel-header>
+
+    <app-sprint-chart #burndownChart></app-sprint-chart>
+  </mat-expansion-panel>
+  <table #kanBanParent class="kanbanRoot boardBackground">
+
     <thead class="tableHeader">
-        <tr style="border-radius: 3px;">
+      <tr style="border-radius: 3px;">
         <ng-container *ngTemplateOutlet="header; context: {label : 'Features/Epics', columnStatus : 'FEATURES'}"></ng-container>
-        
-    
-            <ng-container *ngTemplateOutlet="header; context: {label : 'Not Started', columnStatus : 'NOT_STARTED'}"></ng-container>
-        
-        
-                    
-            <ng-container *ngTemplateOutlet="header; context: {label : 'Ready', columnStatus : 'READY'}"></ng-container>
-        
-        
-                               
-            <ng-container *ngTemplateOutlet="header; context: {label : 'Started', columnStatus : 'STARTED'}"></ng-container>
-        
-        
-        
-            <ng-container *ngTemplateOutlet="header; context: {label : 'In Progress', columnStatus : 'IN_PROGRESS'}"></ng-container>
-        
-        
-                                  
-            <ng-container *ngTemplateOutlet="header; context: {label : 'In Review', columnStatus : 'IN_REVIEW'}"></ng-container>
-        
-        
-                                    
-            <ng-container *ngTemplateOutlet="header; context: {label : (hideComplete) ? ' Completed (Hidden)' : 'Completed', columnStatus : 'COMPLETED'}"></ng-container>
-        </tr>
+
+
+        <ng-container *ngTemplateOutlet="header; context: {label : 'Not Started', columnStatus : 'NOT_STARTED'}"></ng-container>
+
+
+
+        <ng-container *ngTemplateOutlet="header; context: {label : 'Ready', columnStatus : 'READY'}"></ng-container>
+
+
+
+        <ng-container *ngTemplateOutlet="header; context: {label : 'Started', columnStatus : 'STARTED'}"></ng-container>
+
+
+
+        <ng-container *ngTemplateOutlet="header; context: {label : 'In Progress', columnStatus : 'IN_PROGRESS'}"></ng-container>
+
+
+
+        <ng-container *ngTemplateOutlet="header; context: {label : 'In Review', columnStatus : 'IN_REVIEW'}"></ng-container>
+
+
+
+        <ng-container *ngTemplateOutlet="header; context: {label : (hideComplete) ? ' Completed (Hidden)' : 'Completed', columnStatus : 'COMPLETED'}"></ng-container>
+      </tr>
     </thead>
 
     <tbody>
-        <tr *ngFor="let featureID of features; let i = index" [ngClass]="{'kanbanSwimlineA' : i%2 == 0, 'kanbanSwimlineB' : i%2 == 1}">
-            <td class="columnRoot" >
-                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">{{featureID.Name}}</div>
-            </td>
-            <td #plannedColumn class="columnRoot" (drop)="onDropNotStarted($event)" (dragover)="allowDrop($event)">
-                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
-                    <ng-container *ngFor="let tas of filter(NotStarted, featureID)">
-                        <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-                    </ng-container>
-                </div>
-            </td>
-
-            <td #readyColumn class="columnRoot" (drop)="onDropInReady($event)" (dragover)="allowDrop($event)">
-                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
-                    <ng-container *ngFor="let tas of filter(Ready, featureID)">
-                        <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-                    </ng-container>
-                </div>
-            </td>
-
-            <td  class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">     
-                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
-                    <ng-container *ngFor="let tas of filter(Started, featureID)">
-                        <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-                    </ng-container>
-                </div>
-            </td>
-
-            <td #inprogressColumn class="columnRoot" (drop)="onDropInProgress($event)" (dragover)="allowDrop($event)">                
-                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
-                    <ng-container *ngFor="let tas of filter(InProgress, featureID)">
-                        <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-                    </ng-container>
-                </div>
-            </td>
-
-            <td #inReview class="columnRoot" (drop)="onDropInReview($event)" (dragover)="allowDrop($event)">  
-                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
-                    <ng-container *ngFor="let tas of filter(InReview, featureID)">
-                        <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-                    </ng-container>
-                </div>
-            </td>
-
-            <td #completeColumn class="columnRoot" (drop)="onDropComplete($event)" (dragover)="allowDrop($event)">                
-                <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
-                    <ng-container *ngIf="!(hideComplete && filter(Completed, featureID).length > 0); else Hidden;">
-                        <ng-container *ngFor="let tas of filter(Completed, featureID)" >
-                            <ng-container  *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
-                        </ng-container>
-                    </ng-container>
-                    <ng-template #Hidden>
-                        <mat-card>Hidden tasks...</mat-card>
-                    </ng-template>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<ng-template #card let-taskVM="taskVM">
-    <mat-card class="columnItem taskItem"draggable="true" (dragstart)="dragStart(taskVM.Task.Id)" >
-        <mat-card-header>
-            <div>
-                <input type="checkbox" [(ngModel)]="taskVM.Selected"/>
-                <span *ngIf="taskVM.Task.Impeded > 0">!</span> <b>{{taskVM.Task.Id}}</b>
-                <button matButton [matMenuTriggerFor]="menu"><i class="bi bi-three-dots"></i></button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="editTask(taskVM)">Edit</button>
-                    <button mat-menu-item *ngIf="taskVM.Task.DateCompleted != null"(click)="resetCompletedDate(taskVM.Task.Id)">Reset Completed Date</button>
-                    <button mat-menu-item *ngIf="taskVM.Groups.length > 0 || taskVM.Sprints.length > 0 || taskVM.Features.length > 0" [matMenuTriggerFor]="links">Remove Links</button>
-                    <button mat-menu-item (click)="addLinksForTasks([taskVM.Task.Id])">Link To</button>
-                </mat-menu>
-                <mat-menu #links="matMenu">
-                    <button *ngIf="taskVM.Groups.length > 0" mat-menu-item [matMenuTriggerFor]="groups">Groups</button> 
-                    <button *ngIf="taskVM.Features.length > 0" mat-menu-item [matMenuTriggerFor]="features">Features</button>
-                    <button *ngIf="taskVM.Sprints.length > 0" mat-menu-item [matMenuTriggerFor]="sprints">Sprints</button>
-                </mat-menu>
-                <mat-menu #groups="matMenu">                    
-                    <button mat-menu-item 
-                    *ngFor="let g of taskVM.Groups"
-                    (click)="deleteLinksForTasks([taskVM.Task.Id], 'GROUPS',g.Id)">{{g.Name}}</button>
-                </mat-menu>
-                <mat-menu #features="matMenu">                    
-                    <button mat-menu-item *ngFor="let f of taskVM.Features"
-                    (click)="deleteLinksForTasks([taskVM.Task.Id], 'FEATURES',f.Id)">{{f.Name}}</button>
-                </mat-menu>
-                <mat-menu #sprints="matMenu">                    
-                    <button mat-menu-item *ngFor="let s of taskVM.Sprints"
-                    (click)="deleteLinksForTasks([taskVM.Task.Id], 'SPRINTS',s.Id)">{{s.Name}}</button>
-                </mat-menu>
+      @for (featureID of features; track featureID; let i = $index) {
+        <tr [ngClass]="{'kanbanSwimlineA' : i%2 == 0, 'kanbanSwimlineB' : i%2 == 1}">
+          <td class="columnRoot" >
+            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">{{featureID.Name}}</div>
+          </td>
+          <td #plannedColumn class="columnRoot" (drop)="onDropNotStarted($event)" (dragover)="allowDrop($event)">
+            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+              @for (tas of filter(NotStarted, featureID); track tas) {
+                <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+              }
             </div>
+          </td>
+          <td #readyColumn class="columnRoot" (drop)="onDropInReady($event)" (dragover)="allowDrop($event)">
+            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+              @for (tas of filter(Ready, featureID); track tas) {
+                <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+              }
+            </div>
+          </td>
+          <td  class="columnRoot" (drop)="onDropInStarted($event)" (dragover)="allowDrop($event)">
+            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+              @for (tas of filter(Started, featureID); track tas) {
+                <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+              }
+            </div>
+          </td>
+          <td #inprogressColumn class="columnRoot" (drop)="onDropInProgress($event)" (dragover)="allowDrop($event)">
+            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+              @for (tas of filter(InProgress, featureID); track tas) {
+                <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+              }
+            </div>
+          </td>
+          <td #inReview class="columnRoot" (drop)="onDropInReview($event)" (dragover)="allowDrop($event)">
+            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+              @for (tas of filter(InReview, featureID); track tas) {
+                <ng-container *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+              }
+            </div>
+          </td>
+          <td #completeColumn class="columnRoot" (drop)="onDropComplete($event)" (dragover)="allowDrop($event)">
+            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">
+              @if (!(hideComplete && filter(Completed, featureID).length > 0)) {
+                @for (tas of filter(Completed, featureID); track tas) {
+                  <ng-container  *ngTemplateOutlet="card; context: {taskVM : tas}"></ng-container>
+                }
+              } @else {
+                <mat-card>Hidden tasks...</mat-card>
+              }
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <ng-template #card let-taskVM="taskVM">
+    <mat-card class="columnItem taskItem"draggable="true" (dragstart)="dragStart(taskVM.Task.Id)" >
+      <mat-card-header>
+        <div>
+          <input type="checkbox" [(ngModel)]="taskVM.Selected"/>
+          @if (taskVM.Task.Impeded > 0) {
+            <span>!</span>
+            } <b>{{taskVM.Task.Id}}</b>
+            <button matButton [matMenuTriggerFor]="menu"><i class="bi bi-three-dots"></i></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="editTask(taskVM)">Edit</button>
+              @if (taskVM.Task.DateCompleted != null) {
+                <button mat-menu-item(click)="resetCompletedDate(taskVM.Task.Id)">Reset Completed Date</button>
+              }
+              @if (taskVM.Groups.length > 0 || taskVM.Sprints.length > 0 || taskVM.Features.length > 0) {
+                <button mat-menu-item [matMenuTriggerFor]="links">Remove Links</button>
+              }
+              <button mat-menu-item (click)="addLinksForTasks([taskVM.Task.Id])">Link To</button>
+            </mat-menu>
+            <mat-menu #links="matMenu">
+              @if (taskVM.Groups.length > 0) {
+                <button mat-menu-item [matMenuTriggerFor]="groups">Groups</button>
+              }
+              @if (taskVM.Features.length > 0) {
+                <button mat-menu-item [matMenuTriggerFor]="features">Features</button>
+              }
+              @if (taskVM.Sprints.length > 0) {
+                <button mat-menu-item [matMenuTriggerFor]="sprints">Sprints</button>
+              }
+            </mat-menu>
+            <mat-menu #groups="matMenu">
+              @for (g of taskVM.Groups; track g) {
+                <button mat-menu-item
+                (click)="deleteLinksForTasks([taskVM.Task.Id], 'GROUPS',g.Id)">{{g.Name}}</button>
+              }
+            </mat-menu>
+            <mat-menu #features="matMenu">
+              @for (f of taskVM.Features; track f) {
+                <button mat-menu-item
+                (click)="deleteLinksForTasks([taskVM.Task.Id], 'FEATURES',f.Id)">{{f.Name}}</button>
+              }
+            </mat-menu>
+            <mat-menu #sprints="matMenu">
+              @for (s of taskVM.Sprints; track s) {
+                <button mat-menu-item
+                (click)="deleteLinksForTasks([taskVM.Task.Id], 'SPRINTS',s.Id)">{{s.Name}}</button>
+              }
+            </mat-menu>
+          </div>
         </mat-card-header>
         <mat-card-content><span>{{taskVM.Task.TaskName}} </span></mat-card-content>
         <mat-card-footer>
-            <mat-chip-set>
-                <mat-chip *ngIf="taskVM.Task.Order>0"><b>{{taskVM.Task.Order}}</b></mat-chip> 
-                <mat-chip *ngIf="taskVM.Task.Priority>0"><b>P{{taskVM.Task.Priority}}</b></mat-chip> 
-                <mat-chip *ngIf="taskVM.Task.Difficulty > 0">Difficulty:{{taskVM.Task.Difficulty}}</mat-chip> 
-                <mat-chip *ngIf="taskVM.Task.RequiresLearning>0">Learning Required</mat-chip> 
-                <mat-chip *ngFor="let g of taskVM.Groups">{{ g.Id | group}}</mat-chip> 
-                <mat-chip *ngIf="taskVM.Task.Estimate">Estimate: {{taskVM.Task.Estimate}}</mat-chip>
-            </mat-chip-set>
+          <mat-chip-set>
+            @if (taskVM.Task.Order>0) {
+              <mat-chip><b>{{taskVM.Task.Order}}</b></mat-chip>
+            }
+            @if (taskVM.Task.Priority>0) {
+              <mat-chip><b>P{{taskVM.Task.Priority}}</b></mat-chip>
+            }
+            @if (taskVM.Task.Difficulty > 0) {
+              <mat-chip>Difficulty:{{taskVM.Task.Difficulty}}</mat-chip>
+            }
+            @if (taskVM.Task.RequiresLearning>0) {
+              <mat-chip>Learning Required</mat-chip>
+            }
+            @for (g of taskVM.Groups; track g) {
+              <mat-chip>{{ g.Id | group}}</mat-chip>
+            }
+            @if (taskVM.Task.Estimate) {
+              <mat-chip>Estimate: {{taskVM.Task.Estimate}}</mat-chip>
+            }
+          </mat-chip-set>
         </mat-card-footer>
-    </mat-card>
-</ng-template>
+      </mat-card>
+    </ng-template>
 
-<ng-template #header let-columnStatus="columnStatus" let-labelText="label">
-    <th style=" border-radius: 3px; min-width: 10.0vw; max-width: 10.0vw;" [ngClass]="{notStarted : columnStatus =='NOT_STARTED', ready : columnStatus == 'READY', 'started' : columnStatus == 'STARTED', inProgress : columnStatus == 'IN_PROGRESS', inReview : columnStatus == 'IN_REVIEW', completed : columnStatus == 'COMPLETED', columnHeader : true}">
-        
-        
-            {{labelText}} 
-    
+    <ng-template #header let-columnStatus="columnStatus" let-labelText="label">
+      <th style=" border-radius: 3px; min-width: 10.0vw; max-width: 10.0vw;" [ngClass]="{notStarted : columnStatus =='NOT_STARTED', ready : columnStatus == 'READY', 'started' : columnStatus == 'STARTED', inProgress : columnStatus == 'IN_PROGRESS', inReview : columnStatus == 'IN_REVIEW', completed : columnStatus == 'COMPLETED', columnHeader : true}">
+
+
+        {{labelText}}
+
         <div>
-            <mat-chip-set>
-                <mat-chip *ngIf="count(columnStatus) > 0">{{ count(columnStatus)}} Tasks</mat-chip>
-                <mat-chip *ngIf="sumEstimate(columnStatus) > 0">Estimate: {{ sumEstimate(columnStatus)}}</mat-chip>
-                <mat-chip *ngIf="countUnestimated(columnStatus) > 0">{{ countUnestimated(columnStatus)}} Tasks Unestimated</mat-chip>
-            </mat-chip-set>
+          <mat-chip-set>
+            @if (count(columnStatus) > 0) {
+              <mat-chip>{{ count(columnStatus)}} Tasks</mat-chip>
+            }
+            @if (sumEstimate(columnStatus) > 0) {
+              <mat-chip>Estimate: {{ sumEstimate(columnStatus)}}</mat-chip>
+            }
+            @if (countUnestimated(columnStatus) > 0) {
+              <mat-chip>{{ countUnestimated(columnStatus)}} Tasks Unestimated</mat-chip>
+            }
+          </mat-chip-set>
         </div>
-         
-    </th>
-</ng-template>
-   
+
+      </th>
+    </ng-template>

@@ -1,37 +1,43 @@
 <table class="tableBody">
-    <thead class="tableHeader">
+  <thead class="tableHeader">
     <th>Notes</th>
     <th>Name</th>
     <th>Start</th>
     <th>Commands</th>
-    </thead>
-    <tbody>
-        <tr *ngIf="HasUserID">
+  </thead>
+  <tbody>
+    @if (HasUserID) {
+      <tr>
+        <span>
+          <!--<button (click)="addAppointmentEmpty();" class="action"><i class="bi bi-sticky-fill"></i></button>-->
+        </span>
+      </tr>
+    }
+    @for (a of appointments; track a; let i = $index) {
+      <tr [ngClass]="{'altTableRow' : i%2 == 0}">
+        <td class="commands"><button (click)="showNotes(a);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
+        <td class="text">{{a.AppointmentName}}</td>
+        <td class="date">{{a.AppointmentDate | date : "medium"}}</td>
+        <td>
+          @if (HasUserID) {
             <span>
-                <!--<button (click)="addAppointmentEmpty();" class="action"><i class="bi bi-sticky-fill"></i></button>-->
-            </span>            
+              <!--<button (click)="updateAppointment(a)" class="amberButton action"><i class="bi bi-pencil-square"></i></button>-->
+              <button (click)="deleteAppointment(a.Id)" class="dangerButton action"><i class="bi bi-trash3"></i></button>
+            </span>
+          }
+        </td>
+      </tr>
+      @if (a.ShowNotes) {
+        <tr [ngClass]="{'altTableRow' : i%2 == 0}" >
+          <td colspan="4">
+            <app-notes-table
+              [entity]="a.Id"
+              [showNotes]="a.ShowNotes"
+            tableName="APPOINTMENTS" ></app-notes-table>
+          </td>
         </tr>
-        <ng-container *ngFor="let a of appointments; index as i;">
-            <tr [ngClass]="{'altTableRow' : i%2 == 0}">
-                <td class="commands"><button (click)="showNotes(a);" class="action"><i class="bi bi-sticky-fill"></i></button></td>
-                <td class="text">{{a.AppointmentName}}</td>
-                <td class="date">{{a.AppointmentDate | date : "medium"}}</td>
-                <td>
-                    <span *ngIf="HasUserID">
-                        <!--<button (click)="updateAppointment(a)" class="amberButton action"><i class="bi bi-pencil-square"></i></button>-->
-                        <button (click)="deleteAppointment(a.Id)" class="dangerButton action"><i class="bi bi-trash3"></i></button>
-                    </span>
-                </td>
-            </tr>
-            <tr *ngIf="a.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
-                <td colspan="4">
-                    <app-notes-table 
-                    [entity]="a.Id" 
-                    [showNotes]="a.ShowNotes" 
-                    tableName="APPOINTMENTS" ></app-notes-table>
-                </td>
-            </tr>
-        </ng-container>
-    </tbody>
+      }
+    }
+  </tbody>
 
 </table>

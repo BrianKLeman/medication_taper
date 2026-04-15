@@ -1,103 +1,115 @@
 
 <table class="tableBody">
-    <thead class="tableHeader">
-            <th *ngIf="isLoggedIn()">Show Notes</th>
-            <th>Medication Name</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Prescribed Dose (mg)</th>            
-            <th>Amount (mg)</th>
-            <th class="calculatedText">Portion of Prescribed</th>
-            <th class="calculatedText">Estimated  mg</th>
-            <th class="calculatedText">Estimated Remaining (mg)</th>
-            <th *ngIf="isLoggedIn()">Commands</th>
-    </thead>
-    <tbody>
-        
-         <tr>
-            <td *ngIf="isLoggedIn()" class="filterCell filterRowCell">Filters</td>
-            <td class="filterCell filterRowCell">
-                <table  class="filterTable">
-                    <tr>
-                        <td>
-                            <label for="prescriptionName">Compound Name: </label>
-                        </td>
-                        <td>
-                            <select id="prescriptionName" name="prescriptionName" (change)="doFilter($event)">
-                                <option value="Olanzapine">Olanzapine</option>
-                                <option value="Sertraline">Sertraline</option>
-                                <option value="None" selected></option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>  
-                
+  <thead class="tableHeader">
+    @if (isLoggedIn()) {
+      <th>Show Notes</th>
+    }
+    <th>Medication Name</th>
+    <th>Date</th>
+    <th>Time</th>
+    <th>Prescribed Dose (mg)</th>
+    <th>Amount (mg)</th>
+    <th class="calculatedText">Portion of Prescribed</th>
+    <th class="calculatedText">Estimated  mg</th>
+    <th class="calculatedText">Estimated Remaining (mg)</th>
+    @if (isLoggedIn()) {
+      <th>Commands</th>
+    }
+  </thead>
+  <tbody>
+
+    <tr>
+      @if (isLoggedIn()) {
+        <td class="filterCell filterRowCell">Filters</td>
+      }
+      <td class="filterCell filterRowCell">
+        <table  class="filterTable">
+          <tr>
+            <td>
+              <label for="prescriptionName">Compound Name: </label>
             </td>
-            <td class="filterCell filterRowCell">
-                <!-- <input type="date"/>
-                <form>
-                    <table  class="filterTable">
-                        <tr>
-                            <td>
-                                <label for="FromDate">From Date: </label>
-                            </td>
-                            <td>
-                                <input id="FromDate" name="FromDate" type="date"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="ToDate">To Date: </label>
-                            </td>
-                            <td>
-                                <input id="ToDate" name="ToDate" type="date"/>
-                            </td>
-                        </tr>
-                    </table>  
-                </form> --> 
+            <td>
+              <select id="prescriptionName" name="prescriptionName" (change)="doFilter($event)">
+                <option value="Olanzapine">Olanzapine</option>
+                <option value="Sertraline">Sertraline</option>
+                <option value="None" selected></option>
+              </select>
             </td>
-            <td class="filterCell filterRowCell">
-                <!-- <input type="time"/> -->                
-            </td>
-            <td class="filterCell filterRowCell">
-                
-            </td>
-            <td class="calculatedText filterRowCell"></td>
-            <td class="calculatedText filterRowCell"></td>
-            <td class="calculatedText filterRowCell"></td>
-            <td class="calculatedText filterRowCell number">
-              &Sigma;: {{sumRemaining('Olanzapine') | number : '1.2-2'}}</td>
-            <td *ngIf="isLoggedIn()" class="filterRowCell"></td>
-        </tr>
-        <ng-container *ngFor="let d of filteredModel; index as i;">
-            
-            <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
-                <ng-container>
-                    <td *ngIf="isLoggedIn()"><button (click)="this.showNotes(d)" class="action"><i class="bi bi-sticky-fill"></i></button></td>
-                    <td class="text">{{ d.Name }}</td>
-                    <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
-                    <!-- use number class to right align it.-->
-                    <td class="number">{{this.adjustForTimeZone(d.DateTimeConsumed) | date: 'shortTime'}}</td>
-                    
-                    <td class="number">{{d.DoseMG | number: '1.1-1'}}</td><!---->
-                    <td id="percent" class="number">{{ d.DoseTakenMG | number: '1.2-2'}}</td>
-                    <td id="percent" class="number calculatedText trafficLightsBackground" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.portionTaken(d) | percent}}</td>
-                    <td class="number calculatedText">{{d.AccumulatedMg | number: '1.2-2'}}</td>
-                    <td class="number calculatedText">{{d.RemainingMg | number: '1.2-2'}}</td>
-                    <td *ngIf="isLoggedIn()">
-                        <span>
-                            <button (click)="delete(d.Id)" class="dangerButton action"><i class="bi bi-trash3"></i></button>
-                            <button (click)="repeat(d);" class="action"><i class="bi bi-repeat-1"></i></button>
-                            <button (click)="addNew(d);" class="action"><i class="bi bi-plus"></i></button>
-                        </span>
-                    </td>
-                </ng-container>
+          </tr>
+        </table>
+
+      </td>
+      <td class="filterCell filterRowCell">
+        <!-- <input type="date"/>
+        <form>
+          <table  class="filterTable">
+            <tr>
+              <td>
+                <label for="FromDate">From Date: </label>
+              </td>
+              <td>
+                <input id="FromDate" name="FromDate" type="date"/>
+              </td>
             </tr>
-            <tr *ngIf="d.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
-                <td colspan="8">
-                    <app-notes-table [datetime]="d.DateTimeConsumed" [showNotes]="d.ShowNotes"></app-notes-table>
-                </td>
+            <tr>
+              <td>
+                <label for="ToDate">To Date: </label>
+              </td>
+              <td>
+                <input id="ToDate" name="ToDate" type="date"/>
+              </td>
             </tr>
+          </table>
+        </form> -->
+      </td>
+      <td class="filterCell filterRowCell">
+        <!-- <input type="time"/> -->
+      </td>
+      <td class="filterCell filterRowCell">
+
+      </td>
+      <td class="calculatedText filterRowCell"></td>
+      <td class="calculatedText filterRowCell"></td>
+      <td class="calculatedText filterRowCell"></td>
+      <td class="calculatedText filterRowCell number">
+      &Sigma;: {{sumRemaining('Olanzapine') | number : '1.2-2'}}</td>
+      @if (isLoggedIn()) {
+        <td class="filterRowCell"></td>
+      }
+    </tr>
+    @for (d of filteredModel; track d; let i = $index) {
+      <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
+        <ng-container>
+          @if (isLoggedIn()) {
+            <td><button (click)="this.showNotes(d)" class="action"><i class="bi bi-sticky-fill"></i></button></td>
+          }
+          <td class="text">{{ d.Name }}</td>
+          <td class="date">{{d.DateTimeConsumed | date: 'fullDate'}}</td>
+          <!-- use number class to right align it.-->
+          <td class="number">{{this.adjustForTimeZone(d.DateTimeConsumed) | date: 'shortTime'}}</td>
+          <td class="number">{{d.DoseMG | number: '1.1-1'}}</td><!---->
+          <td id="percent" class="number">{{ d.DoseTakenMG | number: '1.2-2'}}</td>
+          <td id="percent" class="number calculatedText trafficLightsBackground" [ngStyle]="{'background': this.trafficLights(d)}">{{ this.portionTaken(d) | percent}}</td>
+          <td class="number calculatedText">{{d.AccumulatedMg | number: '1.2-2'}}</td>
+          <td class="number calculatedText">{{d.RemainingMg | number: '1.2-2'}}</td>
+          @if (isLoggedIn()) {
+            <td>
+              <span>
+                <button (click)="delete(d.Id)" class="dangerButton action"><i class="bi bi-trash3"></i></button>
+                <button (click)="repeat(d);" class="action"><i class="bi bi-repeat-1"></i></button>
+                <button (click)="addNew(d);" class="action"><i class="bi bi-plus"></i></button>
+              </span>
+            </td>
+          }
         </ng-container>
-    </tbody>
+      </tr>
+      @if (d.ShowNotes) {
+        <tr [ngClass]="{'altTableRow' : i%2 == 0}" >
+          <td colspan="8">
+            <app-notes-table [datetime]="d.DateTimeConsumed" [showNotes]="d.ShowNotes"></app-notes-table>
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
 </table>

@@ -7,11 +7,11 @@
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
           <ng-container *ngTemplateOutlet="nameAndMenu; context: {node : node}"></ng-container>
-          <ng-container *ngTemplateOutlet="statusIcon; context: {node : node}"></ng-container> 
+          <ng-container *ngTemplateOutlet="statusIcon; context: {node : node}"></ng-container>
         </span>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
-      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle > 
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle >
         <span>
           <div style="display: inline; " (click)="onSelect(node.projectNode);" matIconButton matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
             <mat-icon style="vertical-align: bottom;"  class="mat-icon-rtl-mirror">
@@ -19,8 +19,8 @@
             </mat-icon>
           </div>
           <ng-container *ngTemplateOutlet="nameAndMenu; context: {node : node}"></ng-container>
-          <ng-container *ngTemplateOutlet="statusIcon; context: {node : node}"></ng-container> 
-        </span> 
+          <ng-container *ngTemplateOutlet="statusIcon; context: {node : node}"></ng-container>
+        </span>
       </mat-tree-node>
     </mat-tree>
   </div>
@@ -39,22 +39,34 @@
                   }"></i>    
   </ng-template>
 
-  <ng-template #nameAndMenu let-node="node">  
-    <div *ngIf="isTask(node)==false" style="display: inline;">
-      {{node.name}}
-    </div>
-    <div *ngIf="isTask(node)" style="display: inline;">
-      {{node.name}}
-    </div>
+  <ng-template #nameAndMenu let-node="node">
+    @if (isTask(node)==false) {
+      <div style="display: inline;">
+        {{node.name}}
+      </div>
+    }
+    @if (isTask(node)) {
+      <div style="display: inline;">
+        {{node.name}}
+      </div>
+    }
     <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="appendNewNode(node)">Add Child</button>
+      <button mat-menu-item (click)="appendNewNode(node)">Add Child</button>
     </mat-menu>
   </ng-template>
 
   <div class="detailContainer">
-    <app-epic-edit *ngIf="isSelectedNodeAnEpic();" [inDialog]="false" #epicEdit></app-epic-edit>
-    <app-roadmap-edit *ngIf="isSelectedNodeARoadmap();" [inDialog]="false" #roadmapEdit></app-roadmap-edit>
-    <app-task-edit *ngIf="isSelectedNodeAStory();" [showSaveButton]="true" #taskEdit></app-task-edit>
-    <app-sub-tasks-edit *ngIf="isSelectedNodeATask();" [inDialog]="false" #subTaskEdit></app-sub-tasks-edit>
+    @if (isSelectedNodeAnEpic();) {
+      <app-epic-edit [inDialog]="false" #epicEdit></app-epic-edit>
+    }
+    @if (isSelectedNodeARoadmap();) {
+      <app-roadmap-edit [inDialog]="false" #roadmapEdit></app-roadmap-edit>
+    }
+    @if (isSelectedNodeAStory();) {
+      <app-task-edit [showSaveButton]="true" #taskEdit></app-task-edit>
+    }
+    @if (isSelectedNodeATask();) {
+      <app-sub-tasks-edit [inDialog]="false" #subTaskEdit></app-sub-tasks-edit>
+    }
   </div>
 </div>

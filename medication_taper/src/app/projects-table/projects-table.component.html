@@ -1,53 +1,61 @@
 
 <table class="tableBody">
-    <thead class="tableHeader">
+  <thead class="tableHeader">
     <th>Notes</th>
     <th>Name</th>
     <th>Start</th>
     <th>End</th>
-    </thead>
-    <tbody>
-        <ng-container *ngFor="let p of projects; index as i;">
-            <tr [ngClass]="{'altTableRow' : i%2 == 0}">
-                <td class="commands">
-                    <button (click)="showNotes(p);" class="action"><i class="bi bi-sticky-fill"></i></button>
-                    <button (click)="showTasks(p);" class="action"><i class="bi bi-list-task"></i></button>
-                    <button (click)="showEpics(p);" class="action"><i class="bi bi-journal"></i></button>
-                    <button (click)="showBeatcharts(p)" class="action"><i class="bi bi-table"></i></button>
-                    <button (click)="showRoadmap(p)" class="action"><i class="bi bi-list-nested"></i></button>
-                </td>
-                <td class="text">{{p.Name}}</td>
-                <td class="date">{{p.StartDate | date : "fullDate"}}</td>
-                <td class="date">{{p.EndDate | date : "fullDate"}}</td>
-            </tr>
-            <tr *ngIf="p.ShowNotes" [ngClass]="{'altTableRow' : i%2 == 0}" >
-                <td colspan="4">
-                    <app-notes-table [entity]="p.Id" [showNotes]="p.ShowNotes" tableName="PROJECTS" ></app-notes-table>
-                </td>
-            </tr>
-            <tr *ngIf="p.ShowTasks" [ngClass]="{'altTableRow' : i%2 == 0}" >
-                <td colspan="4">
-                    <app-story-kanban-board [recordID]="p.Id" table="PROJECTS" ></app-story-kanban-board>
-                    
-                </td>
-            </tr>
-            <tr *ngIf="p.ShowEpics" [ngClass]="{'altTableRow' : i%2 == 0}" >
-                <td colspan="4">
-                    <app-kanban-board [recordID]="p.Id" table="PROJECTS" ></app-kanban-board>
-                </td>
-            </tr>
-            <tr *ngIf="p.ShowAdhocTables" [ngClass]="{'altTableRow' : i%2 == 0}" >
-                <td colspan="4">
-                    <app-project-adhoc-tables [project]="p" ></app-project-adhoc-tables>
-                </td>
-            </tr>
-            <tr *ngIf="p.ShowBacklog" [ngClass]="{'altTableRow' : i%2 == 0}" >
-                <td colspan="4">
-                    <app-backlog [project]="p" ></app-backlog>
-                </td>
-            </tr>
-            
-        </ng-container>
-    </tbody>
+  </thead>
+  <tbody>
+    @for (p of projects; track p; let i = $index) {
+      <tr [ngClass]="{'altTableRow' : i%2 == 0}">
+        <td class="commands">
+          <button (click)="showNotes(p);" class="action"><i class="bi bi-sticky-fill"></i></button>
+          <button (click)="showTasks(p);" class="action"><i class="bi bi-list-task"></i></button>
+          <button (click)="showEpics(p);" class="action"><i class="bi bi-journal"></i></button>
+          <button (click)="showBeatcharts(p)" class="action"><i class="bi bi-table"></i></button>
+          <button (click)="showRoadmap(p)" class="action"><i class="bi bi-list-nested"></i></button>
+        </td>
+        <td class="text">{{p.Name}}</td>
+        <td class="date">{{p.StartDate | date : "fullDate"}}</td>
+        <td class="date">{{p.EndDate | date : "fullDate"}}</td>
+      </tr>
+      @if (p.ShowNotes) {
+        <tr [ngClass]="{'altTableRow' : i%2 == 0}" >
+          <td colspan="4">
+            <app-notes-table [entity]="p.Id" [showNotes]="p.ShowNotes" tableName="PROJECTS" ></app-notes-table>
+          </td>
+        </tr>
+      }
+      @if (p.ShowTasks) {
+        <tr [ngClass]="{'altTableRow' : i%2 == 0}" >
+          <td colspan="4">
+            <app-story-kanban-board [recordID]="p.Id" table="PROJECTS" ></app-story-kanban-board>
+          </td>
+        </tr>
+      }
+      @if (p.ShowEpics) {
+        <tr [ngClass]="{'altTableRow' : i%2 == 0}" >
+          <td colspan="4">
+            <app-kanban-board [recordID]="p.Id" table="PROJECTS" ></app-kanban-board>
+          </td>
+        </tr>
+      }
+      @if (p.ShowAdhocTables) {
+        <tr [ngClass]="{'altTableRow' : i%2 == 0}" >
+          <td colspan="4">
+            <app-project-adhoc-tables [project]="p" ></app-project-adhoc-tables>
+          </td>
+        </tr>
+      }
+      @if (p.ShowBacklog) {
+        <tr [ngClass]="{'altTableRow' : i%2 == 0}" >
+          <td colspan="4">
+            <app-backlog [project]="p" ></app-backlog>
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
 
 </table>

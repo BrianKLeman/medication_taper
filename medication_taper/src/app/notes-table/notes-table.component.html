@@ -1,105 +1,112 @@
 <mat-expansion-panel class="expansion-panel">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            Search Notes
-        </mat-panel-title></mat-expansion-panel-header>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Search Notes
+    </mat-panel-title></mat-expansion-panel-header>
 
-        <ng-template matExpansionPanelContent>
-    <form [formGroup]="searchFormGroup">
-        <table>                 
-                        
-                        
-            <tr>
-                <td align="right">
-                    
-                        From Date
-                    
-                </td>
-                <td align="left">
-                    <input id="fromDate" name="fromDate" type="date" formControlName="fromDate" [ngModel]="fromDate" (ngModelChange)="changeFromDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
-                </td>
-            </tr>
-                    <tr>
-                        <td align="right">
-                            To Date
-                        </td>
-                        <td align="left">
-                        <input id="toDate" name="toDate" type="date" formControlName="toDate" [ngModel]="toDate" (ngModelChange)="changeToDate($event)"  /> 
-                             </td>
-                  
-                     </tr>
-            
-            <tr>
-                <td></td>
-                <td>
-                    <button (click)="refreshNotes()" [disabled]="!searchFormGroup.valid">Refresh</button>
-                </td>
-            </tr>
+    <ng-template matExpansionPanelContent>
+      <form [formGroup]="searchFormGroup">
+        <table>
+
+
+          <tr>
+            <td align="right">
+
+              From Date
+
+            </td>
+            <td align="left">
+              <input id="fromDate" name="fromDate" type="date" formControlName="fromDate" [ngModel]="fromDate" (ngModelChange)="changeFromDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+            </td>
+          </tr>
+          <tr>
+            <td align="right">
+              To Date
+            </td>
+            <td align="left">
+              <input id="toDate" name="toDate" type="date" formControlName="toDate" [ngModel]="toDate" (ngModelChange)="changeToDate($event)"  />
+            </td>
+
+          </tr>
+
+          <tr>
+            <td></td>
+            <td>
+              <button (click)="refreshNotes()" [disabled]="!searchFormGroup.valid">Refresh</button>
+            </td>
+          </tr>
         </table>
-    </form>
+      </form>
 
-        </ng-template>
-</mat-expansion-panel>
+    </ng-template>
+  </mat-expansion-panel>
 
-<table class="tableBody">
+  <table class="tableBody">
     <thead class="tableHeader">
-            <th>Note</th>
+      <th>Note</th>
     </thead>
     <tbody>
-        <tr *ngIf="HasUserID" class="tableToolBar">
-            <span class="tableToolBar">
-                <button (click)="addNote();" class="action"><i class="bi bi-sticky-fill"></i></button>
-                <button (click)="LinkNotes();" class="action"><i class="bi bi-link"></i></button>
-                <button *ngIf="HasUserID" style="float: right;display: inline; margin: 10px; vertical-align: middle;"(click)="deleteNotes()" class="dangerButton action"><i style="vertical-align: baseline;" class="bi bi-trash3"></i></button>
-                                  
-            </span>
-            
+      @if (HasUserID) {
+        <tr class="tableToolBar">
+          <span class="tableToolBar">
+            <button (click)="addNote();" class="action"><i class="bi bi-sticky-fill"></i></button>
+            <button (click)="LinkNotes();" class="action"><i class="bi bi-link"></i></button>
+            @if (HasUserID) {
+              <button style="float: right;display: inline; margin: 10px; vertical-align: middle;"(click)="deleteNotes()" class="dangerButton action"><i style="vertical-align: baseline;" class="bi bi-trash3"></i></button>
+            }
+          </span>
         </tr>
-        <ng-container *ngFor="let d of notes; index as i;">
-            <tr *ngIf="i == 0"  [ngClass]="{'tableDivider' : true}">
-                <td colspan="5">
-                    <p>{{d.RecordedDate | date: "fullDate"}}</p>
-                </td>
-            </tr>
-            <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
-                <ng-container>
-                    
-                    <td>
-                        <span>
-                                <div style="float: left;display: inline; margin: 10px; padding: 0; vertical-align:middle;"><input *ngIf="HasUserID"   type="checkbox" [(ngModel)]="d.Link"/></div>
-                                <p style="float: left; display: inline; margin: 10px; padding: 0;  vertical-align: middle;">{{ d.RecordedDate | date: 'shortTime'}}</p> 
-                                               
-                               <button *ngIf="HasUserID" style="float: right;display: inline; margin: 10px; vertical-align: middle;" (click)="editNote(d)" class="amberButton action"><i style="vertical-align: baseline;"class="bi bi-pencil-square"></i></button>                        
-                                <p *ngIf="showLastPillAmount" style="float: left; display: inline; margin: 10px; padding: 0;  vertical-align: middle;">
-                                   
-                                    <mat-chip>Last Pill Amount: {{getLastPillAmount(notes[i].RecordedDate) | number: '1.2-2'}}</mat-chip>
-                                </p> 
-                        </span>
-                    </td>
-                </ng-container>
-            </tr>
-            <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
-                <ng-container>
-                    
-                    <td>
-                        
-                            <div class="text" [innerHtml]="format(d.Text, d.DisplayAsHTML)"></div>
-                    </td>
-                </ng-container>
-            </tr>
-            <tr *ngIf=" dateDiffIndex(i) != 0"  [ngClass]="{'tableDivider' : true}" >
-                <td colspan="5">
-                    <p>{{notes[i+1].RecordedDate | date: "fullDate"}}</p>
-                </td>
-            </tr>
-            
-        </ng-container>
-        <tr *ngIf="HasUserID">
-            <span>
-                <button (click)="addNote();" class="action"><i class="bi bi-sticky-fill"></i></button>
-                <button (click)="LinkNotes();" class="action"><i class="bi bi-link"></i></button>
-            </span>
-            
+      }
+      @for (d of notes; track d; let i = $index) {
+        @if (i == 0) {
+          <tr  [ngClass]="{'tableDivider' : true}">
+            <td colspan="5">
+              <p>{{d.RecordedDate | date: "fullDate"}}</p>
+            </td>
+          </tr>
+        }
+        <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
+          <ng-container>
+            <td>
+              <span>
+                <div style="float: left;display: inline; margin: 10px; padding: 0; vertical-align:middle;">@if (HasUserID) {
+                  <input   type="checkbox" [(ngModel)]="d.Link"/>
+                }</div>
+                <p style="float: left; display: inline; margin: 10px; padding: 0;  vertical-align: middle;">{{ d.RecordedDate | date: 'shortTime'}}</p>
+                @if (HasUserID) {
+                  <button style="float: right;display: inline; margin: 10px; vertical-align: middle;" (click)="editNote(d)" class="amberButton action"><i style="vertical-align: baseline;"class="bi bi-pencil-square"></i></button>
+                }
+                @if (showLastPillAmount) {
+                  <p style="float: left; display: inline; margin: 10px; padding: 0;  vertical-align: middle;">
+                    <mat-chip>Last Pill Amount: {{getLastPillAmount(notes[i].RecordedDate) | number: '1.2-2'}}</mat-chip>
+                  </p>
+                }
+              </span>
+            </td>
+          </ng-container>
         </tr>
+        <tr  [ngClass]="{'altTableRow' : i%2 == 0}">
+          <ng-container>
+            <td>
+              <div class="text" [innerHtml]="format(d.Text, d.DisplayAsHTML)"></div>
+            </td>
+          </ng-container>
+        </tr>
+        @if ( dateDiffIndex(i) != 0) {
+          <tr  [ngClass]="{'tableDivider' : true}" >
+            <td colspan="5">
+              <p>{{notes[i+1].RecordedDate | date: "fullDate"}}</p>
+            </td>
+          </tr>
+        }
+      }
+      @if (HasUserID) {
+        <tr>
+          <span>
+            <button (click)="addNote();" class="action"><i class="bi bi-sticky-fill"></i></button>
+            <button (click)="LinkNotes();" class="action"><i class="bi bi-link"></i></button>
+          </span>
+        </tr>
+      }
     </tbody>
-</table>
+  </table>
