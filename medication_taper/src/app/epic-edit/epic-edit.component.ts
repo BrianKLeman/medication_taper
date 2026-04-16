@@ -9,9 +9,8 @@ import { FeaturesService, IFeature } from '../features.service';
     standalone: false
 })
 export class EpicEditComponent {
-constructor(private featuresService : FeaturesService){
-
-  }
+  constructor(private featuresService : FeaturesService){   }
+  
   epicForm = new FormGroup({
   name : new FormControl(''),
   details : new FormControl(''),
@@ -45,8 +44,6 @@ constructor(private featuresService : FeaturesService){
     this.SyncForm();
   }
   private feature !: IFeature;
-
- 
   
   private SyncForm(){
     this.epicForm.setValue( 

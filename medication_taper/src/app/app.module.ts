@@ -56,6 +56,7 @@ import { SubTasksFormComponent } from './sub-tasks-form/sub-tasks-form.component
 import { StoryKanbanBoardComponent } from './story-kanban-board/story-kanban-board.component';
 import { SprintTaskChartComponent } from './sprint-task-chart/sprint-task-chart.component';
 import { RoadmapDialogComponent } from './roadmap-dialog/roadmap-dialog.component'
+import { EpicDialogComponent } from './epic-dialog/epic-dialog.component';
 /* Register Module */
 @NgModule({ declarations: [
         AppComponent,
@@ -94,14 +95,14 @@ import { RoadmapDialogComponent } from './roadmap-dialog/roadmap-dialog.componen
         SubTasksFormComponent,
         StoryKanbanBoardComponent,
         SprintTaskChartComponent,
-        RoadmapDialogComponent
+        RoadmapDialogComponent,
+        EpicDialogComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
         MatDialogModule,
         MatToolbarModule,
         MatIconModule,
-        BrowserAnimationsModule,
         FormsModule,
         MatTabsModule,
         MatCardModule,

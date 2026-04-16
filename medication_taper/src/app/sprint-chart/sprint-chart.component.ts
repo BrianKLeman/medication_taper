@@ -102,7 +102,7 @@ export class SprintChartComponent {
               .attr("y", 10)
               .attr("fill", "currentColor")
               .attr("text-anchor", "start")
-              .text(" Tasks "));
+              .text(" Stories "));
 
       
     

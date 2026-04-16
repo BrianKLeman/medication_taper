@@ -1,0 +1,8 @@
+<h4 mat-dialog-title>Roadmap<h4>
+<mat-dialog-content class="mat-typography"> 
+    <app-epic-edit #epicEdit [inDialog]="true"></app-epic-edit>
+</mat-dialog-content>
+<mat-dialog-actions align="end">        
+    <button class="saveButton" mat-button [mat-dialog-close]="true" (click)="epicEdit.onSubmit();" cdkFocusInitial>Save</button>
+    <button class="cancelButton" mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

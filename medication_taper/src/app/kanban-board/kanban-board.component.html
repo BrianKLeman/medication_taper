@@ -13,7 +13,7 @@
       <option [value]="-2">Backlog</option>
       <option [value]="-1">----------</option>
       @for (n of sprints; track n) {
-        <option [value]="n.Id">{{ n.Description }} - {{ n.StartDate | date : "dd/MM/YYYY" }} - {{ n.EndDate | date : "dd/MM/YYYY"}}</option>
+        <option [value]="n.Id">{{ n.Description + ' - ' +  (n.StartDate | date:'dd/MM/yyyy') + ' - ' + (n.EndDate|date:'dd/MM/yyyy')}}</option>
       }
     </select>
   </span>
@@ -71,7 +71,14 @@
       @for (featureID of features; track featureID; let i = $index) {
         <tr [ngClass]="{'kanbanSwimlineA' : i%2 == 0, 'kanbanSwimlineB' : i%2 == 1}">
           <td class="columnRoot" >
-            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">{{featureID.Name}}</div>
+            <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}" [matContextMenuTriggerFor]="featureContextMenu">
+              {{featureID.Name}}
+            </div>
+            
+              <mat-menu #featureContextMenu>
+                <button mat-menu-item (click)="editEpic(featureID)">Edit</button>
+              </mat-menu>
+            
           </td>
           <td #plannedColumn class="columnRoot" (drop)="onDropNotStarted($event)" (dragover)="allowDrop($event)">
             <div class="areaContainer" [ngClass]="{ 'kanbanSwimlineA': i%2 ==1, 'kanbanSwimlineB': i%2 == 0}">

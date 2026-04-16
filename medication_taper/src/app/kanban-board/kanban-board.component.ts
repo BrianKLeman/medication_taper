@@ -9,6 +9,7 @@ import { ISprint, SprintsService } from '../sprints.service';
 import { FeaturesService, IFeature } from '../features.service';
 import { SprintChartComponent } from '../sprint-chart/sprint-chart.component';
 import { TaskLinksService } from '../link-task-to/task-links.service';
+import { EpicDialogComponent } from '../epic-dialog/epic-dialog.component';
 
 @Component({
     selector: 'app-kanban-board',
@@ -319,6 +320,23 @@ export class KanbanBoardComponent implements AfterViewInit {
         entity : this.table, 
         entity_id : this.recordID,
         task : t.Task
+      }}).afterClosed().toPromise();
+    
+    setTimeout(async () => 
+      { 
+        await this.refresh(); 
+        console.log('returned' + count); 
+      }, 
+      500);
+    let count = await this.refresh();
+  }
+
+  public async editEpic(f : IFeature){
+    let d = new Date()
+    let x = await this.dialog.open(EpicDialogComponent, { data : 
+      {datetime : d, 
+        epic : f, 
+        projectId : f.ProjectID
       }}).afterClosed().toPromise();
     
     setTimeout(async () => 

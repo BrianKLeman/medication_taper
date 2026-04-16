@@ -41,7 +41,7 @@
 
   <ng-template #nameAndMenu let-node="node">
     @if (isTask(node)==false) {
-      <div style="display: inline;">
+      <div style="display: inline;" [matContextMenuTriggerFor]="menu">
         {{node.name}}
       </div>
     }
@@ -50,7 +50,7 @@
         {{node.name}}
       </div>
     }
-    <mat-menu #menu="matMenu">
+    <mat-menu #menu>
       <button mat-menu-item (click)="appendNewNode(node)">Add Child</button>
     </mat-menu>
   </ng-template>

@@ -10,7 +10,7 @@
       <option [value]="-2">Backlog</option>
       <option [value]="-1">----------</option>
       @for (n of sprints; track n) {
-        <option [value]="n.Id">{{ n.Description }} - {{ n.StartDate | date : "dd/MM/YYYY" }} - {{ n.EndDate | date : "dd/MM/YYYY"}}</option>
+        <option [value]="n.Id">{{ n.Description + ' - ' +  (n.StartDate | date:'dd/MM/yyyy') + ' - ' + (n.EndDate|date:'dd/MM/yyyy')}}</option>
       }
     </select>
   </span>
