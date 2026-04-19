@@ -46,24 +46,24 @@ export class MedicationDoseCalculatorService implements OnInit {
     let latest = null;
     let lastReport : IReport | null = null;
     const startDate = this.UTC(date);
-    for(let report of this.dosesCache.filter( x => x.PrescriptionID == prescriptionID).sort( 
+    let records = this.dosesCache.filter( x => x.PrescriptionID == prescriptionID).sort( 
       (a, b) => { 
         let d1 = this.UTC(a.DateTimeConsumed);
         let d2 = this.UTC(b.DateTimeConsumed);
-        return d1-d2;
+        return d1.valueOf()-d2.valueOf();
       }
-    )){
+    );
+    for(let report of records){
       let rd = this.UTC(report.DateTimeConsumed);
-      if(rd < startDate){
+      if(rd.valueOf() < startDate.valueOf()){
         lastReport = report;
-
-      }
-      else
-      {
+      } else {
         break;
       }
     }
-    return lastReport?.DoseTakenMG;
+    if(!lastReport)
+      return -1;
+    return lastReport?.DoseTakenMG ?? 0;
   }
  
 

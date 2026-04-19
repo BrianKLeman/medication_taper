@@ -1,4 +1,8 @@
 pre {
     word-wrap: break-word;
-    width: 50em;
+    width: 100%;
+}
+
+.full-width{
+    width : 100%;
 }

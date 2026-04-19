@@ -8,6 +8,7 @@ import { TokenService } from '../token.service';
 import { FormControl, FormGroup, RequiredValidator, Validators } from '@angular/forms';
 import { MedicationDosesService } from '../medication-doses-table/medication-doses.service';
 import { MedicationDoseCalculatorService } from '../medication-doses-table/medication-dose-calculator.service';
+import { IPrescription, PrescriptionsService } from '../prescriptions-table/prescriptions.service';
 
 @Component({
     selector: 'app-notes-table',
@@ -21,17 +22,22 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
             private timeService : TimezonesService,
             private dialog : MatDialog,            
             private tokenService : TokenService,
-            private doseCalculatorService : MedicationDoseCalculatorService
+            private doseCalculatorService : MedicationDoseCalculatorService,
+            private prescriptionsService : PrescriptionsService
   ){
   }
 
   async ngOnInit() {
     await this.doseCalculatorService.ngOnInit();
     await this.refreshNotes();
+    
+    this.prescriptions = await this.prescriptionsService.getAllPrescriptionsForPerson();
   }
 
   async ngAfterViewInit() {
     await this.refreshNotes();
+    
+    this.prescriptions = await this.prescriptionsService.getAllPrescriptionsForPerson();
   }
 
   @Input() public last7Days = false;
@@ -205,9 +211,32 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
   //#endregion
 
   //#region Calculation
-  public getLastPillAmount(date : Date | string){
-    return this.doseCalculatorService.LastPillAmount(date,3);
+  private activePrescriptions : IPrescription[] = [];
+  private prescriptions : IPrescription[] = [];
+
+  public getActivePrescriptions(date : Date | string){
+    let activePrescriptions = [];
+    for(let p of this.prescriptions){
+        if(this.containsDate(new Date(date), new Date(p.StartDate ?? Date.now()), new Date(p.EndDate ?? Date.now())))
+          activePrescriptions.push(p);
+    }
+    return activePrescriptions;
   }
+  public getLastPillAmount(date : Date | string, prescriptionID : number) : { name : string | undefined, amount : number }{   
+    let script = this.prescriptions.find( p => p.Id == prescriptionID);
+    let amount = this.doseCalculatorService.LastPillAmount(date, prescriptionID);
+    if(amount < 0){
+      return { name: script?.Name + "- Not Found", amount: 0};
+    }
+    
+    return { name : script?.Name, amount: amount};
+  }
+
+  public containsDate(currentDate : Date, fromDate : Date, toDate : Date){
+      return fromDate <= currentDate && toDate >=  currentDate;
+  }
+
+
 /*
   public getDeterminedAmountPillAmount(date : Date){
     return this.doseCalculatorService.calculateExpectedAmount(date);

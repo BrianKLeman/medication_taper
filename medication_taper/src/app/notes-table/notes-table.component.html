@@ -41,7 +41,7 @@
     </ng-template>
   </mat-expansion-panel>
 
-  <table class="tableBody">
+  <table class="tableBody full-width" >
     <thead class="tableHeader">
       <th>Note</th>
     </thead>
@@ -77,9 +77,11 @@
                   <button style="float: right;display: inline; margin: 10px; vertical-align: middle;" (click)="editNote(d)" class="amberButton action"><i style="vertical-align: baseline;"class="bi bi-pencil-square"></i></button>
                 }
                 @if (showLastPillAmount) {
+                  @for ( activePrescription of getActivePrescriptions(notes[i].RecordedDate); track activePrescription){
                   <p style="float: left; display: inline; margin: 10px; padding: 0;  vertical-align: middle;">
-                    <mat-chip>Last Pill Amount: {{getLastPillAmount(notes[i].RecordedDate) | number: '1.2-2'}}</mat-chip>
+                    <mat-chip>Last Pill Amount: {{getLastPillAmount(notes[i].RecordedDate,activePrescription.Id) | json}}</mat-chip>
                   </p>
+                  }
                 }
               </span>
             </td>

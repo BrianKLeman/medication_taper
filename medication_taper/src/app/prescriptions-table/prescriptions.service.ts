@@ -15,6 +15,8 @@ export class PrescriptionsService {
 
   public async getAllPrescriptionsForPerson(){
     let x = await this.httpClient.get<IPrescription[]>( this.apiUrls.GetApiURL()+"Api/Prescriptions").toPromise();
+    if(!x)
+      x = [];
     return x;
   }
 }
@@ -27,6 +29,7 @@ export interface IPrescription{
   MinHalfLifeHours : number,
   MaxHalfLifeHours : number,
   AverageHalfLifeHours : number,
-  PersonID: 1,
-  EndDate: Date
+  PersonId: number,
+  StartDate : Date | null | string,
+  EndDate: Date | null |string
 }
