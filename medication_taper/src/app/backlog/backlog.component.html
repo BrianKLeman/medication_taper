@@ -1,6 +1,7 @@
 <div class="backlogContainer">
   <div class="treeContainer">
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <div class="tree-header">Project View</div>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree-container">
       <!-- This is the tree node template for leaf nodes -->
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding >
         <span (click)="onSelect(node.projectNode);">
@@ -11,7 +12,7 @@
         </span>
       </mat-tree-node>
       <!-- This is the tree node template for expandable nodes -->
-      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle >
+      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodeToggle>
         <span>
           <div style="display: inline; " (click)="onSelect(node.projectNode);" matIconButton matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
             <mat-icon style="vertical-align: bottom;"  class="mat-icon-rtl-mirror">
@@ -41,12 +42,12 @@
 
   <ng-template #nameAndMenu let-node="node">
     @if (isTask(node)==false) {
-      <div style="display: inline;" [matContextMenuTriggerFor]="menu">
+      <div style="display: inline;" [ngClass]="{selectedNode : isNodeSelected(node)}" [matContextMenuTriggerFor]="menu">
         {{node.name}}
       </div>
     }
     @if (isTask(node)) {
-      <div style="display: inline;">
+      <div style="display: inline;" [ngClass]="{selectedNode : isNodeSelected(node)}">
         {{node.name}}
       </div>
     }

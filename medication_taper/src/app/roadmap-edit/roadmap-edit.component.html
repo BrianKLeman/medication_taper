@@ -1,28 +1,49 @@
-<h3>Roadmap</h3>
 <form [formGroup]="roadmapForm" (ngSubmit)="onSubmit()">
-  <div class="form-grid">
-    <div class="field">
-      <label for="name">Name: </label>
-      <input id="name" type="text" formControlName="name" maxlength="45"/>
+    <div class="form-header">
+      Edit this roadmap...
     </div>
-    <div class="field">
-      <label for="details">Details: </label>
-      <input id="details" type="text" formControlName="details" maxlength="1024"/>
-    </div>
-    <div class="field">
-      <label for="createdDate">Created: </label>
-      <input id="createdDate" type="datetime" readonly formControlName="createdDate"/>
-    </div>
+    <table class="form-section">
+      <tr>
+        <td align="right">
+          <label for="name">Name </label>
+        </td>
+        <td colspan="3">
+          <input id="name" type="text" formControlName="name" maxlength="45"/>
+        </td>
+      </tr>
+    
+    <tr>
+      <td align="right">
+        <label for="details">Details </label>
+      </td>
+      <td colspan="3">
+        <input id="details" type="text" formControlName="details" maxlength="1024"/>
+      </td>
+    </tr>
+      <tr>
+        <td align="right">
+          <label for="createdDate">Created</label>
+        </td>
+        <td colspan="3">
+          <input id="createdDate" type="datetime" readonly formControlName="createdDate"/>
+        </td>
+      </tr>
+       @if (roadmapID > 0) {
+      <tr>
+        <td align="right"><label>Notes</label></td>
+        <td class="field" colspan="3">
+          <app-notes-table [entity]="roadmapID" tableName="ROADMAPS" ></app-notes-table>
+        </td>
+      </tr>
+    }
+    </table>
+    
 
-    @if (roadmapID > 0) {
-      <div class="field">
-        <app-notes-table [entity]="roadmapID" tableName="ROADMAPS" ></app-notes-table>
-      </div>
-    }
+   
+      
     @if (inDialog == false) {
-      <div class="field">
-        <button type="submit" [disabled]="!roadmapForm.valid">Submit</button>
+      <div class="field form-footer">
+        <button type="submit" mat-button  class="saveButton" [disabled]="!roadmapForm.valid" cdkFocusInitial>Submit</button>
       </div>
     }
-  </div>
 </form>

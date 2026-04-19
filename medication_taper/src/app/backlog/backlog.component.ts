@@ -226,6 +226,24 @@ export class BacklogComponent implements OnInit {
             project : null,
             parentID : - 1
           };
+
+          // Need to add sub tasks here.
+          let subTasks = [];
+                    for(let st of t.SubTasks)
+                      subTasks.push( <ProjectNode>{
+                        id: st.Id,
+                        name: st.Name,
+                        children: [],
+                        itemType : ItemType.TASK,
+                        status : st.Status,
+                        roadmap : null,
+                        feature : null,
+                        task: null,
+                        subTask: st,
+                        project : null,
+                        parentID : t.Task.Id
+                    });
+                    unparentedStory.children = subTasks;
           unparentedNode.children.push(unparentedStory);
         }
       }
@@ -409,6 +427,9 @@ appendNewNode(node : ProjectFlatNode){
     this.appendNewRoadMap(node);
 }
 
+isNodeSelected(node : ProjectFlatNode){
+  return this.selectedNode?.id == node.projectNode.id;
+}
  //#endregion
 }
 

@@ -1,51 +1,93 @@
-<h3>Task</h3>
+
 <form [formGroup]="subTaskForm" (ngSubmit)="onSubmit()">
-  <div class="form-grid">
-    <div class="field">
-      <label for="name">Name: </label>
-      <input id="name" type="text" formControlName="name"/>
-    </div>
-    <div class="field">
-      <label for="details">Details: </label>
-      <input id="details" type="text" formControlName="details"/>
-    </div>
-    <div class="field">
-      <label for="createdDate">Created: </label>
-      <input id="createdDate" type="datetime" readonly formControlName="createdDate"/>
-    </div>
-    <div class="field">
-      <label for="status">Status: </label>
-      <select id="status" formControlName="status">
-        @for (o of statusOptions; track o) {
-          <option value="{{o[0]}}">{{o[1]}}</option>
-        }
-      </select>
-    </div>
-    <div class="field">
-      <label for="MinHours">Min Hours: </label>
-      <input id="MinHours" formControlName="minHours"/>
-    </div>
-    <div class="field">
-      <label for="MaxHours">Max Hours: </label>
-      <input id="MaxHours" formControlName="maxHours"/>
-    </div>
-    <div class="field">
-      <label for="ExpectedHours">Expected Hours: </label>
-      <input id="ExpectedHours" formControlName="expectedHours"/>
-    </div>
-    <div class="field">
-      <label for="ActualHours">Actual Hours: </label>
-      <input id="ActualHours" formControlName="actualHours"/>
-    </div>
+  <div class="form-header">
+    Edit subtask...
+  </div>
+  <table class="form-section">
+    <tr class="field">
+      <td align="right">
+        <label for="name">Name: </label>
+      </td>
+      <td>
+        <input id="name" type="text" formControlName="name"/>
+      </td>
+    </tr>
+    <tr class="field">
+      <td align="right">
+        <label for="details">Details: </label>
+      </td>
+      <td>
+        <input id="details" type="text" formControlName="details"/>
+      </td>
+    </tr>
+    <tr class="field">
+      <td align="right">
+        <label for="createdDate">Created: </label>
+      </td>
+      <td>
+        <input id="createdDate" type="datetime" readonly formControlName="createdDate"/>
+      </td>
+    </tr>
+    <tr class="field">
+      <td align="right">
+        <label for="status">Status: </label>
+      </td>
+      <td>
+        <select id="status" formControlName="status">
+          @for (o of statusOptions; track o) {
+            <option value="{{o[0]}}">{{o[1]}}</option>
+          }
+        </select>
+      </td>
+    </tr>
+    <tr class="field">
+      <td align="right">
+        <label for="MinHours">Min Hours: </label>
+      </td>
+      <td>
+        <input id="MinHours" formControlName="minHours"/>
+      </td>
+    </tr>
+    <tr class="field">
+      <td align="right">
+        <label for="MaxHours">Max Hours: </label>
+      </td>
+      <td>
+        <input id="MaxHours" formControlName="maxHours"/>
+      </td>
+    </tr>
+    <tr class="field">
+      <td align="right">
+        <label for="ExpectedHours">Expected Hours: </label>
+      </td>
+      <td>
+        <input id="ExpectedHours" formControlName="expectedHours"/>
+      </td>
+    </tr>
+    <tr class="field">
+      <td align="right">
+        <label for="ActualHours">Actual Hours: </label>
+      </td>
+      <td>
+        <input id="ActualHours" formControlName="actualHours"/>
+      </td>
+    </tr>
     @if (subTaskID > 0) {
-      <div class="field">
+    <tr>
+      <td align="right">
+        Notes:
+      </td>
+      <td colspan="3">
         <app-notes-table [entity]="subTaskID" tableName="SUB_TASKS" ></app-notes-table>
-      </div>
+      </td>
+    </tr>
     }
+    </table>
+        
     @if (inDialog == false) {
-      <div class="field">
+
+      <div class="form-footer">
         <button type="submit" [disabled]="!subTaskForm.valid">Submit</button>
       </div>
     }
-  </div>
 </form>
