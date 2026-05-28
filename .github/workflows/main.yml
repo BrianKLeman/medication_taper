@@ -22,7 +22,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: ./medication_taper/medication_taper
         
       - name: Build
         run: npm run build -- --configuration production
