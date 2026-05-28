@@ -50,14 +50,14 @@ jobs:
           path: dist/
 
       - name: List directory contents
-        run: ls -la ./dist
+        run: ls -la ./medication_taper/dist
         
       - name: Deploy via rsync
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-avz --delete"
-          SOURCE: "./dist"
+          SOURCE: "./medication_taper/dist"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: /home/brian/artifact
