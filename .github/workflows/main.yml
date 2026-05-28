@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./medication_taper  # 👈 change to your folder name
+        working-directory:  /home/runner/work/medication_taper/medication_taper/medication_taper  # 👈 change to your folder name
     
     steps:
       - name: Checkout code
