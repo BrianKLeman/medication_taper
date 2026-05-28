@@ -15,26 +15,27 @@ jobs:
         uses: actions/checkout@v6
 
       - name: List directory contents
-        run: ls
+        run: ls /home/runner/work/medication_taper/medication_taper/medication_taper
 
       - name: List Present Working directory
         run: pwd
         
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v6        
+        working-directory:  /home/runner/work/medication_taper/medication_taper/medication_taper
         with:
           node-version: '22'   # use 22 or 24, avoid 20
           cache: 'npm'
 
       - name: List directory contents
-        run: ls -la ./medication_taper
+        run: ls -la /home/runner/work/medication_taper/medication_taper/medication_taper
 
       - name: List Present Working directory
         run: pwd
         
       - name: Install dependencies
         run: npm ci
-        working-directory: ./../
+        working-directory:  /home/runner/work/medication_taper/medication_taper/medication_taper
         
       - name: Build
         run: npm run build -- --configuration production
