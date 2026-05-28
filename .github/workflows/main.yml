@@ -18,8 +18,11 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Write environment file
-        run: echo ${{ secrets.PROD_TS }} > ./src/environments/environment.prod.ts
-        
+        run: |
+          printf 'export const environment = {\n  production: true,\n  apiUrl: "%s"\n};\n' "$API_URL" > ./medication_taper/src/environments/environment.prod.ts
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          
       - name: List directory contents
         run: ls /home/runner/work/medication_taper/medication_taper/medication_taper
 
