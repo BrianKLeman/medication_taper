@@ -22,6 +22,9 @@ jobs:
 
       - name: List directory contents
         run: ls -la ./medication_taper
+
+      - name: List Present Working directory
+        run: pwd
         
       - name: Install dependencies
         run: npm ci
