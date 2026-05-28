@@ -14,6 +14,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
+      - name: List directory contents
+        run: ls -la ./medication_taper
+
+      - name: List Present Working directory
+        run: pwd
+        
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
