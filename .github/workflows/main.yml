@@ -9,7 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./medication_taper  # 👈 change to your folder name
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -22,7 +25,6 @@ jobs:
         
       - name: Set up Node.js
         uses: actions/setup-node@v6        
-        working-directory:  /home/runner/work/medication_taper/medication_taper/medication_taper
         with:
           node-version: '22'   # use 22 or 24, avoid 20
           cache: 'npm'
