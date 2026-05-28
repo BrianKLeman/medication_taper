@@ -21,7 +21,7 @@ jobs:
           cache: 'npm'
 
       - name: List directory contents
-        run: ls -la
+        run: ls -la ./medication_taper/medication_taper
         
       - name: Install dependencies
         run: npm ci
