@@ -28,6 +28,7 @@ jobs:
         with:
           node-version: '22'   # use 22 or 24, avoid 20
           cache: 'npm'
+          cache-dependency-path: /home/runner/work/medication_taper/medication_taper/medication_taper
 
       - name: List directory contents
         run: ls -la /home/runner/work/medication_taper/medication_taper/medication_taper
