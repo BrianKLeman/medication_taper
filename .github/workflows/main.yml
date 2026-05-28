@@ -1,0 +1,40 @@
+name: Build Angular App
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'   # use 22 or 24, avoid 20
+          cache: 'npm'
+
+      - name: List directory contents
+        run: ls -la ./medication_taper
+
+      - name: List Present Working directory
+        run: pwd
+        
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./../
+        
+      - name: Build
+        run: npm run build -- --configuration production
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
