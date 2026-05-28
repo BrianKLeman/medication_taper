@@ -20,6 +20,9 @@ jobs:
           node-version: '22'   # use 22 or 24, avoid 20
           cache: 'npm'
 
+      - name: List directory contents
+        run: ls -la
+        
       - name: Install dependencies
         run: npm ci
         
