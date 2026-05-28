@@ -21,7 +21,7 @@ jobs:
         run: pwd
         
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '22'   # use 22 or 24, avoid 20
           cache: 'npm'
