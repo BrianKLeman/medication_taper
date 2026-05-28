@@ -19,12 +19,12 @@ jobs:
 
       - name: Write environment file
         run: |
-          printf 'export const environment = {\n  production: true,\n  apiUrl: "%s"\n};\n' "$API_URL" > ./medication_taper/src/environments/environment.prod.ts
+          printf 'export const environment = {\n  production: true,\n  apiUrl: "%s"\n};\n' "$API_URL" > ./src/environments/environment.prod.ts
         env:
           API_URL: ${{ secrets.API_URL }}
           
       - name: List directory contents
-        run: ls /home/runner/work/medication_taper/medication_taper/medication_taper
+        run: cat /home/runner/work/medication_taper/medication_taper/medication_taper/src/environments/environment.prod.ts | echo
 
       - name: List Present Working directory
         run: pwd
