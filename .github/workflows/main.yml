@@ -22,12 +22,6 @@ jobs:
           printf 'export const environment = {\n  production: true,\n  apiUrl: "%s"\n};\n' "$API_URL" > ./src/environments/environment.prod.ts
         env:
           API_URL: ${{ secrets.API_URL }}
-          
-      - name: List directory contents
-        run: cat /home/runner/work/medication_taper/medication_taper/medication_taper/src/environments/environment.prod.ts | echo
-
-      - name: List Present Working directory
-        run: pwd
         
       - name: Set up Node.js
         uses: actions/setup-node@v6        
@@ -35,12 +29,6 @@ jobs:
           node-version: '22'   # use 22 or 24, avoid 20
           cache: 'npm'
           cache-dependency-path: /home/runner/work/medication_taper/medication_taper/medication_taper
-
-      - name: List directory contents
-        run: ls -la /home/runner/work/medication_taper/medication_taper/medication_taper
-
-      - name: List Present Working directory
-        run: pwd
         
       - name: Install dependencies
         run: npm ci
@@ -48,12 +36,6 @@ jobs:
         
       - name: Build
         run: npm run build -- --configuration production
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
 
       - name: List directory contents
         run: ls -la /home/runner/work/medication_taper/medication_taper/medication_taper/dist
