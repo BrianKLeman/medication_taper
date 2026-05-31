@@ -25,7 +25,15 @@
         <label for="createdDate">Created: </label>
       </td>
       <td>
-        <input id="createdDate" type="datetime" readonly formControlName="createdDate"/>
+        <input id="createdDate" type="datetime-local" readonly formControlName="createdDate"/>
+      </td>
+    </tr>
+    <tr class="field">
+      <td align="right">
+        <label for="completedDate">Completed: </label>
+      </td>
+      <td>
+        <input id="completedDate" type="datetime-local" formControlName="completedDate"/>
       </td>
     </tr>
     <tr class="field">
