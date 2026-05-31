@@ -50,7 +50,7 @@ jobs:
         if: always()
         with:
           name: Angular Test Results
-          path: medication_taper/test-results/test-results.xml
+          path: test-results/test-results.xml
           reporter: java-junit
 
      
