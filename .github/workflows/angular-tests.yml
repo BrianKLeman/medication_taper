@@ -41,8 +41,8 @@ jobs:
         with:
           name: test-results
           path: |
-            test-results/
-            coverage/
+            medication_taper/test-results/
+            medication_taper/coverage/
 
       # 6. Publish test report (shows in GitHub UI)
       - name: Publish test report
@@ -50,7 +50,7 @@ jobs:
         if: always()
         with:
           name: Angular Test Results
-          path: test-results/test-results.xml
+          path: medication_taper/test-results/test-results.xml
           reporter: java-junit
 
      
