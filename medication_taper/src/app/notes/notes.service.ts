@@ -75,13 +75,11 @@ export class NotesService {
     return x;
   }
 
-  public AddNote(datetime : Date, text : string, behaviorChange : boolean, displayAsHTML : boolean, tableName : string, entityID : number){
-    let today = datetime;
+  public AddNote(datetime : string, text : string, behaviorChange : boolean, displayAsHTML : boolean, tableName : string, entityID : number){
     
-    let offsetMinutes = today.getTimezoneOffset()
-    today.setHours(today.getHours()-offsetMinutes/60)
+    
     let json =  <INote>{ 
-        dateTime : today,
+        dateTime : datetime,
         NoteText : text.trim() == "" ? "unset" : text,
         BehaviorChange : behaviorChange,
         DisplayAsHTML : displayAsHTML,
@@ -95,12 +93,8 @@ export class NotesService {
   }
 
   public UpdateNote(note : INotes){
-    let today = new Date();
-    
-    let offsetMinutes = today.getTimezoneOffset()
-    today.setHours(today.getHours()-offsetMinutes/60)
     let json = <INote>{ 
-        dateTime : today,
+        dateTime : note.RecordedDate,
         NoteText : note.Text.trim() == "" ? "unset" : note.Text,
         BehaviorChange : note.BehaviorChange,
         NoteID : note.Id,
@@ -143,7 +137,7 @@ export interface NotesSearchRequest {
 }
 
 export interface INote {
-  dateTime: Date;
+  dateTime: string;
   NoteText: string;
   BehaviorChange : boolean;
   NoteID : number;

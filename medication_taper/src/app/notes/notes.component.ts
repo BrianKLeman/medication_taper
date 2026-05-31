@@ -30,20 +30,15 @@ export class NotesComponent {
       } else {
         this.currentNote = data.note;
         if(this.currentNote.BehaviorChange != true)
-          this.currentNote.BehaviorChange = false;
-        // I need to correct the date time because the server is adjusting it.
-        this.date = this.currentNote.RecordedDate.split("T")[0];
-        this.time = this.currentNote.RecordedDate.split("T")[1].substring(0,5);
+          this.currentNote.BehaviorChange = false;        
       }
       
   }
 
-  private CreateNewNote(now : Date) : INotes{
-    
-    this.setDateAndTime(now);
+  private CreateNewNote(now : Date) : INotes{    
     let currentNote = <INotes> 
     { 
-      RecordedDate : now.toISOString(), 
+      RecordedDate : new Date(Date.now()).toISOString(), 
       Id : 0, 
       PersonID : 0, 
       Text : "",
@@ -57,31 +52,18 @@ export class NotesComponent {
     return currentNote;
   }
   public SaveNote(){
-    this.updateNote(this.currentNote);
     if(this.currentNote?.Id == 0)
-      this.service.AddNote(new Date(this.currentNote.RecordedDate), this.currentNote.Text, this.currentNote.BehaviorChange, this.currentNote.DisplayAsHTML, this.tableName, this.entityID);
+      this.service.AddNote(this.currentNote.RecordedDate, this.currentNote.Text, this.currentNote.BehaviorChange, this.currentNote.DisplayAsHTML, this.tableName, this.entityID);
       
     else
       this.service.UpdateNote(this.currentNote);
   }  
   
   date : string = "";
-  time : string = "";
   currentNote : INotes;
 
-  public changeDate(d : Date){
-    this.date = d.toISOString().split('T')[0];
-  }
   option = ""; // used for note type links.
 
-  private setDateAndTime(d : Date){
-        this.date = d.toISOString().split("T")[0];
-        this.time = d.toTimeString().substring(0,5);
-  }
-
-  private updateNote(n : INotes){    
-    n.RecordedDate = `${this.date}T${this.time}:00`;
-  }
 
   private entityID = -1;
   private tableName = "";
