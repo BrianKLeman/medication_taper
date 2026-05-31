@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotesTableComponent } from './notes-table.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 describe('NotesTableComponent', () => {
   let component: NotesTableComponent;
@@ -8,7 +9,8 @@ describe('NotesTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NotesTableComponent]
+      declarations: [NotesTableComponent],      
+      imports: [ MatExpansionModule],
     });
     fixture = TestBed.createComponent(NotesTableComponent);
     component = fixture.componentInstance;

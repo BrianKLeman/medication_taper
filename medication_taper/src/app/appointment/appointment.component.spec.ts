@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppointmentComponent } from './appointment.component';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 describe('AppointmentComponent', () => {
   let component: AppointmentComponent;
@@ -8,7 +10,14 @@ describe('AppointmentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppointmentComponent]
+      declarations: [AppointmentComponent],
+      imports: [MatDialogModule, FormsModule],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {
+                  datetime: new Date(),
+                  note : null
+                }}
+      ]
     });
     fixture = TestBed.createComponent(AppointmentComponent);
     component = fixture.componentInstance;
