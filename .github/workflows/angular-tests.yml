@@ -41,7 +41,9 @@ jobs:
         run: ls
         continue-on-error: true
 
-      
+      - name: List files
+        run: ls ./converage
+        continue-on-error: true
 
       # 5. Upload test results as artifact
       - name: Upload test results
