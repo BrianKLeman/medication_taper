@@ -34,6 +34,17 @@ jobs:
         run: npx ng test --watch=false --browsers=ChromeHeadless --code-coverage
         continue-on-error: true  # 👈 so we still email even if tests fail
 
+      - name: present working-directory 
+        run: pwd
+      
+      - name: List files
+        run: ls
+        continue-on-error: true
+
+      - name: List files
+        run: ls ./coverage
+        continue-on-error: true
+
       # 5. Upload test results as artifact
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -41,8 +52,8 @@ jobs:
         with:
           name: test-results
           path: |
-            medication_taper/test-results/
-            medication_taper/coverage/
+            test-results/
+            coverage/
 
       # 6. Publish test report (shows in GitHub UI)
       - name: Publish test report
