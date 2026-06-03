@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AlcoholTableComponent } from './alcohol-table.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 describe('AlcoholTableComponent', () => {
   let component: AlcoholTableComponent;
@@ -8,7 +9,8 @@ describe('AlcoholTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AlcoholTableComponent]
+      declarations: [AlcoholTableComponent],
+      imports: [MatExpansionModule]
     });
     fixture = TestBed.createComponent(AlcoholTableComponent);
     component = fixture.componentInstance;

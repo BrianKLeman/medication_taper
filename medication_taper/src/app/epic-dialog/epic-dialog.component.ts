@@ -19,9 +19,12 @@ export class EpicDialogComponent implements AfterViewInit {
     console.log("ngAfterViewInit");
     if(!this.epicEdit)
       console.error("Epic Edit is null");
-    else
+    else if(!this.epicEdit.Init)
+      console.error(' TODO this.epicEdit.Init is not true')
+    else if(!!this.epicEdit && this.epicEdit.Init){// TODO I get an error in unit tests saying Init is not a function. Checking Init is truthy avoids error
       console.log("Epic is populated");
-    this.epicEdit.Init(this.data.epic, this.data.projectId, this.data.epic?.RoadMapID ?? 0);
+      this.epicEdit.Init(this.data.epic, this.data.projectId, this.data.epic?.RoadMapID ?? 0);
+    }
   }
 
  @ViewChild('epicEdit')

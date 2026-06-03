@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EpicEditComponent } from './epic-edit.component';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('EpicEditComponent', () => {
   let component: EpicEditComponent;
@@ -10,7 +10,7 @@ describe('EpicEditComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EpicEditComponent],
-      imports: [FormsModule]
+      imports: [FormsModule, ReactiveFormsModule]
     });
     fixture = TestBed.createComponent(EpicEditComponent);
     component = fixture.componentInstance;

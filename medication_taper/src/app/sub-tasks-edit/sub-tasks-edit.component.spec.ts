@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubTasksEditComponent } from './sub-tasks-edit.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('SubTasksEditComponent', () => {
   let component: SubTasksEditComponent;
@@ -8,7 +9,8 @@ describe('SubTasksEditComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SubTasksEditComponent]
+      declarations: [SubTasksEditComponent],
+      imports : [FormsModule, ReactiveFormsModule]
     });
     fixture = TestBed.createComponent(SubTasksEditComponent);
     component = fixture.componentInstance;

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectAdhocTablesComponent } from './project-adhoc-tables.component';
+import { FormsModule } from '@angular/forms';
 
 describe('ProjectBeatchartsComponent', () => {
   let component: ProjectAdhocTablesComponent;
@@ -8,7 +9,8 @@ describe('ProjectBeatchartsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ProjectAdhocTablesComponent]
+      declarations: [ProjectAdhocTablesComponent],
+      imports: [FormsModule]
     });
     fixture = TestBed.createComponent(ProjectAdhocTablesComponent);
     component = fixture.componentInstance;

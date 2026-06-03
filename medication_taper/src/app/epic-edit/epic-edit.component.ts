@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup} from '@angular/forms';
 import { FeaturesService, IFeature } from '../features.service';
 
 @Component({

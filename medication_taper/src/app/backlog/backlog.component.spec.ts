@@ -8,7 +8,8 @@ describe('BacklogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BacklogComponent]
+      declarations: [BacklogComponent],
+      imports: [MatTreeModule]
     });
     fixture = TestBed.createComponent(BacklogComponent);
     component = fixture.componentInstance;

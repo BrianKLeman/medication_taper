@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TaskEditComponent } from './task-edit.component';
+import { NotesComponent } from '../notes/notes.component';
+import { NotesTableComponent } from '../notes-table/notes-table.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('TaskEditComponent', () => {
   let component: TaskEditComponent;
@@ -8,7 +12,8 @@ describe('TaskEditComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TaskEditComponent]
+      declarations: [TaskEditComponent, NotesTableComponent],
+      imports: [MatExpansionModule, FormsModule, ReactiveFormsModule]
     });
     fixture = TestBed.createComponent(TaskEditComponent);
     component = fixture.componentInstance;

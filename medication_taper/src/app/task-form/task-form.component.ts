@@ -22,9 +22,13 @@ export class TaskFormComponent implements AfterViewInit {
     console.log("ngAfterViewInit");
     if(!this.taskEditForm)
       console.error("Task Edit is null");
-    else
+    else if(!this.taskEditForm.Init){
+      console.error("Task Edit Init function is undefined")
+    }
+    else if(this.taskEditForm.Init){
       console.log("Task Edit is populated");
     this.taskEditForm.Init(this.data);
+    }
   }
  @ViewChild('taskEdit')
  taskEditForm!: TaskEditComponent;

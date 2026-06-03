@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTab } from '@angular/material/tabs';
 import { AuthDialogComponent } from './auth-dialog/auth-dialog.component';
 import { IToken, TokenService } from './token.service';
 import { UserCredentialsService } from './user-credentials.service';
@@ -11,7 +10,7 @@ import { UserCredentialsService } from './user-credentials.service';
     standalone: false
 })
 export class AppComponent {
-  title = 'medication_taper';
+  title = 'Personal Organiser';
 
   constructor(    
     private dialog : MatDialog,

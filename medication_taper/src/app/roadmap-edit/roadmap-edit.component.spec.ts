@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoadmapEditComponent } from './roadmap-edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('RoadmapEditComponent', () => {
   let component: RoadmapEditComponent;
@@ -8,7 +9,8 @@ describe('RoadmapEditComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RoadmapEditComponent]
+      declarations: [RoadmapEditComponent],
+      imports: [ReactiveFormsModule]
     });
     fixture = TestBed.createComponent(RoadmapEditComponent);
     component = fixture.componentInstance;

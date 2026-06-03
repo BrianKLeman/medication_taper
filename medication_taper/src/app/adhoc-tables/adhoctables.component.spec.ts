@@ -1,14 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdhocTablesComponent } from './adhoctables.component';
+import { NotesTableComponent } from '../notes-table/notes-table.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
-describe('BeatchartsComponent', () => {
+describe('AdhocTablesComponent', () => {
   let component: AdhocTablesComponent;
   let fixture: ComponentFixture<AdhocTablesComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AdhocTablesComponent]
+      declarations: [AdhocTablesComponent, NotesTableComponent],
+      imports: [MatExpansionModule]
     });
     fixture = TestBed.createComponent(AdhocTablesComponent);
     component = fixture.componentInstance;
