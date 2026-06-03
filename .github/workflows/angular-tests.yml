@@ -18,16 +18,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Setup Node
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v6        
         with:
-          node-version: '20'
+          node-version: '22'   # use 22 or 24, avoid 20
           cache: 'npm'
-
-      # 3. Install dependencies
+          cache-dependency-path: /home/runner/work/medication_taper/medication_taper/medication_taper
+        
       - name: Install dependencies
         run: npm ci
+        working-directory:  /home/runner/work/medication_taper/medication_taper/medication_taper
 
       # 4. Run tests
       - name: Run tests
@@ -41,8 +41,8 @@ jobs:
         with:
           name: test-results
           path: |
-            test-results/
-            coverage/
+            medication_taper/test-results/
+            medication_taper/coverage/
 
       # 6. Publish test report (shows in GitHub UI)
       - name: Publish test report
