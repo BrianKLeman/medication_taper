@@ -19,7 +19,7 @@ describe('TaskFormComponent', () => {
         {
           provide: MAT_DIALOG_DATA,
           useValue: {
-            datetime: new Date(Date.now()),
+            datetime: null,
                   task : null,
                   entity : '',
                   entity_id : 1,

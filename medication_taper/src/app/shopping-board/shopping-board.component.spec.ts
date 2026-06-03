@@ -9,7 +9,8 @@ describe('ShoppingBoardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ShoppingBoardComponent, MatCardModule]
+      declarations: [ShoppingBoardComponent],
+      imports: [MatCardModule]
     });
     fixture = TestBed.createComponent(ShoppingBoardComponent);
     component = fixture.componentInstance;

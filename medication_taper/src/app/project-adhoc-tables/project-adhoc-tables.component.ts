@@ -21,6 +21,10 @@ export class ProjectAdhocTablesComponent {
   public tableName : string = "";
 
   public async addTable(){
+    if(!this.project){
+      console.error("this.project is null or undefined");
+      return;
+    }
     let table = await this.service.createTable(this.project.Id, this.tableName);
     this.project.AdhocTables.push(table as IAdhocTable);
   }

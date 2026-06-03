@@ -13,10 +13,17 @@ public constructor(
   }
 
   async ngOnInit(){
+
     await this.refresh();
   }
 
   async refresh(){
+    if(!this.adhocTable){
+      console.error("No adhoc table");
+      return;
+    } else {
+      console.log("Adhoc table exists");
+    }
     this.columns = await this.service.getSectionsForBeatchart(this.adhocTable.Id) ?? [];
     this.columns = this.columns.sort( (a,b) => a.Order - b.Order);
     this.rows = await this.service.getRowsForAdhocTable(this.adhocTable.Id) ?? [];

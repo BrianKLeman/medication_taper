@@ -6,16 +6,18 @@
     </span>
   </span>
 </div>
-@for (b of project.AdhocTables; track b) {
-  <mat-expansion-panel style="margin-bottom: 10px;">
-    <mat-expansion-panel-header>
-      <mat-panel-title>{{b.Name}}</mat-panel-title>
-    </mat-expansion-panel-header>
-    <ng-template matExpansionPanelContent>
-      <div>
-        <button (click)="deleteTable(b.Id);" class="action"><i class="bi bi-trash3"></i></button>
-        <app-adhoc-tables  [adhocTable]="b"></app-adhoc-tables>
-      </div>
-    </ng-template>
-  </mat-expansion-panel>
+@if(project){
+  @for (b of project.AdhocTables; track b) {
+    <mat-expansion-panel style="margin-bottom: 10px;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{b.Name}}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div>
+          <button (click)="deleteTable(b.Id);" class="action"><i class="bi bi-trash3"></i></button>
+          <app-adhoc-tables  [adhocTable]="b"></app-adhoc-tables>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+  }
 }

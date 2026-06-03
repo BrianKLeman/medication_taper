@@ -46,17 +46,9 @@
           </label>
         </td>
         <td align="left">
-
-
-
-          <input id="date_time" name="date" type="date" [ngModel]="date" (ngModelChange)="changeDate($event)"/> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
+          <input id="date_time" name="date" type="datetime-local" [(ngModel)]="currentTask.CreatedDate"/> 
           </td>
-          <td align="right">
-            <label>Time</label>
-          </td>
-          <td>
-          <input id="date_time" name="time" type="time" [(ngModel)]="time" /> <!-- RFC 3339, stack overflow: https://stackoverflow.com/questions/7372038/is-there-any-way-to-change-input-type-date-format-->
-        </td>
+          
       </tr>
       <tr>
         <td align="right">

@@ -20,7 +20,7 @@ export class TaskEditComponent {
   statusFormControl = new FormControl('');
   public Init( data: 
     {
-      datetime: Date,
+      datetime: Date | null,
       task : ITasks | null,
       entity : string,
       entity_id : number,
@@ -40,22 +40,16 @@ export class TaskEditComponent {
       // I need to correct the date time because the server is adjusting it.
       let rd = this.timeService.adjustForTimezone(new Date(this.currentTask.CreatedDate ?? Date.now()))
       this.currentTask.CreatedDate = rd.toISOString();
-      this.setDateAndTime(rd);
     }
     this.statusFormControl.setValue(this.currentTask.Status);
   }
- private CreateNewTask(now : Date) : ITasks{
-    let ct = now;
-    ct.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
-    this.setDateAndTime(ct);
-    console.log(ct.toISOString());
-    let task = this.service.DefaultTask(ct);
+ private CreateNewTask(now : Date) : ITasks{    
+    let task = this.service.DefaultTask(new Date(Date.now()));
     return task;
   }
 
     public async SaveTask(){
       this.currentTask.Status = this.statusFormControl.value ?? NOT_STARTED;
-      this.updateTask(this.currentTask);
       if(this.currentTask?.Id == 0){
         let x = await this.service.CreateTask(this.currentTask);
         if( x && this.entityID != 0 && this.tableName?.length > 0)
@@ -67,25 +61,10 @@ export class TaskEditComponent {
         await this.service.UpdateTask(this.currentTask);
     }  
 
-  date : string = "";
-  time : string = "";
-
   @Input()
   currentTask !: ITasks;
 
-  public changeDate(d : Date){
-  this.date = d.toISOString().split('T')[0];
-  }
-  option = ""; // used for note type links.
 
-  private setDateAndTime(d : Date){
-    this.date = d.toISOString().split("T")[0];
-    this.time = d.toISOString().split("T")[1].substring(0,5);
-  }
-
-  private updateTask(n : ITasks){
-    n.CreatedDate = `${this.date}T${this.time}:00`;
-  }
 
   private entityID = -1;
   private tableName = "";
