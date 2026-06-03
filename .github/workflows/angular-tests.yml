@@ -42,7 +42,7 @@ jobs:
         continue-on-error: true
 
       - name: List files
-        run: ls ./coverage
+        run: ls ./test-results
         continue-on-error: true
 
       # 5. Upload test results as artifact
