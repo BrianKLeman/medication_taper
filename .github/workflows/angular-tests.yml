@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  checks: write        # 👈 required by dorny/test-reporter
+  pull-requests: write # 👈 needed if you want PR comments too
+
 jobs:
   test:
     runs-on: ubuntu-latest
