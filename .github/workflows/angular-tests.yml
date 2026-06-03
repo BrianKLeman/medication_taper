@@ -41,8 +41,8 @@ jobs:
         with:
           name: test-results
           path: |
-            medication_taper/test-results/
-            medication_taper/coverage/
+            test-results/
+            coverage/
 
       # 6. Publish test report (shows in GitHub UI)
       - name: Publish test report
