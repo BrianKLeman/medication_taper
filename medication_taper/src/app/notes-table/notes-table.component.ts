@@ -222,14 +222,14 @@ export class NotesTableComponent implements OnInit, AfterViewInit{
     }
     return activePrescriptions;
   }
-  public getLastPillAmount(date : Date | string, prescriptionID : number) : { name : string | undefined, amount : number }{   
+  public getLastPillAmount(date : Date | string, prescriptionID : number) : { name : string | undefined, amount : number, date : Date }{   
     let script = this.prescriptions.find( p => p.Id == prescriptionID);
     let amount = this.doseCalculatorService.LastPillAmount(date, prescriptionID);
-    if(amount < 0){
-      return { name: script?.Name + "- Not Found", amount: 0};
+    if(amount.amount < 0){
+      return { name: script?.Name + " - Not Found", amount: 0, date: new Date(Date.now())};
     }
     
-    return { name : script?.Name, amount: amount};
+    return { name : script?.Name, amount: amount.amount, date: amount.date};
   }
 
   public containsDate(currentDate : Date, fromDate : Date, toDate : Date){

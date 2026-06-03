@@ -35,12 +35,12 @@ export class MedicationDoseCalculatorService implements OnInit {
 
   }
   
-  public LastPillAmount(date : Date | string, prescriptionID : number){
+  public LastPillAmount(date : Date | string, prescriptionID : number) : { date: Date, amount : number}{
 
     if(this.dosesCache.length < 1){
       
     console.log(`Cache is empty`);
-      return 0;
+      return { date: new Date(Date.now()), amount: 0};
     }
     console.log(`doses count: ${this.dosesCache.length}`);
     let latest = null;
@@ -62,8 +62,8 @@ export class MedicationDoseCalculatorService implements OnInit {
       }
     }
     if(!lastReport)
-      return -1;
-    return lastReport?.DoseTakenMG ?? 0;
+      return { amount: -1, date: new Date(Date.now())};
+    return { amount: lastReport?.DoseTakenMG ?? 0, date: lastReport.DateTimeConsumed};
   }
  
 
