@@ -4,6 +4,17 @@
     <form>
         <table>
             <tr>
+                <td>Prescription: </td>
+                <td>
+                    <select name="selectedPrescriptionId" [(ngModel)]="selectedPrescriptionId">
+                        @for (p of prescriptions; track p) {
+                            <option value="{{p.Id}}">{{ p.Name }} - {{p.DoseMG}}</option>                            
+                        }
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
                 <td>mg Of Tablet</td>
                 <td><input type="number" id="mg" name="mg" [(ngModel)]="doseWeight_mg"/></td>
             </tr>
