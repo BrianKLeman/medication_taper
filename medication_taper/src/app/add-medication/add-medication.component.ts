@@ -28,8 +28,7 @@ public constructor(@Inject(MAT_DIALOG_DATA)
         this.currentDose = data.dose;
         
         // I need to correct the date time because the server is adjusting it.
-        this.date = this.currentDose.DateTimeConsumed.split("T")[0];
-        this.time = this.currentDose.DateTimeConsumed.split("T")[1].substring(0,5);
+        this.date = this.currentDose.DateTimeConsumed;
       }
       
   }
@@ -55,20 +54,15 @@ public constructor(@Inject(MAT_DIALOG_DATA)
   }  
   
   date : string = "";
-  time : string = "";
   currentDose : IMedication;
-  public changeDate(d : Date){
-    this.date = d.toISOString().split('T')[0];
-  }
   option = ""; // used for note type links.
 
   private setDateAndTime(d : Date){
-        this.date = d.toISOString().split("T")[0];
-        this.time = d.toTimeString().substring(0,5);
+        this.date = d.toISOString();
   }
 
   private updateDose(n : IMedication){    
-    n.DateTimeConsumed = `${this.date}T${this.time}:00`;
+    n.DateTimeConsumed = this.date;
     n.DoseTakenMG = (this.doseWeight_mg / this.tabletWeight_mg)*7.5;
   }
 

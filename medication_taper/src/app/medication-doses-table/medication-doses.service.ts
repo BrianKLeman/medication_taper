@@ -47,7 +47,7 @@ export class MedicationDosesService {
 
   public async createNew( report : IMedication){
     let p = this.getPassword();
-      let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"Api/MedicationDoses", { doseMg : report.DoseTakenMG, consumedDateTime: new Date(), Password: p, PrescriptionID : report.PrescriptionId}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("created")});
+      let x = await this.httpClient.post(this.apiUrls.GetApiURL()+"Api/MedicationDoses", { doseMg : report.DoseTakenMG, consumedDateTime: report.DateTimeConsumed, Password: p, PrescriptionID : report.PrescriptionId}, { headers : {'Content-Type' : "application/json"}}).toPromise().then( x => { console.log("created")});
   }
 
   public async GetNotesForDay(report : IReport){
