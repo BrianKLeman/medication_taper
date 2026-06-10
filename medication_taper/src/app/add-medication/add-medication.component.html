@@ -1,36 +1,50 @@
 
 <h4 mat-dialog-title>Add Medication Dose<h4>
 <mat-dialog-content class="mat-typography">        
-    <form>
+    <form (submit)="SaveMedication()" #addMedicationForm="ngForm">
         <table>
             <tr>
                 <td>Prescription: </td>
                 <td>
-                    <select name="selectedPrescriptionId" [(ngModel)]="selectedPrescriptionId">
+                    <select #scriptId="ngModel" name="selectedPrescriptionId" [(ngModel)]="selectedPrescriptionId" required validate>
                         @for (p of prescriptions; track p) {
                             <option value="{{p.Id}}">{{ p.Name }} - {{p.DoseMG}}</option>                            
                         }
                     </select>
+                    <div [hidden]="scriptId.valid || scriptId.pristine" class="alert alert-danger">
+                    ScriptID is required
+                    </div>
                 </td>
             </tr>
 
             <tr>
                 <td>mg Of Tablet</td>
-                <td><input type="number" id="mg" name="mg" [(ngModel)]="doseWeight_mg"/></td>
+                <td><input #tabletPortion="ngModel" type="number" id="mg" name="mg" [(ngModel)]="doseWeight_mg" required validate min="0"/>
+                
+                <div [hidden]="tabletPortion.valid || tabletPortion.pristine" class="alert alert-danger">
+                    Portion is required
+                    </div>
+                </td>
             </tr>
             
             <tr>
                 <td>Total Weight (mg)</td>
                 <td>
-                    <input type="number" id="mgOfTablet" name="mgOfTablet" [(ngModel)]="tabletWeight_mg"/>                                
+                    <input #tabletWeight="ngModel" type="number" id="mgOfTablet" name="mgOfTablet" [(ngModel)]="tabletWeight_mg" required validate min="0"/>                                
+                    <div [hidden]="tabletWeight.valid || tabletWeight.pristine" class="alert alert-danger">
+                    Tablet Weight is required
+                    </div>
+                
                 </td>
             </tr>
 
             <tr>
                 <td>DateTime</td>
                 <td>                           
-                <input id="date_time" name="date" type="datetime-local" [(ngModel)]="date"/> 
-                
+                <input #inputDate="ngModel" id="date_time" name="date" type="datetime-local" [(ngModel)]="date" required validate/> 
+                <div [hidden]="inputDate.valid || inputDate.pristine" class="alert alert-danger">
+                    Date is required
+                    </div>
                 </td>
             </tr>                        
 
@@ -38,6 +52,7 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button [mat-dialog-close]="true" (click)="SaveMedication()" cdkFocusInitial>Save</button>        
+    <!-- scriptId control can be pristine because there is no blank value-->
+    <button mat-button [mat-dialog-close]="true" (click)="SaveMedication()" [disabled]="inputDate.invalid || inputDate.pristine ||  scriptId.invalid || tabletWeight.invalid || tabletWeight.pristine || tabletPortion.invalid || tabletPortion.pristine" cdkFocusInitial>Save</button>        
     <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

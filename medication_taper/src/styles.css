@@ -90,3 +90,7 @@ table.form-section{
     padding: 10px;
     width: 100%;
 }
+
+input:invalid {
+        border: 2px dashed red;
+      }

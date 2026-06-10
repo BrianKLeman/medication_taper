@@ -3,7 +3,7 @@ import { IMedication, MedicationDosesService } from '../medication-doses-table/m
 import { TimezonesService } from '../timezones.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IPrescription, PrescriptionsService } from '../prescriptions-table/prescriptions.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-add-medication',
