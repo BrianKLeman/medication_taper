@@ -15,6 +15,12 @@ export class SubTasksFormComponent implements AfterViewInit {
  ){
   }
   ngAfterViewInit(): void {
+    this.prepareForm();
+  }
+ @ViewChild('subTaskEdit')
+ subTaskEditForm!: SubTasksEditComponent;
+
+ private prepareForm(){
     console.log("ngAfterViewInit");
     if(!this.subTaskEditForm)
       console.error("Task Edit is null");
@@ -22,8 +28,6 @@ export class SubTasksFormComponent implements AfterViewInit {
       console.log("Task Edit is populated");
     this.subTaskEditForm.Init(this.data.subTask, this.data.taskID);
   }
- @ViewChild('subTaskEdit')
- subTaskEditForm!: SubTasksEditComponent;
 }
 
 interface TaskData{

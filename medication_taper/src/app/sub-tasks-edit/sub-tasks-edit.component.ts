@@ -17,13 +17,13 @@ export class SubTasksEditComponent {
   subTaskForm = new FormGroup({
   name : new FormControl(''),
   details : new FormControl(''),
-  createdDate : new FormControl<string>(''),
+  createdDate : new FormControl<Date | null>(null),
   status : new FormControl(''),
   minHours : new FormControl(0),
   maxHours : new FormControl(0),
   actualHours : new FormControl(0),
   expectedHours : new FormControl(0),
-  completedDate : new FormControl<string>('')
+  completedDate : new FormControl<Date | null>(null)
   });
   
   subTaskID : number = 0;
@@ -37,8 +37,8 @@ export class SubTasksEditComponent {
     this.subTask.MaxHours = v.maxHours ?? 0;
     this.subTask.ExpectedHours = v.expectedHours ?? 0;
     this.subTask.ActualHours = v.actualHours ?? 0;
-    this.subTask.DateCompleted = v.completedDate ?? "";
-    this.subTask.CreatedDate = v.createdDate ?? "";
+    this.subTask.DateCompleted = v.completedDate ?? null;
+    this.subTask.CreatedDate = v.createdDate ?? new Date(Date.now());
     let result : number | undefined = -1;
     if(this.subTask.Id < 1)
       result = await this.subTasksService.CreateSubTask(this.subTask);
@@ -63,9 +63,9 @@ export class SubTasksEditComponent {
        Status : NOT_STARTED,
        PersonId : 0,
        TaskID : taskID,
-       CreatedDate : new Date(Date.now()).toISOString(),
+       CreatedDate : new Date(Date.now()),
        MinHours : 0, MaxHours : 0, ActualHours : 0, ExpectedHours : 0,
-       DateCompleted : ""
+       DateCompleted : null
       }
   }
   private SyncForm(){
@@ -82,6 +82,8 @@ export class SubTasksEditComponent {
         completedDate : !!this.subTask.DateCompleted ? this.subTask.DateCompleted: null
       });
   }
+
+  
 
   statusOptions = [
     [NOT_STARTED, "Not Started"],

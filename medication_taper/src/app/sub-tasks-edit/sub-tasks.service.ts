@@ -31,10 +31,10 @@ export interface ISubTask{
   TaskID : number;
   Details : string;
   Status : string;
-  CreatedDate : string;
+  CreatedDate : Date;
   MinHours : number;
   MaxHours : number;
   ExpectedHours : number;
   ActualHours : number;
-  DateCompleted : string | null;
+  DateCompleted : Date | null;
 }
