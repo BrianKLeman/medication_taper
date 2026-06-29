@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { ITasks, TasksService } from '../kanban-board/tasks.service';
 import { TimezonesService } from '../timezones.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,15 +11,21 @@ import { TaskEditComponent } from '../task-edit/task-edit.component';
     styleUrls: ['./task-form.component.css', './../app.component.css'],
     standalone: false
 })
-export class TaskFormComponent implements OnInit {
+export class TaskFormComponent implements AfterViewInit {
     public constructor(@Inject(MAT_DIALOG_DATA) 
     private data: TaskData
  ){
 
 
   }
-  ngOnInit(): void {
-    console.log("ngAfterViewInit");
+  
+
+  ngAfterViewInit(): void{
+    this.prepareForm();
+  }
+
+  prepareForm(){
+    console.log("prepareForm");
     if(!this.taskEditForm)
       console.error("Task Edit is null");
     else if(!this.taskEditForm.Init){

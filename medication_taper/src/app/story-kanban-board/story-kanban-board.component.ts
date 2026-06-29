@@ -208,7 +208,7 @@ export class StoryKanbanBoardComponent implements AfterViewInit {
       if(t){        
         t.Status = COMPLETED;
       
-        t.DateCompleted = new Date(Date.now()).toISOString();
+        t.DateCompleted = new Date(Date.now());
         await this.subTasksService.UpdateSubTask(t);
       }
     }

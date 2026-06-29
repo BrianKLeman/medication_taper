@@ -102,7 +102,7 @@ export class TasksService {
     return  <ITasks> { 
       Id: 0,
       TaskName : "Name",  
-      CreatedDate: ct.toISOString(),  
+      CreatedDate: ct,  
       CreatedBy: "BKL",  
       PersonID: 0,  
       DueDate: null,  
@@ -121,12 +121,12 @@ export class TasksService {
 export interface ITasks {
     Id: number;
     TaskName?: string;
-    CreatedDate: string | null;
+    CreatedDate: Date | null;
     CreatedBy: string;
     PersonID: number;
     DueDate : string | null;
     Description?: string;
-    DateCompleted: string | null;
+    DateCompleted: Date | null;
     Priority: number;
     Status: string;
     Selected : boolean;

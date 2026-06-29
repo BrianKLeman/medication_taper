@@ -38,8 +38,8 @@ export class TaskEditComponent {
       this.tableName = data.entity;
       this.entityID = data.entity_id;
       // I need to correct the date time because the server is adjusting it.
-      let rd = this.timeService.adjustForTimezone(new Date(this.currentTask.CreatedDate ?? Date.now()))
-      this.currentTask.CreatedDate = rd.toISOString();
+      let rd = new Date(this.currentTask.CreatedDate ?? Date.now());
+      this.currentTask.CreatedDate = rd;
     }
     this.statusFormControl.setValue(this.currentTask.Status);
   }

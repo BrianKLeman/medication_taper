@@ -366,7 +366,7 @@ public appendNewTask(node : ProjectFlatNode){
       Name : "Untitled", 
       PersonId: this.project.PersonID, 
       Details : "", 
-      CreatedDate : new Date(Date.now()).toISOString(),
+      CreatedDate : new Date(Date.now()),
       DateCompleted : null,
       ProjectID : this.project.Id,
       TaskID : 0,

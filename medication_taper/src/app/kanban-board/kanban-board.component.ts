@@ -233,7 +233,7 @@ export class KanbanBoardComponent implements AfterViewInit {
     if(t){
       this.Completed.push(t);
       t.Task.Status = COMPLETED;
-      t.Task.DateCompleted = new Date(Date.now()).toISOString();
+      t.Task.DateCompleted = new Date(Date.now());
       await this.tasksService.UpdateTask(t.Task);
     }
   }
